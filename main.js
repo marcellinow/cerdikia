@@ -9,7 +9,7 @@ function createMainWindow() {
     height: 600,
   });
   const startUrl = url.format({
-    pathname: path.join(__dirname, "index.html"),
+    pathname: path.join(__dirname, "src/index.html"),
     protocol: "file",
   });
   mainWindow.loadURL(startUrl);

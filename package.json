@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dev:watch": "npx electronmon --trace-warnings ."
+    "dev:watch": "npx electronmon --trace-warnings .",
+    "vite": "vite"
   },
   "keywords": [
     "electron",
@@ -16,6 +17,11 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "electron": "^35.1.2"
+    "electron": "^35.1.2",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.4"
   }
 }
