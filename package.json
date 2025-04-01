@@ -4,10 +4,9 @@
   "description": "Cerdikia's production",
   "main": "main.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "dev:watch": "npx electronmon --trace-warnings .",
-    "vite": "vite"
+    "dev": "vite",
+    "build": "vite build"
   },
   "keywords": [
     "electron",
@@ -22,6 +21,7 @@
     "react-dom": "^19.1.0"
   },
   "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
     "vite": "^6.2.4"
   }
 }

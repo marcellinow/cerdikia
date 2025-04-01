@@ -1,5 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require("electron");
-const url = require("url");
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
 
 function createMainWindow() {
@@ -7,11 +6,17 @@ function createMainWindow() {
     title: "Cerdikia",
     width: 800,
     height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, "preload.js"), // Optional preload script
+      nodeIntegration: true,
+    },
   });
-  const startUrl = url.format({
-    pathname: path.join(__dirname, "src/index.html"),
-    protocol: "file",
-  });
+
+  const isDev = !app.isPackaged;
+  const startUrl = isDev
+    ? "http://localhost:5173" // Vite's default dev server port
+    : `file://${path.join(__dirname, "dist/index.html")}`;
+
   mainWindow.loadURL(startUrl);
 }
 
