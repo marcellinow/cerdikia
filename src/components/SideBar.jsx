@@ -8,7 +8,8 @@ import {
   Calendar,
   Settings,
 } from "lucide-react";
-import "./SideBar.css"; // Import file CSS
+import cerdikiaLogo from "../assets/logo-cerdikia.svg";
+import "./SideBar.css";
 
 export default function SideBar() {
   const menuItems = [
@@ -24,11 +25,7 @@ export default function SideBar() {
     <div className="sidebar-container">
       <div className="sidebar-header">
         <NavLink to="/">
-          <img
-            src="/placeholder.svg?height=50&width=120"
-            alt="Cerdikia Logo"
-            className="h-12"
-          />
+          <img src={cerdikiaLogo} alt="Cerdikia Logo" className="logo" />
         </NavLink>
       </div>
       <nav className="sidebar-nav">

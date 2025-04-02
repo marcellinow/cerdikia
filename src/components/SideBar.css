@@ -15,6 +15,13 @@
   justify-content: center;
 }
 
+/* Styling untuk logo di sidebar */
+.sidebar-header .logo {
+  height: 50px; /* Atur tinggi logo menjadi 36px */
+  width: auto; /* Menjaga proporsi lebar */
+  object-fit: contain; /* Pastikan logo tidak terdistorsi */
+}
+
 /* Navigation menu */
 .sidebar-nav {
   margin-top: 8px; /* Tailwind: mt-2 */
