@@ -1,7 +1,15 @@
-import Header from "../../components/Header"; // Corrected the import path
-import Layout from "../../components/Layout"; // Import the Layout component
-import { Filter, ListFilter, ShoppingCart } from "lucide-react";
-import "./PasarBuku.css"; // Import the CSS file
+import React, { useState } from "react";
+import Header from "../../components/Header";
+import Layout from "../../components/Layout";
+import {
+  Filter,
+  ListFilter,
+  ShoppingCart,
+  X,
+  ChevronUp,
+  ChevronDown,
+} from "lucide-react";
+import "./PasarBuku.css";
 
 export default function PasarBuku() {
   const books = [
@@ -69,6 +77,51 @@ export default function PasarBuku() {
     },
   ];
 
+  const [selectedGrade, setSelectedGrade] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [sortState, setSortState] = useState(0); // 0: default, 1: ascending, 2: descending
+
+  // Filter books based on selected grade and subject
+  const filteredBooks = books.filter((book) => {
+    const gradeMatch =
+      selectedGrade === "Umum"
+        ? book.subject === "Umum"
+        : selectedGrade
+        ? book.grade === selectedGrade
+        : true;
+
+    const subjectMatch =
+      selectedSubject === "Peminatan"
+        ? book.category === "Peminatan"
+        : selectedSubject
+        ? book.subject === selectedSubject
+        : true;
+
+    return gradeMatch && subjectMatch;
+  });
+
+  // Sort books based on sortState
+  const sortedBooks = [...filteredBooks].sort((a, b) => {
+    if (sortState === 1) {
+      // Ascending: Umum first, then by grade
+      if (a.grade === null) return -1;
+      if (b.grade === null) return 1;
+      return a.grade - b.grade;
+    } else if (sortState === 2) {
+      // Descending: By grade, Umum last
+      if (a.grade === null) return 1;
+      if (b.grade === null) return -1;
+      return b.grade - a.grade;
+    }
+    return 0; // Default: no sorting
+  });
+
+  // Handle sort button click
+  const handleSortClick = () => {
+    setSortState((prev) => (prev + 1) % 3); // Cycle through 0 -> 1 -> 2 -> 0
+  };
+
   return (
     <Layout>
       <div className="pasar-buku-container">
@@ -77,11 +130,16 @@ export default function PasarBuku() {
           <div className="pasar-buku-header">
             <h1 className="pasar-buku-title">Pasar Buku</h1>
             <div className="pasar-buku-actions">
-              <button className="pasar-buku-button">
+              <button className="pasar-buku-button" onClick={handleSortClick}>
                 <ListFilter className="pasar-buku-icon" />
                 <span>Urutkan</span>
+                {sortState === 1 && <ChevronUp className="pasar-buku-icon" />}
+                {sortState === 2 && <ChevronDown className="pasar-buku-icon" />}
               </button>
-              <button className="pasar-buku-button">
+              <button
+                className="pasar-buku-button"
+                onClick={() => setIsFilterOpen(true)}
+              >
                 <Filter className="pasar-buku-icon" />
                 <span>Filter</span>
               </button>
@@ -92,8 +150,69 @@ export default function PasarBuku() {
             </div>
           </div>
 
+          {/* Filter Modal */}
+          {isFilterOpen && (
+            <div className="filter-modal">
+              <div className="filter-modal-content">
+                <button
+                  className="filter-modal-close"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  <X className="filter-modal-close-icon" />
+                </button>
+                <h2 className="filter-modal-title">Filter Buku</h2>
+                <div className="filter-group">
+                  <label htmlFor="grade-filter">Kelas:</label>
+                  <select
+                    id="grade-filter"
+                    value={selectedGrade || ""}
+                    onChange={(e) =>
+                      setSelectedGrade(
+                        e.target.value
+                          ? e.target.value === "Umum"
+                            ? "Umum"
+                            : parseInt(e.target.value)
+                          : null
+                      )
+                    }
+                  >
+                    <option value="">Semua</option>
+                    <option value="Umum">Umum</option>
+                    {[1, 2, 3, 4, 5, 6].map((grade) => (
+                      <option key={grade} value={grade}>
+                        Kelas {grade}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="filter-group">
+                  <label htmlFor="subject-filter">Jenis Buku:</label>
+                  <select
+                    id="subject-filter"
+                    value={selectedSubject || ""}
+                    onChange={(e) => setSelectedSubject(e.target.value || null)}
+                  >
+                    <option value="">Semua</option>
+                    {["Sains", "Sosial", "Peminatan"].map((subject) => (
+                      <option key={subject} value={subject}>
+                        {subject}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  className="filter-modal-apply"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  Terapkan Filter
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Book Grid */}
           <div className="pasar-buku-grid">
-            {books.map((book) => (
+            {sortedBooks.map((book) => (
               <div key={book.id} className="pasar-buku-card">
                 <div className="pasar-buku-tags">
                   {book.grade && (
