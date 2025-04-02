@@ -8,7 +8,7 @@ import {
   Calendar,
   Settings,
 } from "lucide-react";
-import cerdikiaLogo from "../assets/logo-cerdikia.svg";
+import cerdikiaLogo from "../assets/Img/logo-cerdikia.svg";
 import "./SideBar.css";
 
 export default function SideBar() {

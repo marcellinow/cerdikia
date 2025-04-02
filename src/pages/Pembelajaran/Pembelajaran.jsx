@@ -2,6 +2,12 @@ import Header from "../../components/Header"
 import Layout from "../../components/Layout" // Import the Layout component
 import { Filter, ArrowDownAZ } from "lucide-react"
 import "./Pembelajaran.css" // Import the CSS file
+import PPKN from "../../assets/Img/PPKN.svg";
+import BINDO from "../../assets/Img/BINDO.svg";
+import MTK from "../../assets/Img/MTK.svg";
+import PJOK from "../../assets/Img/PJOK.svg";
+import SENBUD from "../../assets/Img/SENBUD.svg";
+import BING from "../../assets/Img/BING.svg";
 
 export default function Pembelajaran() {
   // Sample data for subjects
@@ -9,42 +15,42 @@ export default function Pembelajaran() {
     {
       id: 1,
       name: "Pendidikan Pancasila dan Kewarganegaraan",
-      image: "/placeholder.svg?height=200&width=400",
+      image: PPKN,
       bgColor: "bg-orange-100",
       modules: 5,
     },
     {
       id: 2,
       name: "Bahasa Indonesia",
-      image: "/placeholder.svg?height=200&width=400",
+      image: BINDO,
       bgColor: "bg-red-100",
       modules: 5,
     },
     {
       id: 3,
       name: "Matematika",
-      image: "/placeholder.svg?height=200&width=400",
+      image: MTK,
       bgColor: "bg-blue-100",
       modules: 5,
     },
     {
       id: 4,
       name: "Pendidikan Jasmani, Olahraga, dan Kesehatan",
-      image: "/placeholder.svg?height=200&width=400",
+      image: PJOK,
       bgColor: "bg-yellow-100",
       modules: 5,
     },
     {
       id: 5,
       name: "Seni dan Budaya",
-      image: "/placeholder.svg?height=200&width=400",
+      image: SENBUD,
       bgColor: "bg-purple-100",
       modules: 5,
     },
     {
       id: 6,
       name: "Bahasa Inggris",
-      image: "/placeholder.svg?height=200&width=400",
+      image: BING,
       bgColor: "bg-green-100",
       modules: 5,
     },
