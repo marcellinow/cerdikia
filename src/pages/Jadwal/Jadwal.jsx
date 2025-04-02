@@ -89,51 +89,46 @@ export default function Jadwal() {
       <div className="jadwal-container">
         <Header />
         <main className="jadwal-main">
-          <div className="jadwal-top-section">
-            <div className="jadwal-heading">
-              <h1>Calendar</h1>
-            </div>
-
-            <div className="jadwal-controls">
-              <div className="jadwal-view-buttons">
+          {/* Calendar Title and View Tabs */}
+          <div className="jadwal-header">
+            <div className="jadwal-title-container">
+              <h1 className="jadwal-title">Calendar</h1>
+              <div className="jadwal-tabs">
                 {["Monthly", "Weekly", "Daily"].map((v) => (
-                  <button
-                    key={v}
-                    className={`jadwal-view-button ${view === v ? "active" : ""}`}
-                    onClick={() => setView(v)}
-                  >
+                  <button key={v} className={`jadwal-tab ${view === v ? "active" : ""}`} onClick={() => setView(v)}>
                     {v}
                   </button>
                 ))}
               </div>
-
-              <div className="jadwal-actions">
-                <button className="jadwal-button filter">
-                  <Filter size={16} />
-                  <span>Filter</span>
-                </button>
-                <button className="jadwal-button add">
-                  <Plus size={16} />
-                  <span>Add Event</span>
-                </button>
-              </div>
+            </div>
+            <div className="jadwal-actions">
+              <button className="jadwal-button filter">
+                <Filter size={16} />
+                <span>Filter</span>
+              </button>
+              <button className="jadwal-button add">
+                <Plus size={16} />
+                <span>Add Event</span>
+              </button>
             </div>
           </div>
 
           {/* Month Navigation */}
           <div className="jadwal-month-navigation">
-            <div className="jadwal-month-selector">
-              <h2>{currentMonth}</h2>
-              <ChevronDown size={16} className="month-arrow" />
-            </div>
-            <div className="jadwal-navigation-buttons">
-              <button className="nav-button">
-                <ChevronLeft size={16} />
-              </button>
-              <button className="jadwal-today-button">Today</button>
-              <button className="nav-button">
-                <ChevronRight size={16} />
-              </button>
+            <div className="jadwal-month-controls">
+              <div className="jadwal-month-selector">
+                <span>{currentMonth}</span>
+                <ChevronDown size={16} />
+              </div>
+              <div className="jadwal-navigation-arrows">
+                <button className="nav-button">
+                  <ChevronLeft size={16} />
+                </button>
+                <button className="jadwal-today-button">Today</button>
+                <button className="nav-button">
+                  <ChevronRight size={16} />
+                </button>
+              </div>
             </div>
           </div>
 

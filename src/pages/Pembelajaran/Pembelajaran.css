@@ -1,61 +1,64 @@
 /* Container utama */
 .pembelajaran-container {
-  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  background-color: #f8f5f0; /* Tailwind: bg-amber-50 */
+  min-height: 100vh; /* Tailwind: min-h-screen */
 }
 
 /* Main content */
 .pembelajaran-main {
-  padding: 24px; /* Tailwind: p-6 */
+  padding: 0; /* Remove padding to fill the entire width */
 }
 
-/* Heading */
-.pembelajaran-heading {
-  margin-bottom: 16px; /* Tailwind: mb-4 */
+/* Header */
+.pembelajaran-header {
+  display: flex; /* Tailwind: flex */
+  justify-content: space-between; /* Tailwind: justify-between */
+  align-items: center; /* Tailwind: items-center */
+  padding: 20px 24px; /* Tailwind: px-6 py-5 */
+  background-color: #f8f5f0; /* Match the container background */
 }
 
-.pembelajaran-heading h1 {
-  font-size: 24px; /* Tailwind: text-3xl */
-  font-weight: bold; /* Tailwind: font-bold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
+.pembelajaran-title {
+  font-size: 28px; /* Tailwind: text-3xl */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #44403c; /* Tailwind: text-stone-700 */
 }
 
-/* Actions */
+/* Action buttons */
 .pembelajaran-actions {
-  display: flex;
-  gap: 12px; /* Tailwind: space-x-3 */
-  margin-bottom: 24px; /* Tailwind: mb-6 */
+  display: flex; /* Tailwind: flex */
+  gap: 12px; /* Tailwind: gap-3 */
 }
 
 .pembelajaran-button {
-  display: flex;
-  align-items: center;
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  gap: 8px; /* Tailwind: gap-2 */
   padding: 8px 16px; /* Tailwind: px-4 py-2 */
-  border: 1px solid #d1d5db; /* Tailwind: border */
-  border-radius: 8px; /* Tailwind: rounded-md */
-  background-color: #ffffff; /* Tailwind: bg-white */
-  color: #3b82f6; /* Tailwind: text-blue-500 */
+  border-radius: 6px; /* Tailwind: rounded-md */
   font-size: 14px; /* Tailwind: text-sm */
-  transition: background-color 0.2s ease-in-out;
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+  background-color: white; /* Tailwind: bg-white */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
 }
 
 .pembelajaran-button:hover {
-  background-color: #f3f4f6; /* Tailwind: hover:bg-gray-100 */
-}
-
-.pembelajaran-button svg {
-  margin-left: 8px; /* Tailwind: ml-2 */
+  background-color: #f9fafb; /* Tailwind: hover:bg-gray-50 */
 }
 
 /* Grid layout */
 .pembelajaran-grid {
-  display: grid;
-  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
-  gap: 24px; /* Tailwind: gap-6 */
+  display: grid; /* Tailwind: grid */
+  grid-template-columns: repeat(1, 1fr); /* Tailwind: grid-cols-1 */
+  gap: 16px; /* Tailwind: gap-4 */
+  padding: 0 24px 24px 24px; /* Tailwind: px-6 pb-6 */
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .pembelajaran-grid {
-    grid-template-columns: repeat(2, 1fr); /* Tailwind: md:grid-cols-2 */
+    grid-template-columns: repeat(2, 1fr); /* Tailwind: sm:grid-cols-2 */
   }
 }
 
@@ -68,14 +71,15 @@
 /* Card styling */
 .pembelajaran-card {
   background-color: #ffffff; /* Tailwind: bg-white */
-  border-radius: 8px; /* Tailwind: rounded-lg */
-  overflow: hidden;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+  border-radius: 6px; /* Tailwind: rounded-md */
+  overflow: hidden; /* Tailwind: overflow-hidden */
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); /* Tailwind: shadow-sm */
 }
 
 .pembelajaran-card-image {
-  position: relative;
+  position: relative; /* Tailwind: relative */
   height: 200px; /* Tailwind: h-[200px] */
+  overflow: hidden; /* Tailwind: overflow-hidden */
 }
 
 .pembelajaran-card-image img {
@@ -85,23 +89,40 @@
 }
 
 .pembelajaran-card-badge {
-  position: absolute;
+  position: absolute; /* Tailwind: absolute */
   top: 8px; /* Tailwind: top-2 */
   right: 8px; /* Tailwind: right-2 */
-  background-color: #ffffff; /* Tailwind: bg-white */
+  background-color: rgba(240, 240, 240, 0.9); /* Tailwind: bg-gray-100/90 */
   padding: 4px 8px; /* Tailwind: px-2 py-1 */
-  border-radius: 8px; /* Tailwind: rounded-md */
-  font-size: 12px; /* Tailwind: text-sm */
+  border-radius: 4px; /* Tailwind: rounded */
+  font-size: 12px; /* Tailwind: text-xs */
+  font-weight: 500; /* Tailwind: font-medium */
+  color: #4b5563; /* Tailwind: text-gray-600 */
 }
 
 .pembelajaran-card-content {
   padding: 16px; /* Tailwind: p-4 */
-  text-align: center;
+  text-align: center; /* Tailwind: text-center */
 }
 
 .pembelajaran-card-title {
   font-size: 16px; /* Tailwind: text-base */
-  font-weight: 500; /* Tailwind: font-medium */
+  font-weight: 600; /* Tailwind: font-semibold */
   color: #1f2937; /* Tailwind: text-gray-800 */
+  line-height: 1.4; /* Tailwind: leading-tight */
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .pembelajaran-header {
+    flex-direction: column; /* Tailwind: flex-col */
+    align-items: flex-start; /* Tailwind: items-start */
+    gap: 16px; /* Tailwind: gap-4 */
+  }
+
+  .pembelajaran-actions {
+    width: 100%; /* Tailwind: w-full */
+    justify-content: flex-end; /* Tailwind: justify-end */
+  }
 }
 
