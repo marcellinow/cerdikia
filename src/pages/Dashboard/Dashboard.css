@@ -98,7 +98,7 @@
   color: #ffffff; /* Tailwind: text-white */
 }
 
-/* Kurikulum Materi */
+/* Container untuk Kurikulum Materi */
 .dashboard-curriculum {
   background-color: #ffffff; /* Tailwind: bg-white */
   border-radius: 8px; /* Tailwind: rounded-lg */
@@ -106,11 +106,12 @@
   padding: 24px; /* Tailwind: p-6 */
 }
 
+/* Header Kurikulum Materi */
 .dashboard-curriculum-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px; /* Tailwind: mb-6 */
+  margin-bottom: 16px; /* Tailwind: mb-4 */
 }
 
 .dashboard-curriculum-header h2 {
@@ -118,14 +119,111 @@
   font-weight: 600; /* Tailwind: font-semibold */
 }
 
+/* Grid layout for Kurikulum Materi */
 .dashboard-curriculum-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* Tailwind: grid-cols-2 */
-  gap: 24px; /* Tailwind: gap-6 */
+  grid-template-columns: repeat(4, 1fr); /* 4 kolom */
+  grid-template-rows: repeat(2, 1fr); /* 2 baris */
+  gap: 16px; /* Tailwind: gap-4 */
 }
 
-@media (min-width: 768px) {
-  .dashboard-curriculum-grid {
-    grid-template-columns: repeat(4, 1fr); /* Tailwind: md:grid-cols-4 */
-  }
+/* Card untuk Kurikulum Materi */
+.dashboard-curriculum-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+  padding: 16px; /* Tailwind: p-4 */
+  text-align: center;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.dashboard-curriculum-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+}
+
+.dashboard-curriculum-card span {
+  font-size: 14px; /* Tailwind: text-sm */
+  color: #374151; /* Tailwind: text-gray-700 */
+}
+
+/* Styling untuk container video pembelajaran */
+.dashboard-video-section {
+  max-width: 800px; /* Membatasi lebar container */
+  margin: 0 auto; /* Memusatkan container */
+}
+
+/* Styling untuk grid video */
+.dashboard-video-container {
+  display: flex;
+  gap: 12px; /* Jarak antar card */
+  overflow-x: auto; /* Scroll horizontal */
+  padding-bottom: 8px; /* Ruang untuk scroll bar */
+}
+
+.dashboard-video-container::-webkit-scrollbar {
+  height: 6px; /* Tinggi scrollbar */
+}
+
+.dashboard-video-container::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* Warna scrollbar */
+  border-radius: 4px; /* Membuat scrollbar melengkung */
+}
+
+.dashboard-video-container::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af; /* Warna scrollbar saat hover */
+}
+
+/* Styling untuk card video */
+.dashboard-video-card {
+  min-width: 200px; /* Lebar minimum card */
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+  overflow: hidden;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.dashboard-video-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+}
+
+/* Thumbnail video */
+.dashboard-video-thumbnail {
+  position: relative;
+  height: 100px; /* Tinggi thumbnail lebih kecil */
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Konten video */
+.dashboard-video-content {
+  padding: 12px; /* Tailwind: p-3 */
+}
+
+.dashboard-video-title {
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 600; /* Tailwind: font-semibold */
+  margin-bottom: 4px; /* Tailwind: mb-1 */
+}
+
+.dashboard-video-description {
+  font-size: 12px; /* Tailwind: text-xs */
+  color: #6b7280; /* Tailwind: text-gray-500 */
+  margin-bottom: 8px; /* Tailwind: mb-2 */
+}
+
+.dashboard-video-button {
+  display: inline-block;
+  padding: 6px 12px; /* Tailwind: px-3 py-1.5 */
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  color: #ffffff; /* Tailwind: text-white */
+  border-radius: 6px; /* Tailwind: rounded-md */
+  font-size: 12px; /* Tailwind: text-xs */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.dashboard-video-button:hover {
+  background-color: #2563eb; /* Tailwind: hover:bg-blue-600 */
 }

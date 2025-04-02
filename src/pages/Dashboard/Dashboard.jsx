@@ -37,21 +37,31 @@ export default function Dashboard() {
             </Link>
 
             {/* Video Pembelajaran */}
-            <Link to="/pembelajaran" className="dashboard-card">
-              <h2>Lanjutkan Video Pembelajaran</h2>
-              <div className="grid grid-cols-3 gap-2">
+            <div className="dashboard-card dashboard-video-section">
+              <h2 className="font-semibold mb-4">
+                Lanjutkan Video Pembelajaran
+              </h2>
+              <div className="dashboard-video-container">
                 {[1, 2, 3].map((item) => (
-                  <div
-                    key={item}
-                    className="relative h-20 bg-blue-100 rounded overflow-hidden"
-                  >
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <Play className="h-8 w-8 text-white" />
+                  <div key={item} className="dashboard-video-card">
+                    <div className="dashboard-video-thumbnail">
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <Play className="h-6 w-6 text-white" />
+                      </div>
+                    </div>
+                    <div className="dashboard-video-content">
+                      <h3 className="dashboard-video-title">Video {item}</h3>
+                      <p className="dashboard-video-description">
+                        Deskripsi singkat tentang video pembelajaran {item}.
+                      </p>
+                      <button className="dashboard-video-button">
+                        Tonton Sekarang
+                      </button>
                     </div>
                   </div>
                 ))}
               </div>
-            </Link>
+            </div>
 
             {/* Calendar */}
             <Link to="/jadwal" className="dashboard-card dashboard-calendar">
@@ -107,6 +117,7 @@ export default function Dashboard() {
               </div>
             </div>
 
+            {/* Grid Container for Kurikulum Materi */}
             <div className="dashboard-curriculum-grid">
               {[
                 { grade: 1, color: "bg-red-400" },
@@ -125,14 +136,14 @@ export default function Dashboard() {
                       : `/${item.name.toLowerCase()}`
                   }
                   key={index}
-                  className="border rounded-lg p-4 flex flex-col items-center justify-center hover:shadow-md transition-shadow"
+                  className="dashboard-curriculum-card"
                 >
                   {item.grade ? (
                     <>
                       <div
-                        className={`${item.color} h-32 w-32 rounded-lg flex items-center justify-center mb-4`}
+                        className={`${item.color} h-24 w-24 rounded-lg flex items-center justify-center mb-4`}
                       >
-                        <span className="text-6xl font-bold text-white">
+                        <span className="text-4xl font-bold text-white">
                           {item.grade}
                         </span>
                       </div>
@@ -140,8 +151,8 @@ export default function Dashboard() {
                     </>
                   ) : (
                     <>
-                      <div className="bg-blue-100 h-32 w-32 rounded-lg flex items-center justify-center mb-4">
-                        <span className="text-4xl">🎓</span>
+                      <div className="bg-blue-100 h-24 w-24 rounded-lg flex items-center justify-center mb-4">
+                        <span className="text-2xl">🎓</span>
                       </div>
                       <span className="font-medium">{item.name}</span>
                     </>
