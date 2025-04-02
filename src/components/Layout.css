@@ -1,0 +1,17 @@
+/* Styling untuk container utama */
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* Styling untuk sidebar */
+.sidebar {
+  width: 215px;
+  border-right: 1px solid #e5e7eb; /* Tailwind: border-r */
+  background-color: #ffffff; /* Tailwind: bg-white */
+}
+
+/* Styling untuk konten utama */
+.main-content {
+  flex: 1;
+}

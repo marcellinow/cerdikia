@@ -1,0 +1,186 @@
+/* Container utama */
+.pasar-buku-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Main content */
+.pasar-buku-main {
+  flex: 1;
+  padding: 24px;
+  background-color: #fdf8f3;
+}
+
+/* Header */
+.pasar-buku-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.pasar-buku-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3a3a3a;
+}
+
+.pasar-buku-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pasar-buku-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #374151;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pasar-buku-button:hover {
+  background-color: #f3f4f6;
+}
+
+.pasar-buku-cart {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.pasar-buku-cart:hover {
+  background-color: #2563eb;
+}
+
+.pasar-buku-icon {
+  height: 16px;
+  width: 16px;
+}
+
+/* Grid layout */
+.pasar-buku-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .pasar-buku-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card styling */
+.pasar-buku-card {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  padding: 16px;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.pasar-buku-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.pasar-buku-tags {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.pasar-buku-tag {
+  font-size: 12px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+.pasar-buku-tag-grade {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.pasar-buku-tag-subject {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+.pasar-buku-tag-category {
+  background-color: #e9d5ff;
+  color: #6b21a8;
+}
+
+.pasar-buku-card-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.pasar-buku-card-description {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 16px;
+}
+
+.pasar-buku-card-content {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.pasar-buku-card-button {
+  flex: 1;
+  padding: 8px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 8px;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pasar-buku-card-button:hover {
+  background-color: #2563eb;
+}
+
+.pasar-buku-card-image {
+  width: 96px;
+  height: 128px;
+  background-color: #f3f4f6;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pasar-buku-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.pasar-buku-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+  color: #6b7280;
+}
+
+.pasar-buku-card-publisher {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pasar-buku-card-avatar {
+  width: 24px;
+  height: 24px;
+  background-color: #e5e7eb;
+  border-radius: 50%;
+}

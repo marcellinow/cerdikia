@@ -1,0 +1,131 @@
+/* Container utama */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Tailwind: min-h-screen */
+}
+
+/* Main content */
+.dashboard-main {
+  flex: 1;
+  padding: 24px; /* Tailwind: p-6 */
+  background-color: #fdf8f3; /* Tailwind: bg-[#FDF8F3] */
+}
+
+/* Section heading */
+.dashboard-heading {
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+.dashboard-heading h1 {
+  font-size: 24px; /* Tailwind: text-3xl */
+  font-weight: bold; /* Tailwind: font-bold */
+  color: #3a3a3a; /* Tailwind: text-[#3A3A3A] */
+}
+
+.dashboard-heading span {
+  color: #ff6b35; /* Tailwind: text-[#FF6B35] */
+}
+
+.dashboard-heading p {
+  color: #6b7280; /* Tailwind: text-gray-500 */
+}
+
+/* Grid layout */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
+  gap: 24px; /* Tailwind: gap-6 */
+  margin-bottom: 32px; /* Tailwind: mb-8 */
+}
+
+@media (min-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(3, 1fr); /* Tailwind: md:grid-cols-3 */
+  }
+}
+
+/* Card styling */
+.dashboard-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow */
+  padding: 16px; /* Tailwind: p-4 */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.dashboard-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+}
+
+/* Calendar styling */
+.dashboard-calendar {
+  display: flex;
+  flex-direction: column;
+}
+
+.dashboard-calendar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px; /* Tailwind: mb-2 */
+}
+
+.dashboard-calendar-header h2 {
+  font-weight: 600; /* Tailwind: font-semibold */
+}
+
+.dashboard-calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Tailwind: grid-cols-7 */
+  gap: 4px; /* Tailwind: gap-1 */
+  font-size: 12px; /* Tailwind: text-xs */
+}
+
+.dashboard-calendar-day {
+  text-align: center;
+  font-weight: 500; /* Tailwind: font-medium */
+}
+
+.dashboard-calendar-date {
+  text-align: center;
+  padding: 4px; /* Tailwind: p-1 */
+  border-radius: 50%; /* Tailwind: rounded-full */
+}
+
+.dashboard-calendar-date.active {
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  color: #ffffff; /* Tailwind: text-white */
+}
+
+/* Kurikulum Materi */
+.dashboard-curriculum {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow */
+  padding: 24px; /* Tailwind: p-6 */
+}
+
+.dashboard-curriculum-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+.dashboard-curriculum-header h2 {
+  font-size: 18px; /* Tailwind: text-xl */
+  font-weight: 600; /* Tailwind: font-semibold */
+}
+
+.dashboard-curriculum-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Tailwind: grid-cols-2 */
+  gap: 24px; /* Tailwind: gap-6 */
+}
+
+@media (min-width: 768px) {
+  .dashboard-curriculum-grid {
+    grid-template-columns: repeat(4, 1fr); /* Tailwind: md:grid-cols-4 */
+  }
+}

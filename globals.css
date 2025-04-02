@@ -1,0 +1,58 @@
+/* Import Inter font */
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+/* Apply Inter font as the base font */
+body {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #f9fafb; /* Optional: Set a light background color */
+  color: #374151; /* Optional: Set a default text color */
+}
+
+/* Reset styles for common elements */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+}
+
+p,
+span,
+a,
+button,
+input,
+textarea {
+  font-family: "Inter", sans-serif;
+}
+
+/* Add global box-sizing */
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+/* Remove default padding and margin for lists */
+ul,
+ol {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Remove default underline for links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Add smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}

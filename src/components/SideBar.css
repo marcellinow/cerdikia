@@ -1,0 +1,49 @@
+/* Container utama untuk SideBar */
+.sidebar-container {
+  width: 215px; /* Tailwind: w-[215px] */
+  min-height: 100vh; /* Tailwind: min-h-screen */
+  border-right: 1px solid #e5e7eb; /* Tailwind: border-r */
+  background-color: #ffffff; /* Tailwind: bg-white */
+}
+
+/* Header logo */
+.sidebar-header {
+  padding: 16px; /* Tailwind: p-4 */
+  border-bottom: 1px solid #e5e7eb; /* Tailwind: border-b */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Navigation menu */
+.sidebar-nav {
+  margin-top: 8px; /* Tailwind: mt-2 */
+}
+
+/* Navigation link */
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px; /* Tailwind: px-4 py-3 */
+  font-size: 14px; /* Tailwind: text-sm */
+  color: #374151; /* Tailwind: text-gray-700 */
+  text-decoration: none;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.sidebar-link:hover {
+  background-color: #f3f4f6; /* Tailwind: hover:bg-gray-100 */
+}
+
+/* Active navigation link */
+.sidebar-link-active {
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  color: #ffffff; /* Tailwind: text-white */
+}
+
+/* Icon styling */
+.sidebar-icon {
+  margin-right: 12px; /* Tailwind: mr-3 */
+  height: 20px; /* Tailwind: h-5 */
+  width: 20px; /* Tailwind: w-5 */
+}

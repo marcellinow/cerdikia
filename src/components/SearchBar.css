@@ -1,0 +1,59 @@
+/* Container utama untuk SearchBar */
+.search-bar-container {
+  position: relative;
+  width: 100%;
+  max-width: 400px; /* Tailwind: max-w-md */
+}
+
+/* Wrapper untuk input dan ikon pencarian */
+.search-bar-wrapper {
+  position: relative;
+}
+
+/* Ikon pencarian */
+.search-bar-icon {
+  position: absolute;
+  left: 12px; /* Tailwind: left-3 */
+  top: 50%; /* Tailwind: top-1/2 */
+  height: 16px; /* Tailwind: h-4 */
+  width: 16px; /* Tailwind: w-4 */
+  transform: translateY(-50%); /* Tailwind: -translate-y-1/2 */
+  color: #9ca3af; /* Tailwind: text-gray-400 */
+}
+
+/* Input pencarian */
+.search-bar-input {
+  height: 40px; /* Tailwind: h-10 */
+  width: 100%;
+  border-radius: 4px; /* Tailwind: rounded-md */
+  border: 1px solid #d1d5db; /* Tailwind: border-gray-300 */
+  background-color: #ffffff; /* Tailwind: bg-white */
+  padding-left: 40px; /* Tailwind: pl-10 */
+  padding-right: 16px; /* Tailwind: pr-4 */
+  font-size: 14px; /* Tailwind: text-sm */
+  outline: none;
+}
+
+.search-bar-input:focus {
+  border-color: #3b82f6; /* Tailwind: focus:ring-blue-500 */
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* Tailwind: focus:ring-2 */
+}
+
+/* Shortcut container */
+.search-bar-shortcuts {
+  position: absolute;
+  right: 12px; /* Tailwind: right-3 */
+  top: 50%; /* Tailwind: top-1/2 */
+  transform: translateY(-50%); /* Tailwind: -translate-y-1/2 */
+  display: flex;
+  gap: 4px; /* Tailwind: space-x-1 */
+}
+
+/* Shortcut item */
+.search-bar-shortcut {
+  background-color: #bfdbfe; /* Tailwind: bg-blue-100 */
+  color: #1d4ed8; /* Tailwind: text-blue-800 */
+  font-size: 12px; /* Tailwind: text-xs */
+  padding: 2px 4px; /* Tailwind: px-1 */
+  border-radius: 4px; /* Tailwind: rounded */
+}

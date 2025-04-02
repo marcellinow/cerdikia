@@ -1,0 +1,103 @@
+/* Container utama */
+.pembelajaran-container {
+  padding: 24px; /* Tailwind: p-6 */
+  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+}
+
+/* Header */
+.pembelajaran-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+.pembelajaran-title {
+  font-size: 24px; /* Tailwind: text-3xl */
+  font-weight: bold; /* Tailwind: font-bold */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+}
+
+.pembelajaran-actions {
+  display: flex;
+  gap: 12px; /* Tailwind: space-x-3 */
+}
+
+.pembelajaran-button {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px; /* Tailwind: px-4 py-2 */
+  border: 1px solid #d1d5db; /* Tailwind: border */
+  border-radius: 8px; /* Tailwind: rounded-md */
+  background-color: #ffffff; /* Tailwind: bg-white */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+  font-size: 14px; /* Tailwind: text-sm */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.pembelajaran-button:hover {
+  background-color: #f3f4f6; /* Tailwind: hover:bg-gray-100 */
+}
+
+.pembelajaran-button svg {
+  margin-left: 8px; /* Tailwind: ml-2 */
+}
+
+/* Grid layout */
+.pembelajaran-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
+  gap: 24px; /* Tailwind: gap-6 */
+}
+
+@media (min-width: 768px) {
+  .pembelajaran-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tailwind: md:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .pembelajaran-grid {
+    grid-template-columns: repeat(3, 1fr); /* Tailwind: lg:grid-cols-3 */
+  }
+}
+
+/* Card styling */
+.pembelajaran-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+}
+
+.pembelajaran-card-image {
+  position: relative;
+  height: 200px; /* Tailwind: h-[200px] */
+}
+
+.pembelajaran-card-image img {
+  width: 100%; /* Tailwind: w-full */
+  height: 100%; /* Tailwind: h-full */
+  object-fit: cover; /* Tailwind: object-cover */
+}
+
+.pembelajaran-card-badge {
+  position: absolute;
+  top: 8px; /* Tailwind: top-2 */
+  right: 8px; /* Tailwind: right-2 */
+  background-color: #ffffff; /* Tailwind: bg-white */
+  padding: 4px 8px; /* Tailwind: px-2 py-1 */
+  border-radius: 8px; /* Tailwind: rounded-md */
+  font-size: 12px; /* Tailwind: text-sm */
+}
+
+.pembelajaran-card-content {
+  padding: 16px; /* Tailwind: p-4 */
+  text-align: center;
+}
+
+.pembelajaran-card-title {
+  font-size: 16px; /* Tailwind: text-base */
+  font-weight: 500; /* Tailwind: font-medium */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+}

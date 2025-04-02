@@ -1,0 +1,13 @@
+/* Styling untuk header utama */
+.header {
+  position: sticky; /* Tailwind: sticky */
+  top: 0; /* Tailwind: top-0 */
+  z-index: 10; /* Tailwind: z-10 */
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  justify-content: space-between; /* Tailwind: justify-between */
+  height: 64px; /* Tailwind: h-16 */
+  border-bottom: 1px solid #e5e7eb; /* Tailwind: border-b */
+  background-color: #ffffff; /* Tailwind: bg-white */
+  padding: 0 16px; /* Tailwind: px-4 */
+}

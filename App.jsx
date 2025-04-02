@@ -1,9 +1,9 @@
 import React from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import Dashboard from "./src/pages/Dashboard";
-import PasarBuku from "./src/pages/PasarBuku";
-import Pembelajaran from "./src/pages/Pembelajaran";
-import Jadwal from "./src/pages/Jadwal";
+import Dashboard from "./src/pages/Dashboard/Dashboard";
+import PasarBuku from "./src/pages/PasarBuku/PasarBuku";
+import Pembelajaran from "./src/pages/Pembelajaran/Pembelajaran";
+import Jadwal from "./src/pages/Jadwal/Jadwal";
 
 function App() {
   return (

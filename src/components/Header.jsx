@@ -1,9 +1,10 @@
 import SearchBar from "./SearchBar";
 import UserNav from "./UserNav";
+import "./Header.css"; // Import file CSS
 
 export default function Header() {
   return (
-    <header className="sticky top-0 z-10 flex h-16 items-center justify-between border-b bg-white px-4">
+    <header className="header">
       <SearchBar />
       <UserNav />
     </header>

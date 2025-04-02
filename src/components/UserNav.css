@@ -1,0 +1,41 @@
+/* Container utama untuk UserNav */
+.user-nav-container {
+  display: flex;
+  align-items: center;
+  gap: 16px; /* Tailwind: gap-4 */
+}
+
+/* Tombol notifikasi dan pengaturan */
+.user-nav-button {
+  color: #6b7280; /* Tailwind: text-gray-500 */
+  transition: color 0.2s ease-in-out;
+}
+
+.user-nav-button:hover {
+  color: #374151; /* Tailwind: hover:text-gray-700 */
+}
+
+/* Avatar container */
+.user-nav-avatar {
+  height: 32px; /* Tailwind: h-8 */
+  width: 32px; /* Tailwind: w-8 */
+  border-radius: 50%; /* Tailwind: rounded-full */
+  background-color: #e5e7eb; /* Tailwind: bg-gray-200 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* Avatar image */
+.user-nav-avatar img {
+  height: 100%; /* Tailwind: h-full */
+  width: 100%; /* Tailwind: w-full */
+  object-fit: cover; /* Tailwind: object-cover */
+}
+
+/* Nama pengguna */
+.user-nav-name {
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+}
