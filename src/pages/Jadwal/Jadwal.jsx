@@ -1,11 +1,12 @@
-import React, { useState } from "react";
-import { ChevronLeft, ChevronRight, Plus, Filter } from "lucide-react";
-import Layout from "../../components/Layout"; // Import the Layout component
-import "./Jadwal.css"; // Import the CSS file
+import { useState } from "react"
+import { ChevronLeft, ChevronRight, Plus, Filter, ChevronDown } from "lucide-react"
+import Header from "../../components/Header"
+import Layout from "../../components/Layout" // Import the Layout component
+import "./Jadwal.css" // Import the CSS file
 
 export default function Jadwal() {
-  const [currentMonth, setCurrentMonth] = useState("September 2023");
-  const [view, setView] = useState("Monthly");
+  const [currentMonth, setCurrentMonth] = useState("September 2023")
+  const [view, setView] = useState("Monthly")
 
   // Sample calendar data
   const calendarEvents = [
@@ -57,21 +58,21 @@ export default function Jadwal() {
         { title: "Discussion", color: "purple" },
       ],
     },
-  ];
+  ]
 
   // Generate calendar days
   const generateCalendarDays = () => {
-    const prevMonthDays = [28, 29, 30];
-    const currentMonthDays = Array.from({ length: 31 }, (_, i) => i + 1);
-    return [...prevMonthDays, ...currentMonthDays];
-  };
+    const prevMonthDays = [28, 29, 30]
+    const currentMonthDays = Array.from({ length: 31 }, (_, i) => i + 1)
+    return [...prevMonthDays, ...currentMonthDays]
+  }
 
-  const days = generateCalendarDays();
+  const days = generateCalendarDays()
 
   // Find events for a specific date
   const getEventsForDate = (date) => {
-    const eventData = calendarEvents.find((event) => event.date === date);
-    if (!eventData) return [];
+    const eventData = calendarEvents.find((event) => event.date === date)
+    if (!eventData) return []
     return (
       eventData.events || [
         {
@@ -80,86 +81,95 @@ export default function Jadwal() {
           color: eventData.color,
         },
       ]
-    );
-  };
+    )
+  }
 
   return (
     <Layout>
       <div className="jadwal-container">
-        {/* Calendar Header */}
-        <div className="jadwal-header">
-          <h1 className="jadwal-title">Calendar</h1>
-          <div className="jadwal-view-buttons">
-            {["Monthly", "Weekly", "Daily"].map((v) => (
-              <button
-                key={v}
-                className={`jadwal-view-button ${view === v ? "active" : ""}`}
-                onClick={() => setView(v)}
-              >
-                {v}
+        <Header />
+        <main className="jadwal-main">
+          <div className="jadwal-top-section">
+            <div className="jadwal-heading">
+              <h1>Calendar</h1>
+            </div>
+
+            <div className="jadwal-controls">
+              <div className="jadwal-view-buttons">
+                {["Monthly", "Weekly", "Daily"].map((v) => (
+                  <button
+                    key={v}
+                    className={`jadwal-view-button ${view === v ? "active" : ""}`}
+                    onClick={() => setView(v)}
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+
+              <div className="jadwal-actions">
+                <button className="jadwal-button filter">
+                  <Filter size={16} />
+                  <span>Filter</span>
+                </button>
+                <button className="jadwal-button add">
+                  <Plus size={16} />
+                  <span>Add Event</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Month Navigation */}
+          <div className="jadwal-month-navigation">
+            <div className="jadwal-month-selector">
+              <h2>{currentMonth}</h2>
+              <ChevronDown size={16} className="month-arrow" />
+            </div>
+            <div className="jadwal-navigation-buttons">
+              <button className="nav-button">
+                <ChevronLeft size={16} />
               </button>
-            ))}
+              <button className="jadwal-today-button">Today</button>
+              <button className="nav-button">
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
-          <div className="jadwal-actions">
-            <button className="jadwal-button filter">
-              <Filter />
-              <span>Filter</span>
-            </button>
-            <button className="jadwal-button add">
-              <Plus />
-              <span>Add Event</span>
-            </button>
-          </div>
-        </div>
 
-        {/* Month Navigation */}
-        <div className="jadwal-month-navigation">
-          <div className="jadwal-month-title">
-            <h2>{currentMonth}</h2>
-          </div>
-          <div className="jadwal-navigation-buttons">
-            <button>
-              <ChevronLeft />
-            </button>
-            <button className="jadwal-today-button">Today</button>
-            <button>
-              <ChevronRight />
-            </button>
-          </div>
-        </div>
-
-        {/* Calendar Grid */}
-        <div className="jadwal-calendar">
-          <div className="jadwal-calendar-header">
-            {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
-              <div key={day}>{day}</div>
-            ))}
-          </div>
-          <div className="jadwal-calendar-days">
-            {days.map((day, index) => {
-              const events = getEventsForDate(day);
-              const isPreviousMonth = day < 31 && index < 3;
-
-              return (
-                <div
-                  key={index}
-                  className={`jadwal-calendar-day ${
-                    isPreviousMonth ? "previous-month" : ""
-                  }`}
-                >
-                  <div className="day-number">{day}</div>
-                  {events.map((event, i) => (
-                    <div key={i} className={`event ${event.color}`}>
-                      <div>{event.title}</div>
-                      {event.time && <div>{event.time}</div>}
-                    </div>
-                  ))}
+          {/* Calendar Grid */}
+          <div className="jadwal-calendar">
+            <div className="jadwal-calendar-header">
+              {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((day) => (
+                <div key={day} className="calendar-header-cell">
+                  {day}
                 </div>
-              );
-            })}
+              ))}
+            </div>
+            <div className="jadwal-calendar-days">
+              {days.map((day, index) => {
+                const events = getEventsForDate(day)
+                const isPreviousMonth = day < 31 && index < 3
+
+                return (
+                  <div key={index} className={`jadwal-calendar-day ${isPreviousMonth ? "previous-month" : ""}`}>
+                    <div className="day-number">{day}</div>
+                    <div className="day-events">
+                      {events.map((event, i) => (
+                        <div key={i} className={`event ${event.color}`}>
+                          <div className="event-title">{event.title}</div>
+                          {event.time && <div className="event-time">{event.time}</div>}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
+        </main>
       </div>
     </Layout>
-  );
+  )
 }
+

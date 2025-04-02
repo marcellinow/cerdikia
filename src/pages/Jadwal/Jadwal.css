@@ -1,59 +1,84 @@
 /* Container utama */
 .jadwal-container {
-  padding: 24px; /* Tailwind: p-6 */
-  background-color: #ffffff; /* Tailwind: bg-white */
+  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  min-height: 100vh; /* Tailwind: min-h-screen */
 }
 
-/* Header */
-.jadwal-header {
+/* Main content */
+.jadwal-main {
+  padding: 20px; /* Tailwind: p-5 */
+}
+
+/* Top section with title and controls */
+.jadwal-top-section {
+  display: flex; /* Tailwind: flex */
+  justify-content: space-between; /* Tailwind: justify-between */
+  align-items: center; /* Tailwind: items-center */
   margin-bottom: 24px; /* Tailwind: mb-6 */
+  flex-wrap: wrap; /* Tailwind: flex-wrap */
+  gap: 16px; /* Tailwind: gap-4 */
 }
 
-.jadwal-title {
+.jadwal-heading h1 {
   font-size: 24px; /* Tailwind: text-2xl */
-  font-weight: bold; /* Tailwind: font-bold */
-  color: #3b82f6; /* Tailwind: text-orange-500 */
-  margin-bottom: 16px; /* Tailwind: mb-4 */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #111827; /* Tailwind: text-gray-900 */
 }
 
+.jadwal-controls {
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  gap: 16px; /* Tailwind: gap-4 */
+  flex-wrap: wrap; /* Tailwind: flex-wrap */
+}
+
+/* View buttons */
 .jadwal-view-buttons {
-  display: flex;
-  gap: 24px; /* Tailwind: space-x-6 */
+  display: flex; /* Tailwind: flex */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  overflow: hidden; /* Tailwind: overflow-hidden */
+  border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+  background-color: #fff; /* Tailwind: bg-white */
 }
 
 .jadwal-view-button {
-  padding-bottom: 8px; /* Tailwind: pb-2 */
-  padding-left: 8px; /* Tailwind: px-2 */
-  padding-right: 8px; /* Tailwind: px-2 */
+  padding: 8px 16px; /* Tailwind: px-4 py-2 */
+  font-size: 14px; /* Tailwind: text-sm */
   color: #6b7280; /* Tailwind: text-gray-500 */
-  border-bottom: 2px solid transparent;
-  font-weight: normal;
-  transition: color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+  background-color: transparent; /* Tailwind: bg-transparent */
+  border: none; /* Tailwind: border-0 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  transition: all 0.2s ease; /* Tailwind: transition-all */
 }
 
 .jadwal-view-button.active {
-  color: #3b82f6; /* Tailwind: text-orange-500 */
-  border-color: #3b82f6; /* Tailwind: border-orange-500 */
+  background-color: #f97316; /* Tailwind: bg-orange-500 */
+  color: white; /* Tailwind: text-white */
   font-weight: 500; /* Tailwind: font-medium */
 }
 
+/* Action buttons */
 .jadwal-actions {
-  display: flex;
-  gap: 12px; /* Tailwind: space-x-3 */
+  display: flex; /* Tailwind: flex */
+  gap: 12px; /* Tailwind: gap-3 */
 }
 
 .jadwal-button {
-  display: flex;
-  align-items: center;
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  gap: 8px; /* Tailwind: gap-2 */
   padding: 8px 16px; /* Tailwind: px-4 py-2 */
-  border-radius: 8px; /* Tailwind: rounded-md */
+  border-radius: 8px; /* Tailwind: rounded-lg */
   font-size: 14px; /* Tailwind: text-sm */
-  transition: background-color 0.2s ease-in-out;
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  transition: all 0.2s ease; /* Tailwind: transition-all */
 }
 
 .jadwal-button.filter {
-  border: 1px solid #d1d5db; /* Tailwind: border */
-  color: #3b82f6; /* Tailwind: text-orange-500 */
+  border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+  background-color: white; /* Tailwind: bg-white */
+  color: #4b5563; /* Tailwind: text-gray-600 */
 }
 
 .jadwal-button.filter:hover {
@@ -61,117 +86,203 @@
 }
 
 .jadwal-button.add {
-  background-color: #3b82f6; /* Tailwind: bg-orange-500 */
-  color: #ffffff; /* Tailwind: text-white */
+  background-color: #f97316; /* Tailwind: bg-orange-500 */
+  color: white; /* Tailwind: text-white */
+  border: none; /* Tailwind: border-0 */
 }
 
 .jadwal-button.add:hover {
   background-color: #ea580c; /* Tailwind: hover:bg-orange-600 */
 }
 
-/* Month Navigation */
+/* Month navigation */
 .jadwal-month-navigation {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px; /* Tailwind: mb-6 */
+  display: flex; /* Tailwind: flex */
+  justify-content: space-between; /* Tailwind: justify-between */
+  align-items: center; /* Tailwind: items-center */
+  margin-bottom: 20px; /* Tailwind: mb-5 */
 }
 
-.jadwal-month-title {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Tailwind: space-x-2 */
-  font-size: 20px; /* Tailwind: text-xl */
-  font-weight: 500; /* Tailwind: font-medium */
-  color: #3b82f6; /* Tailwind: text-orange-500 */
+.jadwal-month-selector {
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  gap: 8px; /* Tailwind: gap-2 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+}
+
+.jadwal-month-selector h2 {
+  font-size: 18px; /* Tailwind: text-lg */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #111827; /* Tailwind: text-gray-900 */
+}
+
+.month-arrow {
+  color: #6b7280; /* Tailwind: text-gray-500 */
 }
 
 .jadwal-navigation-buttons {
-  display: flex;
-  align-items: center;
-  gap: 8px; /* Tailwind: space-x-2 */
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  gap: 8px; /* Tailwind: gap-2 */
+}
+
+.nav-button {
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  justify-content: center; /* Tailwind: justify-center */
+  width: 32px; /* Tailwind: w-8 */
+  height: 32px; /* Tailwind: h-8 */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+  background-color: white; /* Tailwind: bg-white */
+  color: #4b5563; /* Tailwind: text-gray-600 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+}
+
+.nav-button:hover {
+  background-color: #f3f4f6; /* Tailwind: hover:bg-gray-100 */
 }
 
 .jadwal-today-button {
-  padding: 8px 16px; /* Tailwind: px-4 py-2 */
-  background-color: #3b82f6; /* Tailwind: bg-orange-500 */
-  color: #ffffff; /* Tailwind: text-white */
-  border-radius: 8px; /* Tailwind: rounded-md */
+  padding: 6px 12px; /* Tailwind: px-3 py-1.5 */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  background-color: #f97316; /* Tailwind: bg-orange-500 */
+  color: white; /* Tailwind: text-white */
   font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  border: none; /* Tailwind: border-0 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
 }
 
 .jadwal-today-button:hover {
   background-color: #ea580c; /* Tailwind: hover:bg-orange-600 */
 }
 
-/* Calendar Grid */
+/* Calendar */
 .jadwal-calendar {
-  border: 1px solid #d1d5db; /* Tailwind: border */
-  border-radius: 8px; /* Tailwind: rounded-md */
+  background-color: white; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+  overflow: hidden; /* Tailwind: overflow-hidden */
 }
 
 .jadwal-calendar-header {
-  display: grid;
+  display: grid; /* Tailwind: grid */
   grid-template-columns: repeat(7, 1fr); /* Tailwind: grid-cols-7 */
-  text-align: center;
-  padding: 8px 0; /* Tailwind: py-2 */
-  border-bottom: 1px solid #d1d5db; /* Tailwind: border-b */
   background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  border-bottom: 1px solid #e5e7eb; /* Tailwind: border-b border-gray-200 */
 }
 
-.jadwal-calendar-header div {
-  color: #6b7280; /* Tailwind: text-gray-500 */
+.calendar-header-cell {
+  padding: 12px; /* Tailwind: p-3 */
+  text-align: center; /* Tailwind: text-center */
   font-weight: 500; /* Tailwind: font-medium */
+  color: #4b5563; /* Tailwind: text-gray-600 */
+  font-size: 14px; /* Tailwind: text-sm */
 }
 
 .jadwal-calendar-days {
-  display: grid;
+  display: grid; /* Tailwind: grid */
   grid-template-columns: repeat(7, 1fr); /* Tailwind: grid-cols-7 */
 }
 
 .jadwal-calendar-day {
   min-height: 120px; /* Tailwind: min-h-[120px] */
+  border-right: 1px solid #e5e7eb; /* Tailwind: border-r border-gray-200 */
+  border-bottom: 1px solid #e5e7eb; /* Tailwind: border-b border-gray-200 */
   padding: 8px; /* Tailwind: p-2 */
-  border: 1px solid #d1d5db; /* Tailwind: border */
-  color: #374151; /* Tailwind: text-gray-700 */
+  position: relative; /* Tailwind: relative */
+}
+
+.jadwal-calendar-day:nth-child(7n) {
+  border-right: none; /* Tailwind: border-r-0 */
 }
 
 .jadwal-calendar-day.previous-month {
-  color: #9ca3af; /* Tailwind: text-gray-400 */
+  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
 }
 
 .jadwal-calendar-day .day-number {
   font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  color: #111827; /* Tailwind: text-gray-900 */
   margin-bottom: 8px; /* Tailwind: mb-2 */
 }
 
-.jadwal-calendar-day .event {
-  padding: 4px; /* Tailwind: p-1 */
+.jadwal-calendar-day.previous-month .day-number {
+  color: #9ca3af; /* Tailwind: text-gray-400 */
+}
+
+.day-events {
+  display: flex; /* Tailwind: flex */
+  flex-direction: column; /* Tailwind: flex-col */
+  gap: 4px; /* Tailwind: gap-1 */
+}
+
+.event {
+  padding: 4px 8px; /* Tailwind: px-2 py-1 */
   border-radius: 4px; /* Tailwind: rounded */
   font-size: 12px; /* Tailwind: text-xs */
+  line-height: 1.2; /* Tailwind: leading-tight */
 }
 
-.jadwal-calendar-day .event.red {
+.event-title {
+  font-weight: 500; /* Tailwind: font-medium */
+  white-space: nowrap; /* Tailwind: whitespace-nowrap */
+  overflow: hidden; /* Tailwind: overflow-hidden */
+  text-overflow: ellipsis; /* Tailwind: text-ellipsis */
+}
+
+.event-time {
+  font-size: 11px; /* Tailwind: text-[11px] */
+  opacity: 0.8; /* Tailwind: opacity-80 */
+}
+
+/* Event colors */
+.event.red {
   background-color: #fee2e2; /* Tailwind: bg-red-100 */
-  color: #b91c1c; /* Tailwind: text-red-600 */
+  color: #b91c1c; /* Tailwind: text-red-700 */
 }
 
-.jadwal-calendar-day .event.yellow {
+.event.yellow {
   background-color: #fef9c3; /* Tailwind: bg-yellow-100 */
-  color: #ca8a04; /* Tailwind: text-yellow-600 */
+  color: #ca8a04; /* Tailwind: text-yellow-700 */
 }
 
-.jadwal-calendar-day .event.green {
+.event.green {
   background-color: #dcfce7; /* Tailwind: bg-green-100 */
-  color: #15803d; /* Tailwind: text-green-600 */
+  color: #15803d; /* Tailwind: text-green-700 */
 }
 
-.jadwal-calendar-day .event.purple {
+.event.purple {
   background-color: #ede9fe; /* Tailwind: bg-purple-100 */
-  color: #6d28d9; /* Tailwind: text-purple-600 */
+  color: #6d28d9; /* Tailwind: text-purple-700 */
 }
 
-.jadwal-calendar-day .event.orange {
+.event.orange {
   background-color: #ffedd5; /* Tailwind: bg-orange-100 */
-  color: #c2410c; /* Tailwind: text-orange-600 */
+  color: #c2410c; /* Tailwind: text-orange-700 */
 }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .jadwal-top-section {
+    flex-direction: column; /* Tailwind: flex-col */
+    align-items: flex-start; /* Tailwind: items-start */
+  }
+
+  .jadwal-controls {
+    width: 100%; /* Tailwind: w-full */
+    justify-content: space-between; /* Tailwind: justify-between */
+  }
+
+  .jadwal-calendar-day {
+    min-height: 100px; /* Tailwind: min-h-[100px] */
+  }
+
+  .event {
+    padding: 2px 4px; /* Tailwind: px-1 py-0.5 */
+    font-size: 10px; /* Tailwind: text-[10px] */
+  }
+}
+
