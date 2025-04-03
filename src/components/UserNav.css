@@ -102,3 +102,40 @@
 .user-nav-settings-icon {
   color: #ffffff; /* Tailwind: text-white */
 }
+
+/* Notification Dropdown */
+.notification-dropdown {
+  position: absolute;
+  top: 48px; /* Adjust based on the height of the notification icon */
+  right: 16px; /* Align to the right of the notification icon */
+  background-color: #ffffff; /* White background */
+  border: 1px solid #e5e7eb; /* Light gray border */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  width: 240px; /* Fixed width */
+  z-index: 1000; /* Ensure it appears above other elements */
+  overflow: hidden; /* Prevent content overflow */
+}
+
+.notification-item {
+  padding: 12px 16px; /* Add padding */
+  font-size: 14px; /* Text size */
+  color: #374151; /* Dark gray text */
+  border-bottom: 1px solid #e5e7eb; /* Divider between items */
+  cursor: pointer; /* Pointer cursor on hover */
+}
+
+.notification-item:last-child {
+  border-bottom: none; /* Remove border for the last item */
+}
+
+.notification-item:hover {
+  background-color: #f3f4f6; /* Light gray background on hover */
+}
+
+.notification-empty {
+  padding: 12px 16px; /* Add padding */
+  font-size: 14px; /* Text size */
+  color: #6b7280; /* Gray text */
+  text-align: center; /* Center align text */
+}

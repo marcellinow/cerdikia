@@ -120,21 +120,21 @@ export default function Dashboard() {
             {/* Grid Container for Kurikulum Materi */}
             <div className="dashboard-curriculum-grid">
               {[
-                { grade: 1, color: "bg-red-400" },
-                { grade: 2, color: "bg-teal-400" },
-                { grade: 3, color: "bg-teal-400" },
-                { grade: 4, color: "bg-amber-400" },
-                { grade: 5, color: "bg-teal-400" },
-                { grade: 6, color: "bg-amber-400" },
-                { name: "Ekstrakurikuler", icon: "grid" },
-                { name: "Peminatan", icon: "grid" },
+                { grade: 1, color: "bg-red-400", path: "/kelas/1" },
+                { grade: 2, color: "bg-teal-400", path: "/kelas/2" },
+                { grade: 3, color: "bg-teal-400", path: "/kelas/3" },
+                { grade: 4, color: "bg-amber-400", path: "/kelas/4" },
+                { grade: 5, color: "bg-teal-400", path: "/kelas/5" },
+                { grade: 6, color: "bg-amber-400", path: "/kelas/6" },
+                {
+                  name: "Ekstrakurikuler",
+                  icon: "🎓",
+                  path: "/ekstrakurikuler",
+                },
+                { name: "Peminatan", icon: "🎓", path: "/peminatan" },
               ].map((item, index) => (
                 <Link
-                  to={
-                    item.grade
-                      ? `/kelas/${item.grade}`
-                      : `/${item.name.toLowerCase()}`
-                  }
+                  to={item.path}
                   key={index}
                   className="dashboard-curriculum-card"
                 >
@@ -152,7 +152,7 @@ export default function Dashboard() {
                   ) : (
                     <>
                       <div className="bg-blue-100 h-24 w-24 rounded-lg flex items-center justify-center mb-4">
-                        <span className="text-2xl">🎓</span>
+                        <span className="text-2xl">{item.icon}</span>
                       </div>
                       <span className="font-medium">{item.name}</span>
                     </>

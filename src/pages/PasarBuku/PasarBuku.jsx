@@ -118,7 +118,7 @@ export default function PasarBuku() {
 
   // Handle add to cart
   const handleAddToCart = () => {
-    setNotification("Buku sudah masuk ke keranjang sewa");
+    setNotification("Buku Berhasil Masuk ke Keranjang!");
     setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
     setIsBookDetailModalOpen(false); // Close modal
   };

@@ -14,7 +14,6 @@ import "./SideBar.css";
 export default function SideBar() {
   const menuItems = [
     { name: "Dashboard", icon: Clock, path: "/" },
-    { name: "Kelas", icon: GraduationCap, path: "/kelas" },
     { name: "Pembelajaran", icon: BookOpen, path: "/pembelajaran" },
     { name: "Pasar Buku", icon: BookMarked, path: "/pasar-buku" },
     { name: "Jadwal", icon: Calendar, path: "/jadwal" },
