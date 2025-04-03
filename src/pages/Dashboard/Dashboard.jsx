@@ -24,7 +24,7 @@ export default function Dashboard() {
               <p>Klik di bawah</p>
               <div className="flex items-center gap-4">
                 <div className="flex-1">
-                  <h3>Why? The Sea Laut</h3>
+                  <h3>Gembira Belajar IPA</h3>
                 </div>
                 <div className="w-24 h-32 bg-blue-100 rounded flex items-center justify-center">
                   <img

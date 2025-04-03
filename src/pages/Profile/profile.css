@@ -1,0 +1,98 @@
+/* Container utama */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh; /* Tailwind: min-h-screen */
+  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  padding: 24px; /* Tailwind: p-6 */
+}
+
+/* Card untuk profile */
+.profile-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 12px; /* Tailwind: rounded-lg */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-md */
+  padding: 24px; /* Tailwind: p-6 */
+  text-align: center;
+  max-width: 400px; /* Tailwind: max-w-sm */
+  width: 100%;
+}
+
+/* Profile Picture */
+.profile-picture {
+  margin-bottom: 16px; /* Tailwind: mb-4 */
+}
+
+.profile-picture-img {
+  width: 128px; /* Tailwind: w-32 */
+  height: 128px; /* Tailwind: h-32 */
+  border-radius: 50%; /* Tailwind: rounded-full */
+  object-fit: cover; /* Tailwind: object-cover */
+  background-color: #e5e7eb; /* Tailwind: bg-gray-200 */
+}
+
+/* Profile Information */
+.profile-info {
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+.profile-name {
+  font-size: 24px; /* Tailwind: text-2xl */
+  font-weight: bold; /* Tailwind: font-bold */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+  margin-bottom: 8px; /* Tailwind: mb-2 */
+}
+
+.profile-role,
+.profile-instansi,
+.profile-lokasi {
+  font-size: 14px; /* Tailwind: text-sm */
+  color: #6b7280; /* Tailwind: text-gray-500 */
+  margin-bottom: 4px; /* Tailwind: mb-1 */
+}
+
+/* Sign Out Button */
+.profile-signout-button {
+  display: inline-block;
+  padding: 12px 24px; /* Tailwind: px-6 py-3 */
+  background-color: #ef4444; /* Tailwind: bg-red-500 */
+  color: #ffffff; /* Tailwind: text-white */
+  border: none; /* Tailwind: border-0 */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.profile-signout-button:hover {
+  background-color: #dc2626; /* Tailwind: hover:bg-red-600 */
+}
+
+/* Back Button */
+.profile-back-button {
+  position: fixed; /* Tetap di viewport */
+  top: 16px; /* Jarak dari atas */
+  left: 230px; /* Sesuaikan dengan lebar sidebar (215px + margin 15px) */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Tailwind: gap-2 */
+  background-color: transparent; /* Tailwind: bg-transparent */
+  border: none; /* Tailwind: border-0 */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  transition: color 0.2s ease-in-out;
+  z-index: 100; /* Pastikan tombol berada di atas elemen lain */
+}
+
+.profile-back-button:hover {
+  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+}
+
+.profile-back-icon {
+  height: 16px; /* Tailwind: h-4 */
+  width: 16px; /* Tailwind: w-4 */
+}

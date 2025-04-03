@@ -31,21 +31,29 @@
   gap: 8px;
 }
 
+/* Styling untuk tombol Urutkan dan Filter */
 .pasar-buku-button {
   display: flex;
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background-color: #ffffff;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  background-color: #3b82f6; /* Sama seperti tombol Keranjang */
+  color: #ffffff; /* Teks putih */
+  border: none; /* Hapus border */
+  border-radius: 8px; /* Sudut melengkung */
   font-size: 14px;
-  color: #374151;
+  font-weight: 500;
+  cursor: pointer;
   transition: background-color 0.2s ease-in-out;
 }
 
 .pasar-buku-button:hover {
-  background-color: #f3f4f6;
+  background-color: #2563eb; /* Warna hover */
+}
+
+.pasar-buku-icon {
+  height: 16px;
+  width: 16px;
 }
 
 .pasar-buku-cart {
@@ -55,11 +63,6 @@
 
 .pasar-buku-cart:hover {
   background-color: #2563eb;
-}
-
-.pasar-buku-icon {
-  height: 16px;
-  width: 16px;
 }
 
 /* Grid layout */
@@ -262,4 +265,27 @@
 
 .filter-modal-apply:hover {
   background-color: #2563eb;
+}
+
+/* Notification */
+.notification {
+  position: fixed;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #3b82f6;
+  color: #ffffff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
+  z-index: 1000;
+}
+
+/* Error text styling */
+.error-text {
+  color: #ef4444; /* Tailwind: text-red-500 */
+  font-size: 12px; /* Tailwind: text-xs */
+  margin-top: 4px; /* Tailwind: mt-1 */
+  margin-bottom: 8px; /* Tailwind: mb-2 */
 }

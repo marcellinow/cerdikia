@@ -15,20 +15,20 @@
   color: #374151; /* Tailwind: hover:text-gray-700 */
 }
 
-/* Avatar container */
+/* Avatar button */
 .user-nav-avatar {
   height: 32px; /* Tailwind: h-8 */
   width: 32px; /* Tailwind: w-8 */
   border-radius: 50%; /* Tailwind: rounded-full */
-  background-color: #e5e7eb; /* Tailwind: bg-gray-200 */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  overflow: hidden; /* Tailwind: overflow-hidden */
+  padding: 0; /* Remove padding */
+  border: none; /* Remove border */
+  background: none; /* Remove background */
+  cursor: pointer; /* Tailwind: cursor-pointer */
 }
 
 /* Avatar image */
-.user-nav-avatar img {
+.user-nav-avatar-img {
   height: 100%; /* Tailwind: h-full */
   width: 100%; /* Tailwind: w-full */
   object-fit: cover; /* Tailwind: object-cover */
@@ -38,4 +38,67 @@
 .user-nav-name {
   font-size: 14px; /* Tailwind: text-sm */
   font-weight: 500; /* Tailwind: font-medium */
+}
+
+/* Cart button */
+.user-nav-cart {
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  padding: 8px; /* Tailwind: p-2 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  justify-content: center; /* Tailwind: justify-center */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.user-nav-cart:hover {
+  background-color: #2563eb; /* Tailwind: hover:bg-blue-600 */
+}
+
+.user-nav-cart-icon {
+  color: #ffffff; /* Tailwind: text-white */
+}
+
+/* Notification button */
+.user-nav-notification {
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  padding: 8px; /* Tailwind: p-2 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  justify-content: center; /* Tailwind: justify-center */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.user-nav-notification:hover {
+  background-color: #2563eb; /* Tailwind: hover:bg-blue-600 */
+}
+
+.user-nav-notification-icon {
+  color: #ffffff; /* Tailwind: text-white */
+}
+
+/* Settings button */
+.user-nav-settings {
+  background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+  border: none; /* Remove border */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  padding: 8px; /* Tailwind: p-2 */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  display: flex; /* Tailwind: flex */
+  align-items: center; /* Tailwind: items-center */
+  justify-content: center; /* Tailwind: justify-center */
+  transition: background-color 0.2s ease-in-out;
+}
+
+.user-nav-settings:hover {
+  background-color: #2563eb; /* Tailwind: hover:bg-blue-600 */
+}
+
+.user-nav-settings-icon {
+  color: #ffffff; /* Tailwind: text-white */
 }

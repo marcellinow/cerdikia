@@ -1,0 +1,83 @@
+/* Container utama */
+.keranjang-container {
+  padding: 24px; /* Tailwind: p-6 */
+  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+}
+
+/* Judul halaman */
+.keranjang-title {
+  font-size: 24px; /* Tailwind: text-3xl */
+  font-weight: bold; /* Tailwind: font-bold */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+  margin-bottom: 16px; /* Tailwind: mb-4 */
+}
+
+/* Deskripsi halaman */
+.keranjang-description {
+  font-size: 16px; /* Tailwind: text-base */
+  color: #6b7280; /* Tailwind: text-gray-500 */
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+/* Kontainer untuk konten */
+.keranjang-content {
+  display: grid;
+  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
+  gap: 24px; /* Tailwind: gap-6 */
+}
+
+@media (min-width: 768px) {
+  .keranjang-content {
+    grid-template-columns: repeat(3, 1fr); /* Tailwind: md:grid-cols-3 */
+  }
+}
+
+/* Kartu keranjang */
+.keranjang-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+  padding: 16px; /* Tailwind: p-4 */
+  text-align: center;
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.keranjang-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+}
+
+.keranjang-card h2 {
+  font-size: 18px; /* Tailwind: text-lg */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+  margin-bottom: 8px; /* Tailwind: mb-2 */
+}
+
+.keranjang-card p {
+  font-size: 14px; /* Tailwind: text-sm */
+  color: #6b7280; /* Tailwind: text-gray-500 */
+}
+
+/* Back Button */
+.keranjang-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Tailwind: gap-2 */
+  background-color: transparent; /* Tailwind: bg-transparent */
+  border: none; /* Tailwind: border-0 */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  margin-bottom: 16px; /* Tailwind: mb-4 */
+  transition: color 0.2s ease-in-out;
+}
+
+.keranjang-back-button:hover {
+  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+}
+
+.keranjang-back-icon {
+  height: 16px; /* Tailwind: h-4 */
+  width: 16px; /* Tailwind: w-4 */
+}
