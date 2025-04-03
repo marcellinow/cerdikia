@@ -1,30 +1,47 @@
-import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
-import cerdikia from "../../assets/Img/logo-cerdikia.svg"
-import googleLogo from "../../assets/Img/google-logo.svg"
-import "./Login.css"
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../firebase";
+
+import cerdikia from "../../assets/Img/logo-cerdikia.svg";
+import googleLogo from "../../assets/Img/google-logo.svg";
+import "./Login.css";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
+  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    // Handle login logic here
-    console.log("Login attempt with:", { email, password })
-  }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      console.log("Login success:", userCredential.user);
+      alert("Login berhasil!");
+      // TODO: redirect or update UI
+    } catch (error) {
+      console.error("Login error:", error.message);
+      alert("Login gagal: " + error.message);
+    }
+  };
 
-  const handleGoogleLogin = () => {
-    // Handle Google login logic here
-    console.log("Google login attempt")
-  }
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google login success:", result.user);
+      alert("Login Google berhasil!");
+      // TODO: redirect or update UI
+    } catch (error) {
+      console.error("Google login error:", error.message);
+      alert("Login Google gagal: " + error.message);
+    }
+  };
 
   return (
     <div className="login-container">
       <div className="login-card">
         <div className="login-logo">
-          <img src={cerdikia || "/placeholder.svg"} alt="Cerdikia Logo" />
+          <img src={cerdikia} alt="Cerdikia Logo" />
         </div>
 
         <h1 className="login-title">Masuk ke Akun Anda</h1>
@@ -73,15 +90,14 @@ export default function Login() {
         </div>
 
         <button type="button" className="google-login-button" onClick={handleGoogleLogin}>
-          <img src={googleLogo || "/placeholder.svg"} alt="Google Logo" />
+          <img src={googleLogo} alt="Google Logo" />
           <span>Masuk dengan Google</span>
         </button>
 
         <p className="signup-prompt">
-          Belum punya akun? <a href="/signup">Daftar sekarang</a>
+          Belum punya akun? <a href="/register">Daftar sekarang</a>
         </p>
       </div>
     </div>
-  )
+  );
 }
-

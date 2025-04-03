@@ -1,5 +1,8 @@
 import { useState } from "react"
 import { Eye, EyeOff } from "lucide-react"
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
+import { auth, provider } from "../../firebase"
+
 import cerdikia from "../../assets/Img/logo-cerdikia.svg"
 import googleLogo from "../../assets/Img/google-logo.svg"
 import "./Register.css"
@@ -13,28 +16,46 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [agreeTerms, setAgreeTerms] = useState(false)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Validate passwords match
+
     if (password !== confirmPassword) {
-      alert("Passwords don't match!")
+      alert("Password dan konfirmasi tidak cocok.")
       return
     }
 
-    // Handle registration logic here
-    console.log("Registration attempt with:", { fullName, email, password, agreeTerms })
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+
+      // Add display name
+      await updateProfile(userCredential.user, { displayName: fullName })
+
+      console.log("User registered:", userCredential.user)
+      alert("Pendaftaran berhasil!")
+      // TODO: Redirect or update UI
+    } catch (error) {
+      console.error("Error registering:", error.message)
+      alert("Pendaftaran gagal: " + error.message)
+    }
   }
 
-  const handleGoogleRegister = () => {
-    // Handle Google registration logic here
-    console.log("Google registration attempt")
+  const handleGoogleRegister = async () => {
+    try {
+      const result = await signInWithPopup(auth, provider)
+      console.log("Google register success:", result.user)
+      alert("Pendaftaran dengan Google berhasil!")
+      // TODO: Redirect or update UI
+    } catch (error) {
+      console.error("Google register failed:", error.message)
+      alert("Gagal daftar dengan Google: " + error.message)
+    }
   }
 
   return (
     <div className="register-container">
       <div className="register-card">
         <div className="register-logo">
-          <img src={cerdikia || "/placeholder.svg"} alt="Cerdikia Logo" />
+          <img src={cerdikia} alt="Cerdikia Logo" />
         </div>
 
         <h1 className="register-title">Buat Akun Baru</h1>
@@ -109,7 +130,8 @@ export default function Register() {
             <label className="checkbox-label">
               <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} required />
               <span className="checkbox-text">
-                Saya menyetujui <a href="/terms">Syarat dan Ketentuan</a> serta <a href="/privacy">Kebijakan Privasi</a>
+                Saya menyetujui <a href="/terms">Syarat dan Ketentuan</a> serta{" "}
+                <a href="/privacy">Kebijakan Privasi</a>
               </span>
             </label>
           </div>
@@ -124,7 +146,7 @@ export default function Register() {
         </div>
 
         <button type="button" className="google-register-button" onClick={handleGoogleRegister}>
-          <img src={googleLogo || "/placeholder.svg"} alt="Google Logo" />
+          <img src={googleLogo} alt="Google Logo" />
           <span>Daftar dengan Google</span>
         </button>
 
@@ -135,4 +157,3 @@ export default function Register() {
     </div>
   )
 }
-
