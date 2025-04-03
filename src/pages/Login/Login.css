@@ -1,0 +1,208 @@
+/* Main container */
+.login-container {
+    display: flex; /* Tailwind: flex */
+    justify-content: center; /* Tailwind: justify-center */
+    align-items: center; /* Tailwind: items-center */
+    min-height: 100vh; /* Tailwind: min-h-screen */
+    background-color: #f8f5f0; /* Tailwind: bg-amber-50 */
+    padding: 20px; /* Tailwind: p-5 */
+  }
+  
+  /* Login card */
+  .login-card {
+    width: 100%; /* Tailwind: w-full */
+    max-width: 420px; /* Tailwind: max-w-md */
+    background-color: white; /* Tailwind: bg-white */
+    border-radius: 12px; /* Tailwind: rounded-xl */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow */
+    padding: 32px; /* Tailwind: p-8 */
+  }
+  
+  /* Logo */
+  .login-logo {
+    display: flex; /* Tailwind: flex */
+    justify-content: center; /* Tailwind: justify-center */
+    margin-bottom: 24px; /* Tailwind: mb-6 */
+  }
+  
+  .login-logo img {
+    height: 60px; /* Tailwind: h-15 */
+  }
+  
+  /* Title and subtitle */
+  .login-title {
+    font-size: 24px; /* Tailwind: text-2xl */
+    font-weight: 600; /* Tailwind: font-semibold */
+    color: #1f2937; /* Tailwind: text-gray-800 */
+    text-align: center; /* Tailwind: text-center */
+    margin-bottom: 8px; /* Tailwind: mb-2 */
+  }
+  
+  .login-subtitle {
+    font-size: 14px; /* Tailwind: text-sm */
+    color: #6b7280; /* Tailwind: text-gray-500 */
+    text-align: center; /* Tailwind: text-center */
+    margin-bottom: 24px; /* Tailwind: mb-6 */
+  }
+  
+  /* Form */
+  .login-form {
+    margin-bottom: 24px; /* Tailwind: mb-6 */
+  }
+  
+  .form-group {
+    margin-bottom: 20px; /* Tailwind: mb-5 */
+  }
+  
+  .form-group label {
+    display: block; /* Tailwind: block */
+    font-size: 14px; /* Tailwind: text-sm */
+    font-weight: 500; /* Tailwind: font-medium */
+    color: #4b5563; /* Tailwind: text-gray-600 */
+    margin-bottom: 6px; /* Tailwind: mb-1.5 */
+  }
+  
+  .form-group input {
+    width: 100%; /* Tailwind: w-full */
+    padding: 10px 16px; /* Tailwind: px-4 py-2.5 */
+    border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+    border-radius: 8px; /* Tailwind: rounded-lg */
+    font-size: 14px; /* Tailwind: text-sm */
+    color: #1f2937; /* Tailwind: text-gray-800 */
+    transition: border-color 0.2s ease; /* Tailwind: transition */
+  }
+  
+  .form-group input:focus {
+    outline: none; /* Remove default focus outline */
+    border-color: #3b82f6; /* Tailwind: focus:border-blue-500 */
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1); /* Tailwind: focus:ring-2 focus:ring-blue-500/10 */
+  }
+  
+  .form-group input::placeholder {
+    color: #9ca3af; /* Tailwind: placeholder:text-gray-400 */
+  }
+  
+  /* Password input with toggle */
+  .password-input {
+    position: relative; /* Tailwind: relative */
+  }
+  
+  .password-toggle {
+    position: absolute; /* Tailwind: absolute */
+    right: 12px; /* Tailwind: right-3 */
+    top: 50%; /* Tailwind: top-1/2 */
+    transform: translateY(-50%); /* Tailwind: -translate-y-1/2 */
+    background: none; /* Tailwind: bg-transparent */
+    border: none; /* Tailwind: border-0 */
+    color: #9ca3af; /* Tailwind: text-gray-400 */
+    cursor: pointer; /* Tailwind: cursor-pointer */
+  }
+  
+  .password-toggle:hover {
+    color: #6b7280; /* Tailwind: hover:text-gray-500 */
+  }
+  
+  .forgot-password {
+    text-align: right; /* Tailwind: text-right */
+    margin-top: 8px; /* Tailwind: mt-2 */
+  }
+  
+  .forgot-password a {
+    font-size: 12px; /* Tailwind: text-xs */
+    color: #3b82f6; /* Tailwind: text-blue-500 */
+    text-decoration: none; /* Tailwind: no-underline */
+  }
+  
+  .forgot-password a:hover {
+    text-decoration: underline; /* Tailwind: hover:underline */
+  }
+  
+  /* Login button */
+  .login-button {
+    width: 100%; /* Tailwind: w-full */
+    padding: 12px; /* Tailwind: py-3 */
+    background-color: #3b82f6; /* Tailwind: bg-blue-500 */
+    color: white; /* Tailwind: text-white */
+    font-weight: 500; /* Tailwind: font-medium */
+    border: none; /* Tailwind: border-0 */
+    border-radius: 8px; /* Tailwind: rounded-lg */
+    cursor: pointer; /* Tailwind: cursor-pointer */
+    transition: background-color 0.2s ease; /* Tailwind: transition */
+  }
+  
+  .login-button:hover {
+    background-color: #2563eb; /* Tailwind: hover:bg-blue-600 */
+  }
+  
+  /* Divider */
+  .divider {
+    display: flex; /* Tailwind: flex */
+    align-items: center; /* Tailwind: items-center */
+    margin: 24px 0; /* Tailwind: my-6 */
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: ""; /* Required for pseudo-elements */
+    flex: 1; /* Tailwind: flex-1 */
+    border-top: 1px solid #e5e7eb; /* Tailwind: border-t border-gray-200 */
+  }
+  
+  .divider span {
+    padding: 0 16px; /* Tailwind: px-4 */
+    color: #9ca3af; /* Tailwind: text-gray-400 */
+    font-size: 14px; /* Tailwind: text-sm */
+  }
+  
+  /* Google login button */
+  .google-login-button {
+    width: 100%; /* Tailwind: w-full */
+    display: flex; /* Tailwind: flex */
+    align-items: center; /* Tailwind: items-center */
+    justify-content: center; /* Tailwind: justify-center */
+    gap: 12px; /* Tailwind: gap-3 */
+    padding: 12px; /* Tailwind: py-3 */
+    background-color: white; /* Tailwind: bg-white */
+    color: #4b5563; /* Tailwind: text-gray-600 */
+    font-weight: 500; /* Tailwind: font-medium */
+    border: 1px solid #e5e7eb; /* Tailwind: border border-gray-200 */
+    border-radius: 8px; /* Tailwind: rounded-lg */
+    cursor: pointer; /* Tailwind: cursor-pointer */
+    transition: background-color 0.2s ease; /* Tailwind: transition */
+  }
+  
+  .google-login-button:hover {
+    background-color: #f9fafb; /* Tailwind: hover:bg-gray-50 */
+  }
+  
+  .google-login-button img {
+    width: 20px; /* Tailwind: w-5 */
+    height: 20px; /* Tailwind: h-5 */
+  }
+  
+  /* Sign up prompt */
+  .signup-prompt {
+    margin-top: 24px; /* Tailwind: mt-6 */
+    text-align: center; /* Tailwind: text-center */
+    font-size: 14px; /* Tailwind: text-sm */
+    color: #6b7280; /* Tailwind: text-gray-500 */
+  }
+  
+  .signup-prompt a {
+    color: #3b82f6; /* Tailwind: text-blue-500 */
+    font-weight: 500; /* Tailwind: font-medium */
+    text-decoration: none; /* Tailwind: no-underline */
+  }
+  
+  .signup-prompt a:hover {
+    text-decoration: underline; /* Tailwind: hover:underline */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 480px) {
+    .login-card {
+      padding: 24px; /* Tailwind: p-6 */
+    }
+  }
+  
+  
