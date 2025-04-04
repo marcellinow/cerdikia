@@ -105,9 +105,9 @@ export default function PasarBuku() {
     return 0;
   });
 
-  // Handle sort button click
-  const handleSortClick = () => {
-    setSortState((prev) => (prev + 1) % 3);
+  // Handle filter apply
+  const handleApplyFilter = () => {
+    setIsFilterOpen(false); // Close the filter modal
   };
 
   // Handle book card click
@@ -132,7 +132,10 @@ export default function PasarBuku() {
             <h1 className="pasar-buku-title">Pasar Buku</h1>
             <div className="pasar-buku-actions">
               {/* Sort Button */}
-              <button className="pasar-buku-button" onClick={handleSortClick}>
+              <button
+                className="pasar-buku-button"
+                onClick={() => setSortState((prev) => (prev + 1) % 3)}
+              >
                 <ArrowDownAZ className="pasar-buku-icon" />
                 <span>Urutkan</span>
                 {sortState === 1 && <ChevronUp className="pasar-buku-icon" />}
@@ -174,10 +177,10 @@ export default function PasarBuku() {
                   <label htmlFor="grade-filter">Kelas:</label>
                   <select
                     id="grade-filter"
-                    value={selectedGrade || ""}
+                    value={selectedGrade !== null ? selectedGrade : ""}
                     onChange={(e) =>
                       setSelectedGrade(
-                        e.target.value ? parseInt(e.target.value) : null
+                        e.target.value !== "" ? parseInt(e.target.value) : null
                       )
                     }
                   >
@@ -209,7 +212,7 @@ export default function PasarBuku() {
                 </div>
                 <button
                   className="filter-modal-apply"
-                  onClick={() => setIsFilterOpen(false)}
+                  onClick={handleApplyFilter}
                 >
                   Terapkan Filter
                 </button>
