@@ -1,85 +1,23 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Header from "../../components/Header";
-import Layout from "../../components/Layout";
 import {
-  ArrowDownAZ,
-  Filter,
   ShoppingCart,
   X,
+  ArrowDownAZ,
   ChevronUp,
   ChevronDown,
+  Filter,
 } from "lucide-react";
+import Header from "../../components/Header";
+import Layout from "../../components/Layout";
+import books from "../../data/books"; // Import books data
 import "./PasarBuku.css";
 
 export default function PasarBuku() {
-  const books = [
-    {
-      id: 1,
-      title: "Gembira Belajar IPA",
-      description: "Buku IPA 1 untuk anak kelas 1 SD",
-      grade: 1,
-      category: "Sains",
-      publisher: "Annibuku",
-      date: "2025/03/10",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-    {
-      id: 2,
-      title: "Aku Suka Berkunjung",
-      description: "Buku mengenai anak kecil",
-      grade: 0,
-      category: "Peminatan",
-      publisher: "BukuKita",
-      date: "2025/03/01",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-    {
-      id: 3,
-      title: "Ilmu Pengetahuan Sosial 4",
-      description: "Buku IPS 4 untuk anak kelas 4 SD",
-      grade: 4,
-      category: "Sosial",
-      publisher: "Annibuku",
-      date: "2025/03/02",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-    {
-      id: 4,
-      title: "Matematika untuk Sekolah Dasar 2",
-      description: "Buku matematika volume 2 untuk kelas 3",
-      grade: 3,
-      category: "Sains",
-      publisher: "Penerbit Litnus",
-      date: "2025/03/10",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-    {
-      id: 5,
-      title: "Cerita Dongeng: Putri Duyung",
-      description: "Cerita putri duyung",
-      grade: 0,
-      category: "Peminatan",
-      publisher: "Ruangguru",
-      date: "2025/03/01",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-    {
-      id: 6,
-      title: "Matematika 4",
-      description: "Buku matematika untuk anak kelas 4 SD",
-      grade: 4,
-      category: "Sains",
-      publisher: "SIBI",
-      date: "2025/03/02",
-      image: "/placeholder.svg?height=150&width=120",
-    },
-  ];
-
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [sortState, setSortState] = useState(0);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [selectedBook, setSelectedBook] = useState(null);
   const [isBookDetailModalOpen, setIsBookDetailModalOpen] = useState(false);
   const [notification, setNotification] = useState("");
@@ -104,24 +42,6 @@ export default function PasarBuku() {
     }
     return 0;
   });
-
-  // Handle filter apply
-  const handleApplyFilter = () => {
-    setIsFilterOpen(false); // Close the filter modal
-  };
-
-  // Handle book card click
-  const handleBookCardClick = (book) => {
-    setSelectedBook(book);
-    setIsBookDetailModalOpen(true);
-  };
-
-  // Handle add to cart
-  const handleAddToCart = () => {
-    setNotification("Buku Berhasil Masuk ke Keranjang!");
-    setTimeout(() => setNotification(""), 3000); // Clear notification after 3 seconds
-    setIsBookDetailModalOpen(false); // Close modal
-  };
 
   return (
     <Layout>
@@ -172,7 +92,7 @@ export default function PasarBuku() {
                 >
                   <X className="filter-modal-close-icon" />
                 </button>
-                <h2 className="filter-modal-title">Filter Buku</h2>
+                <h2 className="filter-modal-title">Filter</h2>
                 <div className="filter-group">
                   <label htmlFor="grade-filter">Kelas:</label>
                   <select
@@ -212,7 +132,7 @@ export default function PasarBuku() {
                 </div>
                 <button
                   className="filter-modal-apply"
-                  onClick={handleApplyFilter}
+                  onClick={() => setIsFilterOpen(false)}
                 >
                   Terapkan Filter
                 </button>
@@ -226,7 +146,10 @@ export default function PasarBuku() {
               <div
                 key={book.id}
                 className="pasar-buku-card"
-                onClick={() => handleBookCardClick(book)}
+                onClick={() => {
+                  setSelectedBook(book);
+                  setIsBookDetailModalOpen(true);
+                }}
               >
                 <div className="pasar-buku-tags">
                   {book.grade > 0 && (
@@ -284,7 +207,11 @@ export default function PasarBuku() {
                     </p>
                     <button
                       className="filter-modal-apply"
-                      onClick={handleAddToCart}
+                      onClick={() => {
+                        setNotification("Buku Berhasil Masuk ke Keranjang!");
+                        setTimeout(() => setNotification(""), 3000);
+                        setIsBookDetailModalOpen(false);
+                      }}
                     >
                       Masukkan ke Keranjang
                     </button>

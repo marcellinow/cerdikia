@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../../firebase";
+import { auth, provider } from "../../firebase/firebase";
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg";
 import googleLogo from "../../assets/Img/google-logo.svg";
@@ -15,7 +15,11 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log("Login success:", userCredential.user);
       alert("Login berhasil!");
       // TODO: redirect or update UI
@@ -45,7 +49,9 @@ export default function Login() {
         </div>
 
         <h1 className="login-title">Masuk ke Akun Anda</h1>
-        <p className="login-subtitle">Masukkan email dan password untuk melanjutkan</p>
+        <p className="login-subtitle">
+          Masukkan email dan password untuk melanjutkan
+        </p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
@@ -71,7 +77,11 @@ export default function Login() {
                 placeholder="Masukkan password"
                 required
               />
-              <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
@@ -89,7 +99,11 @@ export default function Login() {
           <span>atau</span>
         </div>
 
-        <button type="button" className="google-login-button" onClick={handleGoogleLogin}>
+        <button
+          type="button"
+          className="google-login-button"
+          onClick={handleGoogleLogin}
+        >
           <img src={googleLogo} alt="Google Logo" />
           <span>Masuk dengan Google</span>
         </button>

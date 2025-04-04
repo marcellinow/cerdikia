@@ -1,16 +1,13 @@
-import Header from "../../components/Header"
-import Layout from "../../components/Layout" // Import the Layout component
-import { Filter, ArrowDownAZ } from "lucide-react"
-import "./Pembelajaran.css" // Import the CSS file
+import React, { useState } from "react";
+import Header from "../../components/Header";
+import Layout from "../../components/Layout";
+import "./Pembelajaran.css";
 import PPKN from "../../assets/Img/PPKN.svg";
-import BINDO from "../../assets/Img/BINDO.svg";
 import MTK from "../../assets/Img/MTK.svg";
-import PJOK from "../../assets/Img/PJOK.svg";
 import SENBUD from "../../assets/Img/SENBUD.svg";
-import BING from "../../assets/Img/BING.svg";
+import { ArrowDownAZ, ChevronUp, ChevronDown, Filter } from "lucide-react";
 
 export default function Pembelajaran() {
-  // Sample data for subjects
   const subjects = [
     {
       id: 1,
@@ -18,13 +15,7 @@ export default function Pembelajaran() {
       image: PPKN,
       bgColor: "bg-orange-100",
       modules: 5,
-    },
-    {
-      id: 2,
-      name: "Bahasa Indonesia",
-      image: BINDO,
-      bgColor: "bg-red-100",
-      modules: 5,
+      category: "Sosial",
     },
     {
       id: 3,
@@ -32,13 +23,7 @@ export default function Pembelajaran() {
       image: MTK,
       bgColor: "bg-blue-100",
       modules: 5,
-    },
-    {
-      id: 4,
-      name: "Pendidikan Jasmani, Olahraga, dan Kesehatan",
-      image: PJOK,
-      bgColor: "bg-yellow-100",
-      modules: 5,
+      category: "Sains",
     },
     {
       id: 5,
@@ -46,15 +31,28 @@ export default function Pembelajaran() {
       image: SENBUD,
       bgColor: "bg-purple-100",
       modules: 5,
+      category: "Peminatan",
     },
-    {
-      id: 6,
-      name: "Bahasa Inggris",
-      image: BING,
-      bgColor: "bg-green-100",
-      modules: 5,
-    },
-  ]
+  ];
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [sortState, setSortState] = useState(0);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+
+  // Filter subjects based on category
+  const filteredSubjects = subjects.filter((subject) => {
+    return selectedCategory ? subject.category === selectedCategory : true;
+  });
+
+  // Sort subjects based on sortState
+  const sortedSubjects = [...filteredSubjects].sort((a, b) => {
+    if (sortState === 1) {
+      return a.name.localeCompare(b.name);
+    } else if (sortState === 2) {
+      return b.name.localeCompare(a.name);
+    }
+    return 0;
+  });
 
   return (
     <Layout>
@@ -64,24 +62,80 @@ export default function Pembelajaran() {
           <div className="pembelajaran-header">
             <h1 className="pembelajaran-title">Pembelajaran</h1>
             <div className="pembelajaran-actions">
-              <button className="pembelajaran-button">
-                <ArrowDownAZ size={16} />
+              {/* Sort Button */}
+              <button
+                className="pembelajaran-button"
+                onClick={() => setSortState((prev) => (prev + 1) % 3)}
+              >
+                <ArrowDownAZ className="pembelajaran-icon" />
                 <span>Urutkan</span>
+                {sortState === 1 && <ChevronUp className="pembelajaran-icon" />}
+                {sortState === 2 && (
+                  <ChevronDown className="pembelajaran-icon" />
+                )}
               </button>
-              <button className="pembelajaran-button">
-                <Filter size={16} />
+
+              {/* Filter Button */}
+              <button
+                className="pembelajaran-button"
+                onClick={() => setIsFilterOpen(true)}
+              >
+                <Filter className="pembelajaran-icon" />
                 <span>Filter</span>
               </button>
             </div>
           </div>
 
+          {/* Filter Modal */}
+          {isFilterOpen && (
+            <div className="filter-modal">
+              <div className="filter-modal-content">
+                <button
+                  className="filter-modal-close"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  <span className="filter-modal-close-icon">✕</span>
+                </button>
+                <h2 className="filter-modal-title">Filter</h2>
+                <div className="filter-group">
+                  <label htmlFor="category-filter">Kategori:</label>
+                  <select
+                    id="category-filter"
+                    value={selectedCategory || ""}
+                    onChange={(e) =>
+                      setSelectedCategory(e.target.value || null)
+                    }
+                  >
+                    <option value="">Semua</option>
+                    {["Sains", "Sosial", "Peminatan"].map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <button
+                  className="filter-modal-apply"
+                  onClick={() => setIsFilterOpen(false)}
+                >
+                  Terapkan Filter
+                </button>
+              </div>
+            </div>
+          )}
+
           {/* Subject Grid */}
           <div className="pembelajaran-grid">
-            {subjects.map((subject) => (
+            {sortedSubjects.map((subject) => (
               <div key={subject.id} className="pembelajaran-card">
                 <div className={`pembelajaran-card-image ${subject.bgColor}`}>
-                  <img src={subject.image || "/placeholder.svg"} alt={subject.name} />
-                  <div className="pembelajaran-card-badge">{subject.modules} Modul</div>
+                  <img
+                    src={subject.image || "/placeholder.svg"}
+                    alt={subject.name}
+                  />
+                  <div className="pembelajaran-card-badge">
+                    {subject.modules} Modul
+                  </div>
                 </div>
                 <div className="pembelajaran-card-content">
                   <h3 className="pembelajaran-card-title">{subject.name}</h3>
@@ -92,6 +146,5 @@ export default function Pembelajaran() {
         </main>
       </div>
     </Layout>
-  )
+  );
 }
-

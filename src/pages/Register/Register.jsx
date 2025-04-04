@@ -1,55 +1,63 @@
-import { useState } from "react"
-import { Eye, EyeOff } from "lucide-react"
-import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
-import { auth, provider } from "../../firebase"
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth, provider } from "../../firebase/firebase";
 
-import cerdikia from "../../assets/Img/logo-cerdikia.svg"
-import googleLogo from "../../assets/Img/google-logo.svg"
-import "./Register.css"
+import cerdikia from "../../assets/Img/logo-cerdikia.svg";
+import googleLogo from "../../assets/Img/google-logo.svg";
+import "./Register.css";
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
-  const [fullName, setFullName] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [agreeTerms, setAgreeTerms] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [agreeTerms, setAgreeTerms] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Password dan konfirmasi tidak cocok.")
-      return
+      alert("Password dan konfirmasi tidak cocok.");
+      return;
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
 
       // Add display name
-      await updateProfile(userCredential.user, { displayName: fullName })
+      await updateProfile(userCredential.user, { displayName: fullName });
 
-      console.log("User registered:", userCredential.user)
-      alert("Pendaftaran berhasil!")
+      console.log("User registered:", userCredential.user);
+      alert("Pendaftaran berhasil!");
       // TODO: Redirect or update UI
     } catch (error) {
-      console.error("Error registering:", error.message)
-      alert("Pendaftaran gagal: " + error.message)
+      console.error("Error registering:", error.message);
+      alert("Pendaftaran gagal: " + error.message);
     }
-  }
+  };
 
   const handleGoogleRegister = async () => {
     try {
-      const result = await signInWithPopup(auth, provider)
-      console.log("Google register success:", result.user)
-      alert("Pendaftaran dengan Google berhasil!")
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google register success:", result.user);
+      alert("Pendaftaran dengan Google berhasil!");
       // TODO: Redirect or update UI
     } catch (error) {
-      console.error("Google register failed:", error.message)
-      alert("Gagal daftar dengan Google: " + error.message)
+      console.error("Google register failed:", error.message);
+      alert("Gagal daftar dengan Google: " + error.message);
     }
-  }
+  };
 
   return (
     <div className="register-container">
@@ -59,7 +67,9 @@ export default function Register() {
         </div>
 
         <h1 className="register-title">Buat Akun Baru</h1>
-        <p className="register-subtitle">Daftar untuk mendapatkan akses ke semua fitur</p>
+        <p className="register-subtitle">
+          Daftar untuk mendapatkan akses ke semua fitur
+        </p>
 
         <form onSubmit={handleSubmit} className="register-form">
           <div className="form-group">
@@ -98,7 +108,11 @@ export default function Register() {
                 minLength="8"
                 required
               />
-              <button type="button" className="password-toggle" onClick={() => setShowPassword(!showPassword)}>
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowPassword(!showPassword)}
+              >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
@@ -128,7 +142,12 @@ export default function Register() {
 
           <div className="form-group checkbox-group">
             <label className="checkbox-label">
-              <input type="checkbox" checked={agreeTerms} onChange={(e) => setAgreeTerms(e.target.checked)} required />
+              <input
+                type="checkbox"
+                checked={agreeTerms}
+                onChange={(e) => setAgreeTerms(e.target.checked)}
+                required
+              />
               <span className="checkbox-text">
                 Saya menyetujui <a href="/terms">Syarat dan Ketentuan</a> serta{" "}
                 <a href="/privacy">Kebijakan Privasi</a>
@@ -136,7 +155,11 @@ export default function Register() {
             </label>
           </div>
 
-          <button type="submit" className="register-button" disabled={!agreeTerms}>
+          <button
+            type="submit"
+            className="register-button"
+            disabled={!agreeTerms}
+          >
             Daftar Sekarang
           </button>
         </form>
@@ -145,7 +168,11 @@ export default function Register() {
           <span>atau</span>
         </div>
 
-        <button type="button" className="google-register-button" onClick={handleGoogleRegister}>
+        <button
+          type="button"
+          className="google-register-button"
+          onClick={handleGoogleRegister}
+        >
           <img src={googleLogo} alt="Google Logo" />
           <span>Daftar dengan Google</span>
         </button>
@@ -155,5 +182,5 @@ export default function Register() {
         </p>
       </div>
     </div>
-  )
+  );
 }
