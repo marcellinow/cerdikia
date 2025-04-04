@@ -1,26 +1,48 @@
-import React from "react";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
-import Layout from "../../components/Layout"; // Import Layout component
-import { ChevronLeft } from "lucide-react"; // Import ChevronLeft icon
-import "./profile.css"; // Import CSS file
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChevronLeft } from "lucide-react";
+import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import Layout from "../../components/Layout";
+import "./profile.css";
 
 export default function Profile() {
-  const navigate = useNavigate(); // Initialize navigate
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      if (user) {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          setUserData(userSnap.data());
+        } else {
+          console.log("No user data found in Firestore.");
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
 
   return (
     <Layout>
       <div className="profile-container">
-        {/* Back Button */}
         <button
           className="profile-back-button"
-          onClick={() => navigate(-1)} // Navigate to the previous page
+          onClick={() => navigate(-1)}
         >
           <ChevronLeft className="profile-back-icon" />
           <span>Kembali</span>
         </button>
 
         <div className="profile-card">
-          {/* Profile Picture */}
           <div className="profile-picture">
             <img
               src="/placeholder.svg?height=128&width=128"
@@ -29,16 +51,24 @@ export default function Profile() {
             />
           </div>
 
-          {/* Profile Information */}
           <div className="profile-info">
-            <h1 className="profile-name">Siti</h1>
-            <p className="profile-role">Role: Guru</p>
-            <p className="profile-instansi">Instansi: SD Negeri 1 Jakarta</p>
-            <p className="profile-lokasi">Lokasi: Jakarta, Indonesia</p>
+            <h1 className="profile-name">
+              {userData ? userData.name : "Memuat..."}
+            </h1>
+            <p className="profile-role">
+              Role: {userData ? userData.role : "Memuat..."}
+            </p>
+            <p className="profile-instansi">
+              Instansi: {userData?.instansi || "SD Negeri 1 Jakarta"}
+            </p>
+            <p className="profile-lokasi">
+              Lokasi: {userData?.lokasi || "Jakarta, Indonesia"}
+            </p>
           </div>
 
-          {/* Sign Out Button */}
-          <button className="profile-signout-button">Sign Out</button>
+          <button className="profile-signout-button">
+            Sign Out
+          </button>
         </div>
       </div>
     </Layout>

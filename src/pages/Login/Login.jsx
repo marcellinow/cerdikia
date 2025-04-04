@@ -1,7 +1,15 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../../firebase/firebase";
+import {
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { auth, provider, db } from "../../firebase/firebase";
+import {
+  doc,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg";
@@ -12,7 +20,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate(); // ⬅️ untuk redirect
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -20,7 +28,7 @@ export default function Login() {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       console.log("Login success:", userCredential.user);
       alert("Login berhasil!");
-      navigate("/dashboard"); // ⬅️ Redirect ke dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error.message);
       alert("Login gagal: " + error.message);
@@ -30,9 +38,25 @@ export default function Login() {
   const handleGoogleLogin = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("Google login success:", result.user);
+      const user = result.user;
+
+      // Simpan ke Firestore jika belum ada
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
+
+      if (!userSnap.exists()) {
+        await setDoc(userRef, {
+          name: user.displayName || "",
+          email: user.email,
+          uid: user.uid,
+          role: "guru",
+          createdAt: new Date()
+        });
+      }
+
+      console.log("Google login success:", user);
       alert("Login Google berhasil!");
-      navigate("/dashboard"); // ⬅️ Redirect juga
+      navigate("/dashboard");
     } catch (error) {
       console.error("Google login error:", error.message);
       alert("Login Google gagal: " + error.message);
@@ -47,7 +71,9 @@ export default function Login() {
         </div>
 
         <h1 className="login-title">Masuk ke Akun Anda</h1>
-        <p className="login-subtitle">Masukkan email dan password untuk melanjutkan</p>
+        <p className="login-subtitle">
+          Masukkan email dan password untuk melanjutkan
+        </p>
 
         <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
@@ -95,7 +121,11 @@ export default function Login() {
           <span>atau</span>
         </div>
 
-        <button type="button" className="google-login-button" onClick={handleGoogleLogin}>
+        <button
+          type="button"
+          className="google-login-button"
+          onClick={handleGoogleLogin}
+        >
           <img src={googleLogo} alt="Google Logo" />
           <span>Masuk dengan Google</span>
         </button>
@@ -103,7 +133,7 @@ export default function Login() {
         <p className="signup-prompt">
           Belum punya akun?{" "}
           <span
-            onClick={() => navigate("/register")} // ⬅️ Navigasi ke register
+            onClick={() => navigate("/register")}
             style={{ color: "#007bff", cursor: "pointer", textDecoration: "underline" }}
           >
             Daftar sekarang

@@ -5,7 +5,8 @@ import {
   updateProfile,
   signInWithPopup,
 } from "firebase/auth";
-import { auth, provider } from "../../firebase/firebase";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, provider, db } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg";
@@ -21,7 +22,7 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
 
-  const navigate = useNavigate(); // Untuk redirect
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,11 +39,20 @@ export default function Register() {
         password
       );
 
-      await updateProfile(userCredential.user, { displayName: fullName });
+      const user = userCredential.user;
+      await updateProfile(user, { displayName: fullName });
 
-      console.log("User registered:", userCredential.user);
+      // Simpan data user ke Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: fullName,
+        email: user.email,
+        role: "guru",
+        createdAt: new Date()
+      });
+
       alert("Pendaftaran berhasil!");
-      navigate("/dashboard"); // ⬅️ Redirect ke dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Error registering:", error.message);
       alert("Pendaftaran gagal: " + error.message);
@@ -52,9 +62,19 @@ export default function Register() {
   const handleGoogleRegister = async () => {
     try {
       const result = await signInWithPopup(auth, provider);
-      console.log("Google register success:", result.user);
+      const user = result.user;
+
+      // Simpan data user ke Firestore
+      await setDoc(doc(db, "users", user.uid), {
+        uid: user.uid,
+        name: user.displayName,
+        email: user.email,
+        role: "guru",
+        createdAt: new Date()
+      });
+
       alert("Pendaftaran dengan Google berhasil!");
-      navigate("/dashboard"); // ⬅️ Redirect ke dashboard
+      navigate("/dashboard");
     } catch (error) {
       console.error("Google register failed:", error.message);
       alert("Gagal daftar dengan Google: " + error.message);
@@ -182,8 +202,12 @@ export default function Register() {
         <p className="login-prompt">
           Sudah punya akun?{" "}
           <span
-            onClick={() => navigate("/")} // ⬅️ Navigasi ke login
-            style={{ color: "#007bff", cursor: "pointer", textDecoration: "underline" }}
+            onClick={() => navigate("/")}
+            style={{
+              color: "#007bff",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
           >
             Masuk
           </span>

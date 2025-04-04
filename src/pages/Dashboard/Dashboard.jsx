@@ -1,10 +1,36 @@
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from "../../firebase/firebase";
+
 import Header from "../../components/Header";
-import Layout from "../../components/Layout"; // Import the Layout component
+import Layout from "../../components/Layout";
 import { Play, ChevronLeft, ChevronRight } from "lucide-react";
-import "./Dashboard.css"; // Import file CSS
+import "./Dashboard.css";
 
 export default function Dashboard() {
+  const [displayName, setDisplayName] = useState("Pengguna");
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const docRef = doc(db, "users", user.uid);
+          const docSnap = await getDoc(docRef);
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            setDisplayName(data.name || data.displayName || "Pengguna");
+          }
+        } catch (err) {
+          console.error("Gagal mengambil data pengguna:", err);
+        }
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
   return (
     <Layout>
       <div className="dashboard-container">
@@ -12,7 +38,7 @@ export default function Dashboard() {
         <main className="dashboard-main">
           <div className="dashboard-heading">
             <h1>
-              Selamat Datang, <span>Siti</span>!
+              Selamat Datang, <span>{displayName}</span>!
             </h1>
             <p>kata-kata hari ini!</p>
           </div>
@@ -117,7 +143,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            {/* Grid Container for Kurikulum Materi */}
             <div className="dashboard-curriculum-grid">
               {[
                 { grade: 1, color: "bg-red-400", path: "/kelas/1" },
