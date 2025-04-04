@@ -13,7 +13,7 @@ import "./SideBar.css";
 
 export default function SideBar() {
   const menuItems = [
-    { name: "Dashboard", icon: Clock, path: "/" },
+    { name: "Dashboard", icon: Clock, path: "/dashboard" },
     { name: "Pembelajaran", icon: BookOpen, path: "/pembelajaran" },
     { name: "Pasar Buku", icon: BookMarked, path: "/pasar-buku" },
     { name: "Jadwal", icon: Calendar, path: "/jadwal" },
@@ -23,7 +23,7 @@ export default function SideBar() {
   return (
     <div className="sidebar-container">
       <div className="sidebar-header">
-        <NavLink to="/">
+        <NavLink to="/dashboard">
           <img src={cerdikiaLogo} alt="Cerdikia Logo" className="logo" />
         </NavLink>
       </div>

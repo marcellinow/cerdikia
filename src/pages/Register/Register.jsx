@@ -6,6 +6,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth, provider } from "../../firebase/firebase";
+import { useNavigate } from "react-router-dom";
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg";
 import googleLogo from "../../assets/Img/google-logo.svg";
@@ -19,6 +20,8 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [agreeTerms, setAgreeTerms] = useState(false);
+
+  const navigate = useNavigate(); // Untuk redirect
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,12 +38,11 @@ export default function Register() {
         password
       );
 
-      // Add display name
       await updateProfile(userCredential.user, { displayName: fullName });
 
       console.log("User registered:", userCredential.user);
       alert("Pendaftaran berhasil!");
-      // TODO: Redirect or update UI
+      navigate("/dashboard"); // ⬅️ Redirect ke dashboard
     } catch (error) {
       console.error("Error registering:", error.message);
       alert("Pendaftaran gagal: " + error.message);
@@ -52,7 +54,7 @@ export default function Register() {
       const result = await signInWithPopup(auth, provider);
       console.log("Google register success:", result.user);
       alert("Pendaftaran dengan Google berhasil!");
-      // TODO: Redirect or update UI
+      navigate("/dashboard"); // ⬅️ Redirect ke dashboard
     } catch (error) {
       console.error("Google register failed:", error.message);
       alert("Gagal daftar dengan Google: " + error.message);
@@ -178,7 +180,13 @@ export default function Register() {
         </button>
 
         <p className="login-prompt">
-          Sudah punya akun? <a href="/login">Masuk</a>
+          Sudah punya akun?{" "}
+          <span
+            onClick={() => navigate("/")} // ⬅️ Navigasi ke login
+            style={{ color: "#007bff", cursor: "pointer", textDecoration: "underline" }}
+          >
+            Masuk
+          </span>
         </p>
       </div>
     </div>

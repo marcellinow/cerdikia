@@ -22,7 +22,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/pasar-buku" element={<PasarBuku />} />
         <Route path="/pembelajaran" element={<Pembelajaran />} />
         <Route path="/jadwal" element={<Jadwal />} />
@@ -37,7 +37,7 @@ function App() {
         <Route path="/kelas/6" element={<Kelas6 />} />
         <Route path="/ekstrakurikuler" element={<Ekstrakurikuler />} />
         <Route path="/peminatan" element={<Peminatan />} />
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
