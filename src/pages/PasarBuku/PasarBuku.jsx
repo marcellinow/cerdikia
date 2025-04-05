@@ -10,7 +10,7 @@ import {
 } from "lucide-react";
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
-import books from "../../data/books"; // Import books data
+import books from "../../data/Books/books"; // Import books data
 import "./PasarBuku.css";
 
 export default function PasarBuku() {

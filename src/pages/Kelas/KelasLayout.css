@@ -1,0 +1,94 @@
+/* Container utama */
+.kelas-container {
+  background-color: #f8f5f0; /* Tailwind: bg-amber-50 */
+  min-height: 100vh; /* Tailwind: min-h-screen */
+}
+
+/* Main content */
+.kelas-main {
+  padding: 24px; /* Tailwind: p-6 */
+}
+
+/* Header */
+.kelas-header {
+  margin-bottom: 24px; /* Tailwind: mb-6 */
+}
+
+.kelas-title {
+  font-size: 28px; /* Tailwind: text-3xl */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #44403c; /* Tailwind: text-stone-700 */
+}
+
+.kelas-description {
+  font-size: 16px; /* Tailwind: text-base */
+  color: #6b7280; /* Tailwind: text-gray-500 */
+}
+
+/* Grid layout */
+.kelas-grid {
+  display: grid; /* Tailwind: grid */
+  grid-template-columns: repeat(1, 1fr); /* Tailwind: grid-cols-1 */
+  gap: 16px; /* Tailwind: gap-4 */
+}
+
+@media (min-width: 640px) {
+  .kelas-grid {
+    grid-template-columns: repeat(2, 1fr); /* Tailwind: sm:grid-cols-2 */
+  }
+}
+
+@media (min-width: 1024px) {
+  .kelas-grid {
+    grid-template-columns: repeat(3, 1fr); /* Tailwind: lg:grid-cols-3 */
+  }
+}
+
+/* Card styling */
+.kelas-card {
+  background-color: #ffffff; /* Tailwind: bg-white */
+  border-radius: 8px; /* Tailwind: rounded-lg */
+  overflow: hidden; /* Tailwind: overflow-hidden */
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
+  transition: box-shadow 0.2s ease-in-out;
+}
+
+.kelas-card:hover {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+}
+
+.kelas-card-image {
+  position: relative; /* Tailwind: relative */
+  height: 200px; /* Tailwind: h-[200px] */
+  overflow: hidden; /* Tailwind: overflow-hidden */
+}
+
+.kelas-card-image img {
+  width: 100%; /* Tailwind: w-full */
+  height: 100%; /* Tailwind: h-full */
+  object-fit: cover; /* Tailwind: object-cover */
+}
+
+.kelas-card-badge {
+  position: absolute; /* Tailwind: absolute */
+  top: 8px; /* Tailwind: top-2 */
+  right: 8px; /* Tailwind: right-2 */
+  background-color: rgba(240, 240, 240, 0.9); /* Tailwind: bg-gray-100/90 */
+  padding: 4px 8px; /* Tailwind: px-2 py-1 */
+  border-radius: 4px; /* Tailwind: rounded */
+  font-size: 12px; /* Tailwind: text-xs */
+  font-weight: 500; /* Tailwind: font-medium */
+  color: #4b5563; /* Tailwind: text-gray-600 */
+}
+
+.kelas-card-content {
+  padding: 16px; /* Tailwind: p-4 */
+  text-align: center; /* Tailwind: text-center */
+}
+
+.kelas-card-title {
+  font-size: 16px; /* Tailwind: text-base */
+  font-weight: 600; /* Tailwind: font-semibold */
+  color: #1f2937; /* Tailwind: text-gray-800 */
+  line-height: 1.4; /* Tailwind: leading-tight */
+}
