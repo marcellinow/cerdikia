@@ -18,7 +18,7 @@ import Peminatan from "./src/pages/Kelas/Peminatan";
 import Login from "./src/pages/Login/Login";
 import Register from "./src/pages/Register/Register";
 import PKNModules from "./src/pages/Modul/PKN/pkn1"; 
-import INDOModules from "./src/pages/Modul/INDO/INDO1"; 
+import INDOModules from "./src/pages/Modul/Indo/Indo1"; 
 
 function App() {
   return (
