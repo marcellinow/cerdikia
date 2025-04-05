@@ -37,12 +37,14 @@ const modules = [
   },
   {
     moduleid: 5,
-    pelajaran: "",
+    pelajaran: "PKN",
     grade: 1,
     title: "Modul 5 - Keberagaman dan Persatuan dalam Masyarakat",
     description: "Pendidikan Pancasila dan Kewarganegaraan",
     pages: 20,
     path: "../PPT/dummy-content.pdf",
+  },
+  {    
     moduleid: 6,
     pelajaran: "INDO",
     grade: 1,

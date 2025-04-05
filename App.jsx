@@ -17,7 +17,8 @@ import Ekstrakurikuler from "./src/pages/Kelas/Ekstrakurikuler";
 import Peminatan from "./src/pages/Kelas/Peminatan";
 import Login from "./src/pages/Login/Login";
 import Register from "./src/pages/Register/Register";
-import PKNModules from "./src/pages/Modul/PKN/pkn1"; // Import PKNModules
+import PKNModules from "./src/pages/Modul/PKN/pkn1"; 
+import INDOModules from "./src/pages/Modul/INDO/INDO1"; 
 
 function App() {
   return (
@@ -38,10 +39,10 @@ function App() {
         <Route path="/kelas/6" element={<Kelas6 />} />
         <Route path="/ekstrakurikuler" element={<Ekstrakurikuler />} />
         <Route path="/peminatan" element={<Peminatan />} />
-        <Route path="/modul/pkn1" element={<PKNModules />} />{" "}
-        {/* Add PKNModules route */}
-        {/* <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} /> */}
+        <Route path="/modul/pkn1" element={<PKNModules />} />
+        <Route path="/modul/indo1" element={<INDOModules />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} /> 
       </Routes>
     </Router>
   );
