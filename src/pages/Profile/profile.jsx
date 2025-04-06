@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChevronLeft } from "lucide-react";
-import { getAuth } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth"; // <-- tambahkan signOut
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../../firebase/firebase";
 import Layout from "../../components/Layout";
@@ -10,10 +10,10 @@ import "./profile.css";
 export default function Profile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState(null);
+  const auth = getAuth();
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const auth = getAuth();
       const user = auth.currentUser;
 
       if (user) {
@@ -30,6 +30,17 @@ export default function Profile() {
 
     fetchUserData();
   }, []);
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      alert("Berhasil keluar.");
+      navigate("/"); // arahkan ke halaman login
+    } catch (error) {
+      console.error("Gagal logout:", error.message);
+      alert("Gagal logout: " + error.message);
+    }
+  };
 
   return (
     <Layout>
@@ -66,7 +77,7 @@ export default function Profile() {
             </p>
           </div>
 
-          <button className="profile-signout-button">
+          <button className="profile-signout-button" onClick={handleSignOut}>
             Sign Out
           </button>
         </div>
