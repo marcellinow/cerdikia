@@ -3,28 +3,37 @@ import Header from "../../components/Header";
 import Layout from "../../components/Layout";
 import { Search } from "lucide-react";
 import "./ModulLayout.css";
-import { db } from "../../firebase/firebase";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import subjects from "../../data/Subjects/subjects"; // Import subjects data
+import modules from "../../data/Modul/modules"; // Import modules data
 
 export default function ModulLayout({ title, subtitle, grade, pelajaran }) {
-  const [modules, setModules] = useState([]);
+  const [filteredModules, setFilteredModules] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchModules = async () => {
+    const fetchModules = () => {
       try {
-        const q = query(
-          collection(db, "modules"),
-          where("grade", "==", grade),
-          ...(pelajaran ? [where("pelajaran", "==", pelajaran)] : [])
+        console.log("Grade:", grade, "Pelajaran:", pelajaran);
+
+        const subject = subjects.find(
+          (subj) => subj.classId === grade && subj.subjectName === pelajaran
         );
 
-        const querySnapshot = await getDocs(q);
-        const fetchedModules = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setModules(fetchedModules);
+        if (!subject) {
+          console.error("Subject not found");
+          setFilteredModules([]);
+          return;
+        }
+
+        // Filter modules based on moduleIds from the subject
+        const modulesForSubject = modules.filter((module) =>
+          subject.moduleIds.includes(module.moduleId)
+        );
+
+        // Log the filtered modules to ensure they are fetched correctly
+        console.log("Filtered Modules:", modulesForSubject);
+
+        setFilteredModules(modulesForSubject);
       } catch (error) {
         console.error("Error fetching modules:", error);
       } finally {
@@ -52,26 +61,28 @@ export default function ModulLayout({ title, subtitle, grade, pelajaran }) {
             <p>Loading modules...</p>
           ) : (
             <div className="modul-layout-grid">
-              {modules.map((module) => (
+              {filteredModules.map((module) => (
                 <a
-                  href={`/kelas/${module.grade}/module/${module.moduleid}`}
-                  key={module.moduleid}
+                  href={`/kelas/${module.gradeLevel}/module/${module.moduleId}`}
+                  key={module.moduleId}
                   className="modul-layout-card"
                 >
                   <div className="modul-layout-card-image">
                     <img
                       src={module.image || "/placeholder.svg"}
-                      alt={module.title}
+                      alt={module.moduleTitle}
                       className="modul-layout-card-img"
                     />
                   </div>
                   <div className="modul-layout-card-content">
-                    <h3 className="modul-layout-card-title">{module.title}</h3>
+                    <h3 className="modul-layout-card-title">
+                      {module.moduleTitle}
+                    </h3>
                     <p className="modul-layout-card-description">
-                      {module.description}
+                      {module.moduleDescription}
                     </p>
                     <span className="modul-layout-card-pages">
-                      {module.pages} pages
+                      {module.totalPages} pages
                     </span>
                   </div>
                 </a>

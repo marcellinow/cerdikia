@@ -1,39 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import KelasLayout from "./KelasLayout";
-import PPKN from "../../assets/Img/PPKN.svg";
-import BINDO from "../../assets/Img/BINDO.svg";
-import MTK from "../../assets/Img/MTK.svg";
+import { db } from "../../firebase/firebase"; // Import Firestore instance
+import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 export default function Kelas1() {
-  const subjects = [
-    {
-      id: 1,
-      name: "Pendidikan Pancasila dan Kewarganegaraan",
-      image: PPKN,
-      bgColor: "bg-orange-100",
-      modules: 5,
-    },
-    {
-      id: 2,
-      name: "Bahasa Indonesia",
-      image: BINDO,
-      bgColor: "bg-red-100",
-      modules: 5,
-    },
-    {
-      id: 3,
-      name: "Matematika",
-      image: MTK,
-      bgColor: "bg-blue-100",
-      modules: 5,
-    },
-  ];
+  const [subjects, setSubjects] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        // Ambil data subjects dari Firestore
+        const querySnapshot = await getDocs(collection(db, "subjects"));
+        const subjectsData = querySnapshot.docs
+          .map((doc) => doc.data())
+          .filter((subject) => subject.classId === 1); // Filter untuk kelas 1
+        setSubjects(subjectsData);
+      } catch (error) {
+        console.error("Gagal mengambil data subjects:", error);
+      }
+    };
+
+    fetchSubjects();
+  }, []);
+
+  const handleSubjectClick = (subjectPath) => {
+    navigate(subjectPath);
+  };
 
   return (
     <KelasLayout
       title="Kelas 1"
       description="Pilih mata pelajaran untuk melihat modul."
-      subjects={subjects}
+      subjects={subjects.map((subject) => ({
+        ...subject,
+        onClick: () => handleSubjectClick(subject.subjectPath),
+      }))}
     />
   );
 }

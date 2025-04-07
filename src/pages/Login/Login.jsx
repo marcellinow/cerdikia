@@ -1,15 +1,8 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import {
-  signInWithEmailAndPassword,
-  signInWithPopup,
-} from "firebase/auth";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { auth, provider, db } from "../../firebase/firebase";
-import {
-  doc,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg";
@@ -18,6 +11,7 @@ import "./Login.css";
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
+  const [notification, setNotification] = useState(""); // State for notification
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -25,13 +19,19 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
       console.log("Login success:", userCredential.user);
-      alert("Login berhasil!");
+      setNotification("Login berhasil! Selamat datang!"); // Set success notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
       navigate("/dashboard");
     } catch (error) {
       console.error("Login error:", error.message);
-      alert("Login gagal: " + error.message);
+      setNotification("Login gagal: " + error.message); // Set error notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
     }
   };
 
@@ -50,21 +50,26 @@ export default function Login() {
           email: user.email,
           uid: user.uid,
           role: "guru",
-          createdAt: new Date()
+          createdAt: new Date(),
         });
       }
 
       console.log("Google login success:", user);
-      alert("Login Google berhasil!");
+      setNotification("Login Google berhasil! Selamat datang!"); // Set success notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
       navigate("/dashboard");
     } catch (error) {
       console.error("Google login error:", error.message);
-      alert("Login Google gagal: " + error.message);
+      setNotification("Login Google gagal: " + error.message); // Set error notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
     }
   };
 
   return (
     <div className="login-container">
+      {notification && (
+        <div className="notification">{notification}</div> // Display notification
+      )}
       <div className="login-card">
         <div className="login-logo">
           <img src={cerdikia} alt="Cerdikia Logo" />
@@ -134,7 +139,11 @@ export default function Login() {
           Belum punya akun?{" "}
           <span
             onClick={() => navigate("/register")}
-            style={{ color: "#007bff", cursor: "pointer", textDecoration: "underline" }}
+            style={{
+              color: "#007bff",
+              cursor: "pointer",
+              textDecoration: "underline",
+            }}
           >
             Daftar sekarang
           </span>

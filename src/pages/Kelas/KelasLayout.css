@@ -92,3 +92,28 @@
   color: #1f2937; /* Tailwind: text-gray-800 */
   line-height: 1.4; /* Tailwind: leading-tight */
 }
+
+/* Tombol Kembali */
+.kelas-back-button {
+  position: relative; /* Ubah posisi menjadi relatif */
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Tailwind: gap-2 */
+  background-color: transparent; /* Tailwind: bg-transparent */
+  border: none; /* Tailwind: border-0 */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  transition: color 0.2s ease-in-out;
+  margin-bottom: 16px; /* Tambahkan margin bawah untuk memberi jarak */
+}
+
+.kelas-back-button:hover {
+  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+}
+
+.kelas-back-icon {
+  height: 16px; /* Tailwind: h-4 */
+  width: 16px; /* Tailwind: w-4 */
+}

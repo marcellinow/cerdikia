@@ -16,6 +16,7 @@ import "./Register.css";
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [notification, setNotification] = useState(""); // State for notification
   const [fullName, setFullName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,7 +29,8 @@ export default function Register() {
     e.preventDefault();
 
     if (password !== confirmPassword) {
-      alert("Password dan konfirmasi tidak cocok.");
+      setNotification("Password dan konfirmasi tidak cocok."); // Set error notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
       return;
     }
 
@@ -48,14 +50,16 @@ export default function Register() {
         name: fullName,
         email: user.email,
         role: "guru",
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
-      alert("Pendaftaran berhasil!");
+      setNotification("Pendaftaran berhasil! Selamat datang!"); // Set success notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
       navigate("/dashboard");
     } catch (error) {
       console.error("Error registering:", error.message);
-      alert("Pendaftaran gagal: " + error.message);
+      setNotification("Pendaftaran gagal: " + error.message); // Set error notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
     }
   };
 
@@ -70,19 +74,24 @@ export default function Register() {
         name: user.displayName,
         email: user.email,
         role: "guru",
-        createdAt: new Date()
+        createdAt: new Date(),
       });
 
-      alert("Pendaftaran dengan Google berhasil!");
+      setNotification("Pendaftaran dengan Google berhasil! Selamat datang!"); // Set success notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
       navigate("/dashboard");
     } catch (error) {
       console.error("Google register failed:", error.message);
-      alert("Gagal daftar dengan Google: " + error.message);
+      setNotification("Pendaftaran dengan Google gagal: " + error.message); // Set error notification
+      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
     }
   };
 
   return (
     <div className="register-container">
+      {notification && (
+        <div className="notification">{notification}</div> // Display notification
+      )}
       <div className="register-card">
         <div className="register-logo">
           <img src={cerdikia} alt="Cerdikia Logo" />
