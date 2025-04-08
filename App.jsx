@@ -19,6 +19,7 @@ import Login from "./src/pages/Login/Login";
 import Register from "./src/pages/Register/Register";
 import PKNModules from "./src/pages/Modul/PKN/pkn1";
 import INDOModules from "./src/pages/Modul/Indo/Indo1";
+import ARPage from "./src/pages/AR/ARPage";
 
 function App() {
   return (
@@ -43,6 +44,7 @@ function App() {
         <Route path="/peminatan" element={<Peminatan />} />
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/ar" element={<ARPage />} />
       </Routes>
     </Router>
   );
