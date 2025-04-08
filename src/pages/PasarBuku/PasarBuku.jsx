@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   ShoppingCart,
@@ -10,10 +10,12 @@ import {
 } from "lucide-react";
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
-import books from "../../data/Books/books"; // Import books data
 import "./PasarBuku.css";
+import { db } from "../../firebase/firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function PasarBuku() {
+  const [books, setBooks] = useState([]);
   const [selectedGrade, setSelectedGrade] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortState, setSortState] = useState(0);
@@ -24,7 +26,23 @@ export default function PasarBuku() {
 
   const navigate = useNavigate();
 
-  // Filter books based on selected grade and category
+  useEffect(() => {
+    const fetchBooks = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "books"));
+        const bookData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setBooks(bookData);
+      } catch (error) {
+        console.error("Gagal mengambil buku:", error);
+      }
+    };
+
+    fetchBooks();
+  }, []);
+
   const filteredBooks = books.filter((book) => {
     const gradeMatch =
       selectedGrade !== null ? book.grade === selectedGrade : true;
@@ -33,13 +51,9 @@ export default function PasarBuku() {
     return gradeMatch && categoryMatch;
   });
 
-  // Sort books based on sortState
   const sortedBooks = [...filteredBooks].sort((a, b) => {
-    if (sortState === 1) {
-      return a.grade - b.grade;
-    } else if (sortState === 2) {
-      return b.grade - a.grade;
-    }
+    if (sortState === 1) return a.grade - b.grade;
+    if (sortState === 2) return b.grade - a.grade;
     return 0;
   });
 
@@ -51,7 +65,6 @@ export default function PasarBuku() {
           <div className="pasar-buku-header">
             <h1 className="pasar-buku-title">Pasar Buku</h1>
             <div className="pasar-buku-actions">
-              {/* Sort Button */}
               <button
                 className="pasar-buku-button"
                 onClick={() => setSortState((prev) => (prev + 1) % 3)}
@@ -62,7 +75,6 @@ export default function PasarBuku() {
                 {sortState === 2 && <ChevronDown className="pasar-buku-icon" />}
               </button>
 
-              {/* Filter Button */}
               <button
                 className="pasar-buku-button"
                 onClick={() => setIsFilterOpen(true)}
@@ -71,7 +83,6 @@ export default function PasarBuku() {
                 <span>Filter</span>
               </button>
 
-              {/* Cart Button */}
               <button
                 className="pasar-buku-button pasar-buku-cart"
                 onClick={() => navigate("/keranjang")}
@@ -82,7 +93,6 @@ export default function PasarBuku() {
             </div>
           </div>
 
-          {/* Filter Modal */}
           {isFilterOpen && (
             <div className="filter-modal">
               <div className="filter-modal-content">
@@ -140,7 +150,6 @@ export default function PasarBuku() {
             </div>
           )}
 
-          {/* Book Grid */}
           <div className="pasar-buku-grid">
             {sortedBooks.map((book) => (
               <div
@@ -186,7 +195,6 @@ export default function PasarBuku() {
             ))}
           </div>
 
-          {/* Book Detail Modal */}
           {isBookDetailModalOpen && selectedBook && (
             <div className="filter-modal">
               <div className="filter-modal-content">
@@ -228,7 +236,6 @@ export default function PasarBuku() {
             </div>
           )}
 
-          {/* Notification */}
           {notification && (
             <div className="notification">
               <p>{notification}</p>
