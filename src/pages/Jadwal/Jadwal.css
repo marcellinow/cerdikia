@@ -614,3 +614,12 @@
 .month-button.active:hover {
   background-color: #2563eb;
 }
+
+/* Loading state */
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  color: #6b7280;
+}

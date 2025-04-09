@@ -3,6 +3,21 @@ import { ChevronLeft, ChevronRight, Plus, Filter, ChevronDown, X, Clock } from "
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
 import "./Jadwal.css";
+// Import Firebase modules
+import { initializeApp } from "firebase/app";
+import { 
+  getFirestore, 
+  collection, 
+  addDoc, 
+  getDocs, 
+  deleteDoc, 
+  doc, 
+  query, 
+  where, 
+  Timestamp 
+} from "firebase/firestore";
+import { db } from "../../firebase/firebase";
+import { getAuth } from "firebase/auth";
 
 export default function Jadwal() {
   // State untuk tanggal, view, dan event
@@ -20,6 +35,7 @@ export default function Jadwal() {
   const [showMonthDropdown, setShowMonthDropdown] = useState(false);
   const [realTime, setRealTime] = useState(new Date());
   const [timeError, setTimeError] = useState("");
+  const [loading, setLoading] = useState(true);
   
   const monthDropdownRef = useRef(null);
 
@@ -46,6 +62,18 @@ export default function Jadwal() {
     setCurrentMonth(`${months[currentDate.getMonth()]} ${currentDate.getFullYear()}`);
   }, [currentDate]);
 
+  // Fetch events from Firebase when component mounts
+  useEffect(() => {
+    fetchEvents();
+    
+    // Clean up function
+    return () => {
+      // Cleanup any active listeners here
+      setCustomEvents([]);
+      setLoading(false);
+    };
+  }, []);
+
   // Real-time clock update
   useEffect(() => {
     const timer = setInterval(() => {
@@ -66,6 +94,111 @@ export default function Jadwal() {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [monthDropdownRef]);
+
+  // Firebase Functions
+  const fetchEvents = async () => {
+    try {
+      setLoading(true);
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      let eventsQuery;
+      if (user) {
+        // If user is logged in, get their events
+        eventsQuery = query(
+          collection(db, "schedules"),
+          where("uid", "in", [user.uid, "public"]) // Get both user's events and public events
+        );
+      } else {
+        // If no user, only get public events
+        eventsQuery = query(
+          collection(db, "schedules"),
+          where("uid", "==", "public")
+        );
+      }
+
+      const eventsSnapshot = await getDocs(eventsQuery);
+      const eventsData = eventsSnapshot.docs.map(doc => {
+        const data = doc.data();
+        return {
+          id: doc.id,
+          title: data.title || "",
+          color: data.color || "orange",
+          time: data.time || "",
+          date: data.date instanceof Timestamp ? 
+            new Date(data.date.seconds * 1000) : 
+            new Date(),
+          uid: data.uid || "public"
+        };
+      });
+      
+      setCustomEvents(eventsData);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      alert("Gagal mengambil data jadwal. Silakan coba lagi.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addEventToFirebase = async (eventData) => {
+    try {
+      if (!eventData.title || !eventData.date) {
+        throw new Error("Data event tidak lengkap");
+      }
+
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      const firestoreEvent = {
+        ...eventData,
+        date: Timestamp.fromDate(eventData.date),
+        createdAt: Timestamp.now(),
+        uid: user ? user.uid : "public" // Use public if no user is logged in
+      };
+      
+      const docRef = await addDoc(collection(db, "schedules"), firestoreEvent);
+      
+      setCustomEvents(prev => [
+        ...prev,
+        { 
+          ...eventData, 
+          id: docRef.id,
+          date: eventData.date,
+          uid: firestoreEvent.uid
+        }
+      ]);
+      
+      return docRef.id;
+    } catch (error) {
+      console.error("Error adding event:", error);
+      throw error;
+    }
+  };
+
+  const deleteEventFromFirebase = async (eventId) => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      
+      // Get the event first to check ownership
+      const eventDoc = await getDoc(doc(db, "schedules", eventId));
+      const eventData = eventDoc.data();
+
+      // Only allow deletion if the event is public or owned by the user
+      if (!eventData.uid || eventData.uid === "public" || (user && eventData.uid === user.uid)) {
+        await deleteDoc(doc(db, "schedules", eventId));
+        setCustomEvents(customEvents.filter(event => event.id !== eventId));
+        return true;
+      } else {
+        throw new Error("Anda tidak memiliki izin untuk menghapus event ini");
+      }
+    } catch (error) {
+      console.error("Error deleting event: ", error);
+      alert(error.message || "Gagal menghapus event");
+      return false;
+    }
+  };
 
   // Generate calendar days for monthly view
   const generateCalendarDays = () => {
@@ -226,7 +359,7 @@ export default function Jadwal() {
 
   // Find events for a specific date
   const getEventsForDate = (day) => {
-    // Custom events
+    // Custom events from Firebase
     const customEventsForDay = customEvents.filter(event => {
       const eventDate = new Date(event.date);
       return eventDate.getDate() === day.day && 
@@ -328,7 +461,7 @@ export default function Jadwal() {
     setTimeError("");
   };
 
-  const handleSaveEvent = () => {
+  const handleSaveEvent = async () => {
     if (!newEvent.title.trim()) {
       alert("Judul event tidak boleh kosong");
       return;
@@ -342,26 +475,40 @@ export default function Jadwal() {
     
     const formattedTime = formatTimeString(newEvent.time);
     
-    setCustomEvents([
-      ...customEvents,
-      {
-        ...newEvent,
-        time: formattedTime,
-        date: selectedDate.date
-      }
-    ]);
-
-    // Reset form
-    setNewEvent({ title: "", color: "orange", time: "" });
-    setShowEventForm(false);
-    setTimeError("");
+    const eventData = {
+      title: newEvent.title,
+      color: newEvent.color,
+      time: formattedTime,
+      date: selectedDate.date
+    };
+    
+    // Add event to Firebase
+    const eventId = await addEventToFirebase(eventData);
+    
+    if (eventId) {
+      // Reset form after successful addition
+      setNewEvent({ title: "", color: "orange", time: "" });
+      setShowEventForm(false);
+      setTimeError("");
+    } else {
+      alert("Gagal menambahkan event. Silakan coba lagi.");
+    }
   };
 
-  const handleDeleteEvent = (eventToDelete) => {
-    setCustomEvents(customEvents.filter(event => 
-      event.title !== eventToDelete.title || 
-      new Date(event.date).getTime() !== new Date(eventToDelete.date).getTime()
-    ));
+  const handleDeleteEvent = async (eventToDelete) => {
+    if (eventToDelete.id) {
+      // Delete event from Firebase if it has an ID
+      const success = await deleteEventFromFirebase(eventToDelete.id);
+      if (!success) {
+        alert("Gagal menghapus event. Silakan coba lagi.");
+      }
+    } else {
+      // Handle deletion of hardcoded events or events without ID
+      setCustomEvents(customEvents.filter(event => 
+        event.title !== eventToDelete.title || 
+        new Date(event.date).getTime() !== new Date(eventToDelete.date).getTime()
+      ));
+    }
   };
 
   const toggleFilter = (color) => {
@@ -411,20 +558,16 @@ export default function Jadwal() {
                           {event.title}
                         </div>
                         {event.time && <div className="event-time">{event.time}</div>}
-                        {customEvents.some(e => 
-                          e.title === event.title && 
-                          new Date(e.date).getTime() === day.date.getTime()
-                        ) && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteEvent({ ...event, date: day.date });
-                            }}
-                            className="event-delete-btn"
-                          >
-                            ×
-                          </button>
-                        )}
+                        {/* Show delete button for all events since we can delete both custom and Firebase events */}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteEvent(event);
+                          }}
+                          className="event-delete-btn"
+                        >
+                          ×
+                        </button>
                       </div>
                     );
                   })}
@@ -479,20 +622,15 @@ export default function Jadwal() {
                           {event.title}
                         </div>
                         {event.time && <div className="event-time">{event.time}</div>}
-                        {customEvents.some(e => 
-                          e.title === event.title && 
-                          new Date(e.date).getTime() === day.date.getTime()
-                        ) && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              handleDeleteEvent({ ...event, date: day.date });
-                            }}
-                            className="event-delete-btn"
-                          >
-                            ×
-                          </button>
-                        )}
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleDeleteEvent(event);
+                          }}
+                          className="event-delete-btn"
+                        >
+                          ×
+                        </button>
                       </div>
                     );
                   })}
@@ -615,19 +753,12 @@ export default function Jadwal() {
                             {event.title}
                           </div>
                           <div className="event-time">{event.time}</div>
-                          {customEvents.some(e => 
-                            e.title === event.title && 
-                            new Date(e.date).getDate() === currentDate.getDate() &&
-                            new Date(e.date).getMonth() === currentDate.getMonth() &&
-                            new Date(e.date).getFullYear() === currentDate.getFullYear()
-                          ) && (
-                            <button
-                              onClick={() => handleDeleteEvent({ ...event, date: currentDate })}
-                              className="event-delete-btn"
-                            >
-                              ×
-                            </button>
-                          )}
+                          <button
+                            onClick={() => handleDeleteEvent(event)}
+                            className="event-delete-btn"
+                          >
+                            ×
+                          </button>
                         </div>
                       );
                     })}
@@ -646,233 +777,198 @@ export default function Jadwal() {
       <div className="jadwal-container">
         <Header />
         <main className="jadwal-main">
-          {/* Calendar Title and View Tabs */}
-          <div className="jadwal-header">
-            <div className="jadwal-title-container">
-              <h1 className="jadwal-title">Calendar</h1>
-              <div className="jadwal-tabs">
-                {["Monthly", "Weekly", "Daily"].map((v) => (
-                  <button
-                    key={v}
-                    className={`jadwal-tab ${view === v ? "active" : ""}`}
-                    onClick={() => setView(v)}
-                  >
-                    {v}
-                  </button>
-                ))}
-              </div>
+          {loading ? (
+            <div className="loading-state">
+              <span>Loading calendar...</span>
             </div>
-            <div className="jadwal-actions">
-              <button 
-                className="jadwal-button filter"
-                onClick={() => setShowFilter(!showFilter)}
-              >
-                <Filter size={16} />
-                <span>Filter</span>
-              </button>
-              <button 
-                className="jadwal-button add"
-                onClick={handleAddEvent}
-              >
-                <Plus size={16} />
-                <span>Add Event</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Filter dropdown */}
-          {showFilter && (
-            <div className="filter-dropdown">
-              <div className="filter-heading">Filter by category:</div>
-              <div className="filter-options">
-                {["red", "yellow", "green", "purple", "orange"].map((color) => (
-                  <div key={color} className="filter-option">
-                    <input
-                      type="checkbox"
-                      id={`filter-${color}`}
-                      checked={activeFilters[color]}
-                      onChange={() => toggleFilter(color)}
-                    />
-                    <label 
-                      htmlFor={`filter-${color}`}
-                      className={`filter-label ${color}`}
-                    >
-                      {color.charAt(0).toUpperCase() + color.slice(1)}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Month Navigation */}
-          <div className="jadwal-month-navigation">
-            <div className="jadwal-month-controls">
-              <div 
-                className="jadwal-month-selector"
-                onClick={() => setShowMonthDropdown(!showMonthDropdown)}
-                ref={monthDropdownRef}
-              >
-                <span>{currentMonth}</span>
-                <ChevronDown size={16} />
-                
-                {/* Month Dropdown Calendar - Improved styling */}
-                {showMonthDropdown && (
-                  <div className="month-dropdown-calendar">
-                    <div className="month-dropdown-years">
-                      {generateMiniCalendar().years.map(year => (
-                        <button 
-                          key={year}
-                          className={`year-button ${year === currentDate.getFullYear() ? "active" : ""}`}
-                          onClick={() => handleYearSelect(year)}
-                        >
-                          {year}
-                        </button>
-                      ))}
-                    </div>
-                    <div className="month-grid">
-                      {generateMiniCalendar().calendarRows.map((row, rowIndex) => (
-                        <div key={rowIndex} className="month-row">
-                          {row.map(month => (
-                            <button 
-                              key={month.index}
-                              className={`month-button ${month.index === currentDate.getMonth() ? "active" : ""}`}
-                              onClick={() => handleMonthSelect(month.index)}
-                            >
-                              {month.month.slice(0, 3)}
-                            </button>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-              </div>
-              <div className="jadwal-navigation-arrows">
-                <button className="nav-button" onClick={handlePrevious}>
-                  <ChevronLeft size={16} />
-                </button>
-                <button className="jadwal-today-button" onClick={handleToday}>Today</button>
-                <button className="nav-button" onClick={handleNext}>
-                  <ChevronRight size={16} />
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Event Form Modal */}
-          {showEventForm && (
-            <div className="modal-overlay">
-              <div className="modal-container">
-                <div className="modal-header">
-                  <h3 className="modal-title">Add New Event</h3>
-                  <button 
-                    onClick={() => {
-                      setShowEventForm(false);
-                      setTimeError("");
-                    }}
-                    className="modal-close-btn"
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-                
-                <div className="modal-field">
-                  <label htmlFor="event-title">Title:</label>
-                  <input
-                    type="text"
-                    id="event-title"
-                    value={newEvent.title}
-                    onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
-                    placeholder="Enter event title"
-                    className="modal-input"
-                  />
-                </div>
-                
-                <div className="modal-field">
-                  <label htmlFor="event-time">Time (optional):</label>
-                  <input
-                    type="text"
-                    id="event-time"
-                    value={newEvent.time}
-                    onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
-                    placeholder="Example: 09:00 - 10:30"
-                    className={`modal-input ${timeError ? "input-error" : ""}`}
-                  />
-                  {timeError && <div className="error-message">{timeError}</div>}
-                </div>
-                
-                <div className="modal-field">
-                  <label>Category Color:</label>
-                  <div className="color-selection">
-                    {["red", "yellow", "green", "purple", "orange"].map((color) => (
-                      <div
-                        key={color}
-                        className={`color-option ${color} ${newEvent.color === color ? "selected" : ""}`}
-                        onClick={() => setNewEvent({ ...newEvent, color })}
-                      />
+          ) : (
+            <>
+              {/* Calendar Title and View Tabs */}
+              <div className="jadwal-header">
+                <div className="jadwal-title-container">
+                  <h1 className="jadwal-title">Calendar</h1>
+                  <div className="jadwal-tabs">
+                    {["Monthly", "Weekly", "Daily"].map((v) => (
+                      <button
+                        key={v}
+                        className={`jadwal-tab ${view === v ? "active" : ""}`}
+                        onClick={() => setView(v)}
+                      >
+                        {v}
+                      </button>
                     ))}
                   </div>
                 </div>
-                
-                <div className="modal-actions">
+                <div className="jadwal-actions">
                   <button 
-                    onClick={() => {
-                      setShowEventForm(false);
-                      setTimeError("");
-                    }}
-                    className="cancel-btn"
+                    className="jadwal-button filter"
+                    onClick={() => setShowFilter(!showFilter)}
                   >
-                    Cancel
+                    <Filter size={16} />
+                    <span>Filter</span>
                   </button>
-                  <button onClick={handleSaveEvent} className="save-btn">
-                    Save Event
+                  <button 
+                    className="jadwal-button add"
+                    onClick={handleAddEvent}
+                  >
+                    <Plus size={16} />
+                    <span>Add Event</span>
                   </button>
                 </div>
               </div>
-            </div>
-          )}
 
-          {/* Calendar Views */}
-          <div className="jadwal-calendar-container">
-            {view === "Monthly" && renderMonthlyView()}
-            {view === "Weekly" && renderWeeklyView()}
-            {view === "Daily" && renderDailyView()}
-          </div>
-          
-          {/* Selected date information */}
-          {selectedDate && (
-            <div className="selected-date-info">
-              <h3>
-                {getDayName(selectedDate.date)}, {selectedDate.date.toLocaleDateString()}
-              </h3>
-              <div className="selected-date-events">
-                {getEventsForDate(selectedDate).length === 0 ? (
-                  <div className="no-events-message">No events scheduled for this day</div>
-                ) : (
-                  <div className="events-list">
-                    <h4>Events:</h4>
-                    {getEventsForDate(selectedDate).map((event, index) => (
-                      <div key={index} className={`event-list-item ${event.color}`}>
-                        <div className="event-list-title">{event.title}</div>
-                        {event.time && <div className="event-list-time">{event.time}</div>}
-                        {customEvents.some(e => 
-                          e.title === event.title && 
-                          new Date(e.date).getTime() === selectedDate.date.getTime()
-                        ) && (
-                          <button
-                            onClick={() => handleDeleteEvent({ ...event, date: selectedDate.date })}
-                            className="event-delete-btn list-delete"
-                          >
-                            <X size={14} />
-                          </button>
-                        )}
+              {/* Filter dropdown */}
+              {showFilter && (
+                <div className="filter-dropdown">
+                  <div className="filter-heading">Filter by category:</div>
+                  <div className="filter-options">
+                    {["red", "yellow", "green", "purple", "orange"].map((color) => (
+                      <div key={color} className="filter-option">
+                        <input
+                          type="checkbox"
+                          id={`filter-${color}`}
+                          checked={activeFilters[color]}
+                          onChange={() => toggleFilter(color)}
+                        />
+                        <label 
+                          htmlFor={`filter-${color}`}
+                          className={`filter-label ${color}`}
+                        >
+                          {color.charAt(0).toUpperCase() + color.slice(1)}
+                        </label>
                       </div>
                     ))}
                   </div>
-                )}
+                </div>
+              )}
+
+              {/* Month navigation */}
+              <div className="jadwal-month-navigation">
+                <div className="jadwal-month-controls">
+                  <div 
+                    className="jadwal-month-selector"
+                    onClick={() => setShowMonthDropdown(!showMonthDropdown)}
+                    ref={monthDropdownRef}
+                  >
+                    <span>{currentMonth}</span>
+                    <ChevronDown size={16} />
+                    {showMonthDropdown && (
+                      <div className="month-dropdown-calendar">
+                        <div className="month-dropdown-years">
+                          {generateMiniCalendar().years.map((year) => (
+                            <button
+                              key={year}
+                              className={`year-button ${year === currentDate.getFullYear() ? 'active' : ''}`}
+                              onClick={() => handleYearSelect(year)}
+                            >
+                              {year}
+                            </button>
+                          ))}
+                        </div>
+                        <div className="month-grid">
+                          {generateMiniCalendar().calendarRows.map((row, i) => (
+                            <div key={i} className="month-row">
+                              {row.map((item) => (
+                                <button
+                                  key={item.month}
+                                  className={`month-button ${
+                                    item.index === currentDate.getMonth() ? 'active' : ''
+                                  }`}
+                                  onClick={() => handleMonthSelect(item.index)}
+                                >
+                                  {item.month.slice(0, 3)}
+                                </button>
+                              ))}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="jadwal-navigation-arrows">
+                    <button className="nav-button" onClick={handlePrevious}>
+                      <ChevronLeft size={16} />
+                    </button>
+                    <button className="jadwal-today-button" onClick={handleToday}>
+                      Today
+                    </button>
+                    <button className="nav-button" onClick={handleNext}>
+                      <ChevronRight size={16} />
+                    </button>
+                  </div>
+                </div>
               </div>
-            </div>
+
+              {/* Calendar Views */}
+              {view === "Monthly" && renderMonthlyView()}
+              {view === "Weekly" && renderWeeklyView()}
+              {view === "Daily" && renderDailyView()}
+
+              {/* Event Form Modal */}
+              {showEventForm && (
+                <div className="modal-overlay">
+                  <div className="modal-container">
+                    <div className="modal-header">
+                      <h2 className="modal-title">Add Event</h2>
+                      <button 
+                        className="modal-close-btn"
+                        onClick={() => setShowEventForm(false)}
+                      >
+                        <X size={16} />
+                      </button>
+                    </div>
+                    <div className="modal-field">
+                      <label className="modal-label" htmlFor="event-title">Title:</label>
+                      <input
+                        id="event-title"
+                        type="text"
+                        className="modal-input"
+                        value={newEvent.title}
+                        onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                        placeholder="Enter event title"
+                      />
+                    </div>
+                    <div className="modal-field">
+                      <label className="modal-label" htmlFor="event-time">Time (optional):</label>
+                      <input
+                        id="event-time"
+                        type="text"
+                        className="modal-input"
+                        value={newEvent.time}
+                        onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
+                        placeholder="HH:MM - HH:MM (e.g., 09:00 - 10:30)"
+                      />
+                      {timeError && <div className="error-text">{timeError}</div>}
+                    </div>
+                    <div className="color-options">
+                      {["red", "yellow", "green", "purple", "orange"].map((color) => (
+                        <button
+                          key={color}
+                          className={`color-option ${color} ${
+                            newEvent.color === color ? "selected" : ""
+                          }`}
+                          onClick={() => setNewEvent({ ...newEvent, color })}
+                        />
+                      ))}
+                    </div>
+                    <div className="modal-footer">
+                      <button 
+                        className="modal-cancel-btn"
+                        onClick={() => setShowEventForm(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button 
+                        className="modal-save-btn"
+                        onClick={handleSaveEvent}
+                      >
+                        Save Event
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </main>
       </div>
