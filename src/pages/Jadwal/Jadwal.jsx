@@ -202,7 +202,7 @@ export default function Jadwal() {
 
   // Parse time to position in daily view
   const parseTimeToPosition = (timeString) => {
-    if (!timeString) return { start: 0, duration: 0 };
+    if (!timeString) return { start: 0, duration: 0, startHour: 0 };
     
     const [startTime] = timeString.split("-").map(t => t.trim());
     const [startHour, startMinute] = startTime.split(":").map(Number);
@@ -221,7 +221,7 @@ export default function Jadwal() {
     const endPosition = (endHour * 60 + endMinute) / 1440 * 100;
     const duration = endPosition - startPosition;
     
-    return { start: startPosition, duration };
+    return { start: startPosition, duration, startHour };
   };
 
   // Find events for a specific date
@@ -518,6 +518,19 @@ export default function Jadwal() {
     const currentMinute = new Date().getMinutes();
     const isCurrentDay = currentDate.toDateString() === new Date().toDateString();
     
+    // Calculate positions for all events once
+    const eventsWithPosition = dayEvents
+      .filter(event => event.time) // Only timed events
+      .map(event => {
+        const { start, duration, startHour } = parseTimeToPosition(event.time);
+        return {
+          ...event,
+          start,
+          duration,
+          startHour
+        };
+      });
+    
     return (
       <div className="jadwal-calendar daily-view">
         <div className="daily-view-header">
@@ -533,6 +546,15 @@ export default function Jadwal() {
         <div className="daily-view-content">
           {hours.map((hour) => {
             const isCurrentHour = hour === currentHour && isCurrentDay;
+            // Get events that span this hour
+            const hourEvents = eventsWithPosition.filter(event => {
+              // The event starts in this hour or covers this hour
+              const startHour = Math.floor(event.start / (100/24));
+              const eventDurationInHours = event.duration / (100/24);
+              const endHour = startHour + eventDurationInHours;
+              
+              return startHour === hour || (startHour < hour && endHour > hour);
+            });
             
             return (
               <div key={hour} className={`daily-hour-row ${isCurrentHour ? "current-hour" : ""}`}>
@@ -549,29 +571,43 @@ export default function Jadwal() {
                   )}
                   
                   <div className="daily-hour-events">
-                    {dayEvents.map((event, i) => {
-                      if (!event.time) return null;
-                      
-                      const { start, duration } = parseTimeToPosition(event.time);
-                      const [startTime] = event.time.split(" - ");
-                      const [eventHour] = startTime.split(":").map(Number);
-                      
-                      // Only render if this event starts in this hour slot
-                      if (Math.floor(start / (100/24)) !== hour) return null;
-                      
-                      const minuteInHour = parseInt(startTime.split(":")[1]);
-                      const topOffset = (minuteInHour / 60) * 100;
-                      
+                    {hourEvents.map((event, i) => {
                       const isCurrentEvent = isEventNow(event) && isCurrentDay;
+                      
+                      // Calculate relative position within this hour cell
+                      let topPosition = 0;
+                      let heightPercent = 100; // default to fill the hour
+                      
+                      if (event.startHour === hour) {
+                        // If event starts in this hour, calculate top position
+                        const [startTime] = event.time.split(" - ");
+                        const minuteInHour = parseInt(startTime.split(":")[1]);
+                        topPosition = (minuteInHour / 60) * 100;
+                        
+                        // Calculate how much of the event fits in this hour
+                        const remainingMinutesInHour = 60 - minuteInHour;
+                        const eventDurationInMinutes = (event.duration / 100) * 1440;
+                        const heightInThisHour = Math.min(remainingMinutesInHour, eventDurationInMinutes);
+                        heightPercent = (heightInThisHour / 60) * 100;
+                      } else if (event.startHour < hour) {
+                        // If event started in a previous hour, it continues from the top
+                        topPosition = 0;
+                        
+                        // Calculate how much of the event remains in this hour
+                        const eventEndHour = event.startHour + (event.duration / (100/24));
+                        const remainingHours = eventEndHour - hour;
+                        heightPercent = Math.min(100, remainingHours * 100);
+                      }
                       
                       return (
                         <div 
                           key={i} 
                           className={`event timed-event ${event.color} ${isCurrentEvent ? "current-event" : ""}`}
                           style={{ 
-                            top: `${topOffset}%`,
-                            height: `${(duration / (100/24)) * 100}%`,
-                            minHeight: "30px"  // Ensure minimum height for visibility
+                            top: `${topPosition}%`,
+                            height: `${heightPercent}%`,
+                            minHeight: "30px",  // Ensure minimum height for visibility
+                            zIndex: 10 // Ensure events are above hour lines
                           }}
                         >
                           <div className="event-title">
@@ -680,7 +716,7 @@ export default function Jadwal() {
                 <span>{currentMonth}</span>
                 <ChevronDown size={16} />
                 
-                {/* Month Dropdown Calendar */}
+                {/* Month Dropdown Calendar - Improved styling */}
                 {showMonthDropdown && (
                   <div className="month-dropdown-calendar">
                     <div className="month-dropdown-years">
@@ -742,77 +778,102 @@ export default function Jadwal() {
                 </div>
                 
                 <div className="modal-field">
-                  <div style={{ marginBottom: "8px" }}>Date:</div>
-                  <div style={{ fontWeight: "500" }}>
-                    {selectedDate ? selectedDate.date.toDateString() : "No date selected"}
-                  </div>
-                </div>
-                
-                <div className="modal-field">
-                  <label className="modal-label">Title:</label>
+                  <label htmlFor="event-title">Title:</label>
                   <input
                     type="text"
+                    id="event-title"
                     value={newEvent.title}
                     onChange={(e) => setNewEvent({ ...newEvent, title: e.target.value })}
+                    placeholder="Enter event title"
                     className="modal-input"
                   />
                 </div>
                 
                 <div className="modal-field">
-                  <label className="modal-label">Time (format: HH:MM - HH:MM):</label>
+                  <label htmlFor="event-time">Time (optional):</label>
                   <input
                     type="text"
-                    placeholder="e.g. 10:00 - 11:00"
+                    id="event-time"
                     value={newEvent.time}
-                    onChange={(e) => {
-                      setNewEvent({ ...newEvent, time: e.target.value });
-                      if (e.target.value && !validateTimeFormat(e.target.value)) {
-                        setTimeError("Format waktu harus valid (contoh: 09:00 - 10:30) dan waktu akhir harus setelah waktu awal");
-                      } else {
-                        setTimeError("");
-                      }
-                    }}
-                    className={`modal-input ${timeError ? "error" : ""}`}
+                    onChange={(e) => setNewEvent({ ...newEvent, time: e.target.value })}
+                    placeholder="Example: 09:00 - 10:30"
+                    className={`modal-input ${timeError ? "input-error" : ""}`}
                   />
-                  {timeError && <div className="time-error">{timeError}</div>}
+                  {timeError && <div className="error-message">{timeError}</div>}
                 </div>
                 
-                <div>
-                  <label className="modal-label">Category:</label>
-                  <div className="color-options">
+                <div className="modal-field">
+                  <label>Category Color:</label>
+                  <div className="color-selection">
                     {["red", "yellow", "green", "purple", "orange"].map((color) => (
-                      <button
+                      <div
                         key={color}
-                        onClick={() => setNewEvent({ ...newEvent, color })}
                         className={`color-option ${color} ${newEvent.color === color ? "selected" : ""}`}
+                        onClick={() => setNewEvent({ ...newEvent, color })}
                       />
                     ))}
                   </div>
                 </div>
-                <div className="modal-footer">
-                  <button onClick={handleSaveEvent} className="modal-save-btn">
-                    Save Event
-                  </button>
+                
+                <div className="modal-actions">
                   <button 
                     onClick={() => {
                       setShowEventForm(false);
                       setTimeError("");
-                    }} 
-                    className="modal-cancel-btn"
+                    }}
+                    className="cancel-btn"
                   >
                     Cancel
+                  </button>
+                  <button onClick={handleSaveEvent} className="save-btn">
+                    Save Event
                   </button>
                 </div>
               </div>
             </div>
           )}
 
-          {/* Calendar Content */}
+          {/* Calendar Views */}
           <div className="jadwal-calendar-container">
             {view === "Monthly" && renderMonthlyView()}
             {view === "Weekly" && renderWeeklyView()}
             {view === "Daily" && renderDailyView()}
           </div>
+          
+          {/* Selected date information */}
+          {selectedDate && (
+            <div className="selected-date-info">
+              <h3>
+                {getDayName(selectedDate.date)}, {selectedDate.date.toLocaleDateString()}
+              </h3>
+              <div className="selected-date-events">
+                {getEventsForDate(selectedDate).length === 0 ? (
+                  <div className="no-events-message">No events scheduled for this day</div>
+                ) : (
+                  <div className="events-list">
+                    <h4>Events:</h4>
+                    {getEventsForDate(selectedDate).map((event, index) => (
+                      <div key={index} className={`event-list-item ${event.color}`}>
+                        <div className="event-list-title">{event.title}</div>
+                        {event.time && <div className="event-list-time">{event.time}</div>}
+                        {customEvents.some(e => 
+                          e.title === event.title && 
+                          new Date(e.date).getTime() === selectedDate.date.getTime()
+                        ) && (
+                          <button
+                            onClick={() => handleDeleteEvent({ ...event, date: selectedDate.date })}
+                            className="event-delete-btn list-delete"
+                          >
+                            <X size={14} />
+                          </button>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
         </main>
       </div>
     </Layout>

@@ -114,6 +114,7 @@
   font-size: 18px; /* Tailwind: text-lg */
   font-weight: 600; /* Tailwind: font-semibold */
   color: #3b82f6; /* Changed from #f97316 - Tailwind: text-blue-500 */
+  position: relative; /* Add this line - Tailwind: relative */
 }
 
 .jadwal-navigation-arrows {
@@ -538,4 +539,78 @@
     padding: 2px 4px; /* Tailwind: px-1 py-0.5 */
     font-size: 10px; /* Tailwind: text-[10px] */
   }
+}
+
+/* Month dropdown calendar */
+.month-dropdown-calendar {
+  position: absolute;
+  top: 100%; /* This positions it right below the selector */
+  left: 0;
+  width: 220px;
+  background-color: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 100;
+  padding: 12px;
+  margin-top: 8px;
+}
+
+.month-dropdown-years {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.year-button {
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.year-button.active {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 500;
+}
+
+.month-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.month-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.month-button {
+  width: 60px;
+  padding: 6px 0;
+  text-align: center;
+  border-radius: 4px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 14px;
+  color: #4b5563;
+}
+
+.month-button.active {
+  background-color: #3b82f6;
+  color: white;
+  font-weight: 500;
+}
+
+.month-button:hover, .year-button:hover {
+  background-color: #f3f4f6;
+}
+
+.month-button.active:hover {
+  background-color: #2563eb;
 }
