@@ -4,20 +4,20 @@ import Header from "../../components/Header";
 import Layout from "../../components/Layout";
 import "./Jadwal.css";
 // Import Firebase modules
-import { initializeApp } from "firebase/app";
 import { 
   getFirestore, 
   collection, 
   addDoc, 
-  getDocs, 
+  getDocs,
+  getDoc, 
   deleteDoc, 
   doc, 
   query, 
   where, 
   Timestamp 
 } from "firebase/firestore";
-import { db } from "../../firebase/firebase";
 import { getAuth } from "firebase/auth";
+import { db } from "../../firebase/firebase";
 
 export default function Jadwal() {
   // State untuk tanggal, view, dan event
@@ -74,6 +74,13 @@ export default function Jadwal() {
     };
   }, []);
 
+  // Add this useEffect to refresh events when needed
+  useEffect(() => {
+    if (!loading) {
+      fetchEvents();
+    }
+  }, [currentDate]); // Refresh when date changes
+
   // Real-time clock update
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,13 +111,11 @@ export default function Jadwal() {
 
       let eventsQuery;
       if (user) {
-        // If user is logged in, get their events
         eventsQuery = query(
           collection(db, "schedules"),
-          where("uid", "in", [user.uid, "public"]) // Get both user's events and public events
+          where("uid", "in", [user.uid, "public"])
         );
       } else {
-        // If no user, only get public events
         eventsQuery = query(
           collection(db, "schedules"),
           where("uid", "==", "public")
@@ -120,14 +125,17 @@ export default function Jadwal() {
       const eventsSnapshot = await getDocs(eventsQuery);
       const eventsData = eventsSnapshot.docs.map(doc => {
         const data = doc.data();
+        // Convert Firestore Timestamp to JavaScript Date
+        const eventDate = data.date instanceof Timestamp ? 
+          data.date.toDate() : 
+          new Date();
+        
         return {
           id: doc.id,
           title: data.title || "",
           color: data.color || "orange",
           time: data.time || "",
-          date: data.date instanceof Timestamp ? 
-            new Date(data.date.seconds * 1000) : 
-            new Date(),
+          date: eventDate,
           uid: data.uid || "public"
         };
       });
@@ -151,24 +159,24 @@ export default function Jadwal() {
       const user = auth.currentUser;
 
       const firestoreEvent = {
-        ...eventData,
+        title: eventData.title,
+        color: eventData.color,
+        time: eventData.time || "",
         date: Timestamp.fromDate(eventData.date),
         createdAt: Timestamp.now(),
-        uid: user ? user.uid : "public" // Use public if no user is logged in
+        uid: user ? user.uid : "public"
       };
       
       const docRef = await addDoc(collection(db, "schedules"), firestoreEvent);
       
-      setCustomEvents(prev => [
-        ...prev,
-        { 
-          ...eventData, 
-          id: docRef.id,
-          date: eventData.date,
-          uid: firestoreEvent.uid
-        }
-      ]);
+      // Add to local state with the correct date format
+      const newEvent = {
+        ...eventData,
+        id: docRef.id,
+        uid: firestoreEvent.uid
+      };
       
+      setCustomEvents(prev => [...prev, newEvent]);
       return docRef.id;
     } catch (error) {
       console.error("Error adding event:", error);
@@ -181,20 +189,27 @@ export default function Jadwal() {
       const auth = getAuth();
       const user = auth.currentUser;
       
-      // Get the event first to check ownership
-      const eventDoc = await getDoc(doc(db, "schedules", eventId));
-      const eventData = eventDoc.data();
+      // Get the event reference
+      const eventRef = doc(db, "schedules", eventId);
+      const eventSnap = await getDoc(eventRef);
+      
+      if (!eventSnap.exists()) {
+        throw new Error("Event tidak ditemukan");
+      }
 
-      // Only allow deletion if the event is public or owned by the user
-      if (!eventData.uid || eventData.uid === "public" || (user && eventData.uid === user.uid)) {
-        await deleteDoc(doc(db, "schedules", eventId));
-        setCustomEvents(customEvents.filter(event => event.id !== eventId));
+      const eventData = eventSnap.data();
+
+      // Check permissions
+      if (eventData.uid === "public" || (user && eventData.uid === user.uid)) {
+        await deleteDoc(eventRef);
+        // Update local state
+        setCustomEvents(prev => prev.filter(event => event.id !== eventId));
         return true;
       } else {
         throw new Error("Anda tidak memiliki izin untuk menghapus event ini");
       }
     } catch (error) {
-      console.error("Error deleting event: ", error);
+      console.error("Error deleting event:", error);
       alert(error.message || "Gagal menghapus event");
       return false;
     }
@@ -367,26 +382,8 @@ export default function Jadwal() {
              eventDate.getFullYear() === day.date.getFullYear();
     });
 
-    // Predefined events
-    let predefinedEvents = [];
-    if (day.month === "current") {
-      const eventData = calendarEvents.find((event) => event.date === day.day);
-      if (eventData) {
-        predefinedEvents = eventData.events || [
-          {
-            title: eventData.title,
-            time: eventData.time,
-            color: eventData.color,
-          },
-        ];
-      }
-    }
-
-    // Apply filters
-    const allEvents = [...predefinedEvents, ...customEventsForDay]
-      .filter(event => activeFilters[event.color]);
-
-    return allEvents;
+    // Filter events based on active filters
+    return customEventsForDay.filter(event => activeFilters[event.color]);
   };
 
   // Check if event is happening now
