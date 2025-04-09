@@ -1,39 +1,48 @@
 import React, { useEffect, useState } from "react";
-import { loadVideoToAssets } from "../../videoLoader";
+import "./ARPage.css";
 
 function ARPage() {
-  const [isARReady, setIsARReady] = useState(false);
+  const [isVRReady, setIsVRReady] = useState(false);
 
   useEffect(() => {
     const loadScripts = async () => {
+      // Load only A-Frame, we don't need AR.js
       const aframeScript = document.createElement("script");
-      aframeScript.src = "https://aframe.io/releases/1.3.0/aframe.min.js";
+      aframeScript.src = "https://aframe.io/releases/1.4.2/aframe.min.js";
       aframeScript.async = true;
       document.head.appendChild(aframeScript);
 
       aframeScript.onload = () => {
-        const arjsScript = document.createElement("script");
-        arjsScript.src =
-          "https://cdn.rawgit.com/jeromeetienne/AR.js/2.0.1/aframe/build/aframe-ar.min.js";
-        arjsScript.async = true;
-        document.head.appendChild(arjsScript);
-
-        arjsScript.onload = () => {
-          setIsARReady(true);
-        };
+        setIsVRReady(true);
       };
     };
 
     loadScripts();
+
+    // Cleanup function
+    return () => {
+      const scripts = document.querySelectorAll('script[src*="aframe"]');
+      scripts.forEach(script => script.remove());
+    };
   }, []);
 
+  useEffect(() => {
+    const handler = () => {
+      const video = document.getElementById("oceannn");
+      if (video) {
+        video.play().catch((err) => console.warn("Autoplay prevented:", err));
+      }
+    };
+    window.addEventListener("click", handler);
+    return () => window.removeEventListener("click", handler);
+  }, [isVRReady]);
+
   return (
-    <div style={{ margin: 0, overflow: "hidden" }}>
-      {isARReady ? (
+    <div className="vr-container">
+      {isVRReady ? (
         <a-scene
-          vr-mode-ui="enabled: false"
-          embedded
-          arjs="sourceType: webcam; debugUIEnabled: false;"
+          vr-mode-ui="enabled: true"
+          loading-screen="dotsColor: #3b82f6; backgroundColor: #000"
         >
           <a-assets>
             <video
@@ -42,22 +51,27 @@ function ARPage() {
               preload="auto"
               loop
               muted
-              autoplay
-              crossorigin="anonymous"
               playsinline
+              webkit-playsinline
+              crossorigin="anonymous"
             ></video>
           </a-assets>
 
           <a-videosphere 
             src="#oceannn"
-            rotation="0 180 0"
-            play-on-click
+            rotation="0 -90 0"
+            material="shader: flat;"
           ></a-videosphere>
 
-          <a-camera position="0 0 0"></a-camera>
+          <a-entity position="0 1.6 0">
+            <a-camera look-controls wasd-controls></a-camera>
+          </a-entity>
         </a-scene>
       ) : (
-        <p style={{ color: "#555", padding: "2rem" }}>Loading AR environment...</p>
+        <div className="vr-loading">
+          <p>🎥 Loading VR environment...</p>
+          <p>Click to start the experience</p>
+        </div>
       )}
     </div>
   );
