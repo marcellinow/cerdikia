@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { loadVideoToAssets } from "../../videoLoader";
 
 function ARPage() {
   const [isARReady, setIsARReady] = useState(false);
@@ -18,7 +19,7 @@ function ARPage() {
         document.head.appendChild(arjsScript);
 
         arjsScript.onload = () => {
-          setIsARReady(true); // ✅ render <a-scene> hanya setelah semua siap
+          setIsARReady(true);
         };
       };
     };
@@ -41,22 +42,19 @@ function ARPage() {
               preload="auto"
               loop
               muted
-              autoPlay
-              crossOrigin="anonymous"
-              playsInline
+              autoplay
+              crossorigin="anonymous"
+              playsinline
             ></video>
           </a-assets>
 
-          <a-marker preset="hiro">
-            <a-video
-              src="#oceannn"
-              width="2"
-              height="1"
-              position="0 0 0"
-            ></a-video>
-          </a-marker>
+          <a-videosphere 
+            src="#oceannn"
+            rotation="0 180 0"
+            play-on-click
+          ></a-videosphere>
 
-          <a-entity camera></a-entity>
+          <a-camera position="0 0 0"></a-camera>
         </a-scene>
       ) : (
         <p style={{ color: "#555", padding: "2rem" }}>Loading AR environment...</p>
