@@ -107,3 +107,26 @@
   font-size: 12px;
   color: #9ca3af;
 }
+
+/* Back Button */
+.modul-layout-back-button {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Tailwind: gap-2 */
+  background-color: transparent; /* Tailwind: bg-transparent */
+  border: none; /* Tailwind: border-0 */
+  color: #3b82f6; /* Tailwind: text-blue-500 */
+  font-size: 14px; /* Tailwind: text-sm */
+  font-weight: 500; /* Tailwind: font-medium */
+  cursor: pointer; /* Tailwind: cursor-pointer */
+  margin-bottom: 16px; /* Tambahkan margin bawah untuk memberi jarak */
+}
+
+.modul-layout-back-button:hover {
+  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+}
+
+.modul-layout-back-icon {
+  height: 16px; /* Tailwind: h-4 */
+  width: 16px; /* Tailwind: w-4 */
+}

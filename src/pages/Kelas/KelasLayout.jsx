@@ -27,28 +27,31 @@ export default function KelasLayout({ title, description, subjects }) {
           </div>
 
           <div className="kelas-grid">
-            {subjects.map((subject) => (
-              <div
-                key={subject.subjectId} // Updated key
-                className="kelas-card"
-                onClick={() => navigate(subject.subjectPath)} // Updated path
-              >
-                <div className={`kelas-card-image ${subject.bgColor}`}>
-                  <img
-                    src={subject.subjectImage || "/placeholder.svg"} // Updated image key
-                    alt={subject.subjectName} // Updated name key
-                  />
-                  <div className="kelas-card-badge">
-                    {subject.moduleId?.length || 0} Modul{" "}
-                    {/* Updated module count */}
+            {subjects.map((subject) => {
+              console.log("Subject Image:", subject.subjectImage); // Log subjectImage to console
+              return (
+                <div
+                  key={subject.subjectId} // Updated key
+                  className="kelas-card"
+                  onClick={() => navigate(subject.subjectPath)} // Updated path
+                >
+                  <div className={`kelas-card-image ${subject.bgColor}`}>
+                    <img
+                      src={subject.subjectImage || "/placeholder.svg"} // Updated image key
+                      alt={subject.subjectName} // Updated name key
+                    />
+                    <div className="kelas-card-badge">
+                      {/* Updated module count */}
+                      {subject.moduleCount || 0} Modul{" "}
+                    </div>
+                  </div>
+                  <div className="kelas-card-content">
+                    <h3 className="kelas-card-title">{subject.subjectName}</h3>{" "}
+                    {/* Updated name key */}
                   </div>
                 </div>
-                <div className="kelas-card-content">
-                  <h3 className="kelas-card-title">{subject.subjectName}</h3>{" "}
-                  {/* Updated name key */}
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </main>
       </div>

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
-import { Search } from "lucide-react";
-import "./ModulLayout.css";
+import { Search, ChevronLeft } from "lucide-react"; // Import ChevronLeft icon
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./SubjectLayout.css";
 import subjects from "../../data/Subjects/subjects"; // Import subjects data
 import modules from "../../data/Modul/modules"; // Import modules data
 
-export default function ModulLayout({ title, subtitle, grade, pelajaran }) {
+export default function SubjectLayout({ title, subtitle, grade, pelajaran }) {
   const [filteredModules, setFilteredModules] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate(); // Initialize navigate
 
   useEffect(() => {
     const fetchModules = () => {
@@ -48,6 +50,14 @@ export default function ModulLayout({ title, subtitle, grade, pelajaran }) {
     <Layout>
       <div className="modul-layout-container">
         <Header />
+        {/* Back Button */}
+        <button
+          className="modul-layout-back-button"
+          onClick={() => navigate(-1)} // Navigate to the previous page
+        >
+          <ChevronLeft className="modul-layout-back-icon" />
+          <span>Kembali</span>
+        </button>
         <main className="modul-layout-main">
           <div className="modul-layout-header">
             <h1 className="modul-layout-title">{title}</h1>

@@ -16,6 +16,10 @@ export default function Kelas1() {
         const subjectsData = querySnapshot.docs
           .map((doc) => doc.data())
           .filter((subject) => subject.classId === 1); // Filter untuk kelas 1
+
+        // Log data subjects yang diambil
+        console.log("Subjects fetched:", subjectsData);
+
         setSubjects(subjectsData);
       } catch (error) {
         console.error("Gagal mengambil data subjects:", error);

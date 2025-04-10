@@ -1,55 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../../components/Header";
 import Layout from "../../components/Layout";
 import "./Pembelajaran.css";
-import PPKN from "../../assets/Img/PPKN.svg";
-import MTK from "../../assets/Img/MTK.svg";
-import SENBUD from "../../assets/Img/SENBUD.svg";
 import { ArrowDownAZ, ChevronUp, ChevronDown, Filter } from "lucide-react";
+import { db } from "../../firebase/firebase"; // Import Firestore instance
+import { collection, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Pembelajaran() {
-  const subjects = [
-    {
-      id: 1,
-      name: "Pendidikan Pancasila dan Kewarganegaraan",
-      image: PPKN,
-      bgColor: "bg-orange-100",
-      modules: 5,
-      category: "Sosial",
-    },
-    {
-      id: 3,
-      name: "Matematika",
-      image: MTK,
-      bgColor: "bg-blue-100",
-      modules: 5,
-      category: "Sains",
-    },
-    {
-      id: 5,
-      name: "Seni dan Budaya",
-      image: SENBUD,
-      bgColor: "bg-purple-100",
-      modules: 5,
-      category: "Peminatan",
-    },
-  ];
-
+  const [subjects, setSubjects] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [sortState, setSortState] = useState(0);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const navigate = useNavigate(); // Initialize navigate
 
-  // Filter subjects based on category
-  const filteredSubjects = subjects.filter((subject) => {
-    return selectedCategory ? subject.category === selectedCategory : true;
-  });
+  useEffect(() => {
+    const fetchSubjects = async () => {
+      try {
+        // Ambil data subjects dari Firestore
+        const querySnapshot = await getDocs(collection(db, "subjects"));
+        const subjectsData = querySnapshot.docs.map((doc) => doc.data());
+
+        // Filter hanya untuk PKN
+        const pknSubject = subjectsData.filter(
+          (subject) =>
+            subject.subjectName === "Pendidikan Pancasila dan Kewarganegaraan"
+        );
+
+        console.log("PKN Subject fetched:", pknSubject);
+
+        setSubjects(pknSubject);
+      } catch (error) {
+        console.error("Gagal mengambil data subjects:", error);
+      }
+    };
+
+    fetchSubjects();
+  }, []);
 
   // Sort subjects based on sortState
-  const sortedSubjects = [...filteredSubjects].sort((a, b) => {
+  const sortedSubjects = [...subjects].sort((a, b) => {
     if (sortState === 1) {
-      return a.name.localeCompare(b.name);
+      return a.subjectName.localeCompare(b.subjectName);
     } else if (sortState === 2) {
-      return b.name.localeCompare(a.name);
+      return b.subjectName.localeCompare(a.subjectName);
     }
     return 0;
   });
@@ -86,59 +80,27 @@ export default function Pembelajaran() {
             </div>
           </div>
 
-          {/* Filter Modal */}
-          {isFilterOpen && (
-            <div className="filter-modal">
-              <div className="filter-modal-content">
-                <button
-                  className="filter-modal-close"
-                  onClick={() => setIsFilterOpen(false)}
-                >
-                  <span className="filter-modal-close-icon">✕</span>
-                </button>
-                <h2 className="filter-modal-title">Filter</h2>
-                <div className="filter-group">
-                  <label htmlFor="category-filter">Kategori:</label>
-                  <select
-                    id="category-filter"
-                    value={selectedCategory || ""}
-                    onChange={(e) =>
-                      setSelectedCategory(e.target.value || null)
-                    }
-                  >
-                    <option value="">Semua</option>
-                    {["Sains", "Sosial", "Peminatan"].map((category) => (
-                      <option key={category} value={category}>
-                        {category}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  className="filter-modal-apply"
-                  onClick={() => setIsFilterOpen(false)}
-                >
-                  Terapkan Filter
-                </button>
-              </div>
-            </div>
-          )}
-
           {/* Subject Grid */}
           <div className="pembelajaran-grid">
             {sortedSubjects.map((subject) => (
-              <div key={subject.id} className="pembelajaran-card">
-                <div className={`pembelajaran-card-image ${subject.bgColor}`}>
+              <div
+                key={subject.subjectId}
+                className="pembelajaran-card"
+                onClick={() => navigate(subject.subjectPath)} // Navigate to subjectPath
+              >
+                <div className={`pembelajaran-card-image bg-orange-100`}>
                   <img
-                    src={subject.image || "/placeholder.svg"}
-                    alt={subject.name}
+                    src={subject.subjectImage || "/placeholder.svg"}
+                    alt={subject.subjectName}
                   />
                   <div className="pembelajaran-card-badge">
-                    {subject.modules} Modul
+                    {subject.moduleCount} Modul
                   </div>
                 </div>
                 <div className="pembelajaran-card-content">
-                  <h3 className="pembelajaran-card-title">{subject.name}</h3>
+                  <h3 className="pembelajaran-card-title">
+                    {subject.subjectName}
+                  </h3>
                 </div>
               </div>
             ))}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ModulLayout from "../ModulLayout";
+import ModulLayout from "../SubjectLayout";
 import { db } from "../../../firebase/firebase"; // Import Firestore instance
 import { collection, getDocs } from "firebase/firestore";
 

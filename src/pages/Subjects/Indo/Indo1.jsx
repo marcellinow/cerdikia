@@ -1,5 +1,5 @@
 import React from "react";
-import ModulLayout from "../ModulLayout";
+import ModulLayout from "../SubjectLayout";
 
 export default function INDOModules() {
   return (

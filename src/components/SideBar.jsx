@@ -3,10 +3,10 @@ import { NavLink } from "react-router-dom";
 import {
   Clock,
   BookOpen,
-  GraduationCap,
   BookMarked,
   Calendar,
   Settings,
+  Box, // Replace Cube with Box icon for AR
 } from "lucide-react";
 import cerdikiaLogo from "../assets/Img/logo-cerdikia.svg";
 import "./SideBar.css";
@@ -17,6 +17,7 @@ export default function SideBar() {
     { name: "Pembelajaran", icon: BookOpen, path: "/pembelajaran" },
     { name: "Pasar Buku", icon: BookMarked, path: "/pasar-buku" },
     { name: "Jadwal", icon: Calendar, path: "/jadwal" },
+    { name: "AR", icon: Box, path: "/ar" }, // Replace Cube with Box for AR menu item
     { name: "Pengaturan", icon: Settings, path: "/pengaturan" },
   ];
 

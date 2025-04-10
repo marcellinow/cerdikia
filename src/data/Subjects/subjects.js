@@ -1,10 +1,10 @@
 import modules from "../Modul/modules"; // Import modules data
-import PPKNImage from "../../assets/Img/PPKN.svg"; // Import image for subjectId: 1
-import INDOImage from "../../assets/Img/BINDO.svg"; // Import image for subjectId: 2
-import MTKImage from "../../assets/Img/MTK.svg"; // Import image for subjectId: 3
-import SENBUDImage from "../../assets/Img/SENBUD.svg"; // Import image for subjectId: 4
-import ENGImage from "../../assets/Img/BING.svg"; // Import image for subjectId: 5
-import PJOKImage from "../../assets/Img/PJOK.svg"; // Import image for subjectId: 6
+import PPKNImage from "/images/PPKN.svg";
+import INDOImage from "/images/BINDO.svg";
+import MTKImage from "/images/MTK.svg";
+import SENBUDImage from "/images/SENBUD.svg";
+import ENGImage from "/images/BING.svg";
+import PJOKImage from "/images/PJOK.svg";
 
 const subjects = [
   {
