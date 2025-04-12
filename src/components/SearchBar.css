@@ -1,59 +1,78 @@
-/* Container utama untuk SearchBar */
 .search-bar-container {
   position: relative;
   width: 100%;
-  max-width: 400px; /* Tailwind: max-w-md */
+  max-width: 400px;
 }
 
-/* Wrapper untuk input dan ikon pencarian */
 .search-bar-wrapper {
   position: relative;
+  width: 100%;
 }
 
-/* Ikon pencarian */
 .search-bar-icon {
   position: absolute;
-  left: 12px; /* Tailwind: left-3 */
-  top: 50%; /* Tailwind: top-1/2 */
-  height: 16px; /* Tailwind: h-4 */
-  width: 16px; /* Tailwind: w-4 */
-  transform: translateY(-50%); /* Tailwind: -translate-y-1/2 */
-  color: #9ca3af; /* Tailwind: text-gray-400 */
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
 }
 
-/* Input pencarian */
 .search-bar-input {
-  height: 40px; /* Tailwind: h-10 */
   width: 100%;
-  border-radius: 4px; /* Tailwind: rounded-md */
-  border: 1px solid #d1d5db; /* Tailwind: border-gray-300 */
-  background-color: #ffffff; /* Tailwind: bg-white */
-  padding-left: 40px; /* Tailwind: pl-10 */
-  padding-right: 16px; /* Tailwind: pr-4 */
-  font-size: 14px; /* Tailwind: text-sm */
-  outline: none;
+  height: 42px;
+  padding: 0 40px 0 42px;
+  border-radius: 50px;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
 }
 
 .search-bar-input:focus {
-  border-color: #3b82f6; /* Tailwind: focus:ring-blue-500 */
-  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5); /* Tailwind: focus:ring-2 */
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-/* Shortcut container */
+.search-bar-input::placeholder {
+  color: var(--text-muted);
+}
+
 .search-bar-shortcuts {
   position: absolute;
-  right: 12px; /* Tailwind: right-3 */
-  top: 50%; /* Tailwind: top-1/2 */
-  transform: translateY(-50%); /* Tailwind: -translate-y-1/2 */
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
-  gap: 4px; /* Tailwind: space-x-1 */
+  gap: 4px;
+  pointer-events: none;
 }
 
-/* Shortcut item */
 .search-bar-shortcut {
-  background-color: #bfdbfe; /* Tailwind: bg-blue-100 */
-  color: #1d4ed8; /* Tailwind: text-blue-800 */
-  font-size: 12px; /* Tailwind: text-xs */
-  padding: 2px 4px; /* Tailwind: px-1 */
-  border-radius: 4px; /* Tailwind: rounded */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 500;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+/* Mobile styles */
+@media (max-width: 640px) {
+  .search-bar-container {
+    max-width: 200px;
+  }
+
+  .search-bar-shortcuts {
+    display: none;
+  }
 }

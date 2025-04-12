@@ -1,13 +1,66 @@
-/* Styling untuk header utama */
 .header {
-  position: sticky; /* Tailwind: sticky */
-  top: 0; /* Tailwind: top-0 */
-  z-index: 10; /* Tailwind: z-10 */
-  display: flex; /* Tailwind: flex */
-  align-items: center; /* Tailwind: items-center */
-  justify-content: space-between; /* Tailwind: justify-between */
-  height: 64px; /* Tailwind: h-16 */
-  border-bottom: 1px solid #e5e7eb; /* Tailwind: border-b */
-  background-color: #ffffff; /* Tailwind: bg-white */
-  padding: 0 16px; /* Tailwind: px-4 */
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+  background-color: var(--card-bg);
+  padding: 0 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.2s ease;
+}
+
+.header-scrolled {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.header-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .header-title {
+    display: block;
+  }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+}
+
+.mobile-menu-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.mobile-menu-button:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+@media (min-width: 768px) {
+  .mobile-menu-button {
+    display: none;
+  }
 }
