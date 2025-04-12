@@ -1,48 +1,48 @@
-import { useState } from "react";
-import { Eye, EyeOff } from "lucide-react";
-import {
-  createUserWithEmailAndPassword,
-  updateProfile,
-  signInWithPopup,
-} from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
-import { auth, provider, db } from "../../firebase/firebase";
-import { useNavigate } from "react-router-dom";
+"use client"
 
-import cerdikia from "../../assets/Img/logo-cerdikia.svg";
-import googleLogo from "../../assets/Img/google-logo.svg";
-import "./Register.css";
+import { useState } from "react"
+import { Eye, EyeOff, UserPlus, AlertCircle, CheckCircle } from "lucide-react"
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
+import { doc, setDoc } from "firebase/firestore"
+import { auth, provider, db } from "../../firebase/firebase"
+import { useNavigate } from "react-router-dom"
+
+import cerdikia from "../../assets/Img/logo-cerdikia.svg"
+import googleLogo from "../../assets/Img/google-logo.svg"
+import "./Register.css"
 
 export default function Register() {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [notification, setNotification] = useState(""); // State for notification
-  const [fullName, setFullName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [notification, setNotification] = useState({ message: "", type: "" })
+  const [fullName, setFullName] = useState("")
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [agreeTerms, setAgreeTerms] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
+    setIsLoading(true)
 
     if (password !== confirmPassword) {
-      setNotification("Password dan konfirmasi tidak cocok."); // Set error notification
-      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
-      return;
+      setNotification({
+        message: "Password dan konfirmasi tidak cocok.",
+        type: "error",
+      })
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+      setIsLoading(false)
+      return
     }
 
     try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 
-      const user = userCredential.user;
-      await updateProfile(user, { displayName: fullName });
+      const user = userCredential.user
+      await updateProfile(user, { displayName: fullName })
 
       // Simpan data user ke Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -51,22 +51,32 @@ export default function Register() {
         email: user.email,
         role: "guru",
         createdAt: new Date(),
-      });
+      })
 
-      setNotification("Pendaftaran berhasil! Selamat datang!"); // Set success notification
-      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
-      navigate("/dashboard");
+      setNotification({
+        message: "Pendaftaran berhasil! Selamat datang!",
+        type: "success",
+      })
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+      navigate("/dashboard")
     } catch (error) {
-      console.error("Error registering:", error.message);
-      setNotification("Pendaftaran gagal: " + error.message); // Set error notification
-      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
+      console.error("Error registering:", error.message)
+      setNotification({
+        message: "Pendaftaran gagal: " + error.message,
+        type: "error",
+      })
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   const handleGoogleRegister = async () => {
+    setIsLoading(true)
+
     try {
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
+      const result = await signInWithPopup(auth, provider)
+      const user = result.user
 
       // Simpan data user ke Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -75,34 +85,53 @@ export default function Register() {
         email: user.email,
         role: "guru",
         createdAt: new Date(),
-      });
+      })
 
-      setNotification("Pendaftaran dengan Google berhasil! Selamat datang!"); // Set success notification
-      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
-      navigate("/dashboard");
+      setNotification({
+        message: "Pendaftaran dengan Google berhasil! Selamat datang!",
+        type: "success",
+      })
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+      navigate("/dashboard")
     } catch (error) {
-      console.error("Google register failed:", error.message);
-      setNotification("Pendaftaran dengan Google gagal: " + error.message); // Set error notification
-      setTimeout(() => setNotification(""), 4000); // Hide notification after 4 seconds
+      console.error("Google register failed:", error.message)
+      setNotification({
+        message: "Pendaftaran dengan Google gagal: " + error.message,
+        type: "error",
+      })
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+    } finally {
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
-    <div className="register-container">
-      {notification && (
-        <div className="notification">{notification}</div> // Display notification
+    <div className="auth-container">
+      {/* Background decorations */}
+      <div className="auth-decoration decoration-circle-1"></div>
+      <div className="auth-decoration decoration-circle-2"></div>
+
+      {/* Notification */}
+      {notification.message && (
+        <div
+          className={`notification ${notification.type === "success" ? "notification-success" : "notification-error"}`}
+        >
+          <span className="notification-icon">
+            {notification.type === "success" ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+          </span>
+          <span>{notification.message}</span>
+        </div>
       )}
-      <div className="register-card">
-        <div className="register-logo">
-          <img src={cerdikia} alt="Cerdikia Logo" />
+
+      <div className="auth-card">
+        <div className="auth-logo">
+          <img src={cerdikia || "/placeholder.svg"} alt="Cerdikia Logo" />
         </div>
 
-        <h1 className="register-title">Buat Akun Baru</h1>
-        <p className="register-subtitle">
-          Daftar untuk mendapatkan akses ke semua fitur
-        </p>
+        <h1 className="auth-title">Buat Akun Baru</h1>
+        <p className="auth-subtitle">Daftar untuk mendapatkan akses ke semua fitur</p>
 
-        <form onSubmit={handleSubmit} className="register-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
             <label htmlFor="fullName">Nama Lengkap</label>
             <input
@@ -112,6 +141,7 @@ export default function Register() {
               onChange={(e) => setFullName(e.target.value)}
               placeholder="Masukkan nama lengkap"
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -124,6 +154,7 @@ export default function Register() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="nama@email.com"
               required
+              disabled={isLoading}
             />
           </div>
 
@@ -138,11 +169,13 @@ export default function Register() {
                 placeholder="Buat password (min. 8 karakter)"
                 minLength="8"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 className="password-toggle"
                 onClick={() => setShowPassword(!showPassword)}
+                disabled={isLoading}
               >
                 {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -160,11 +193,13 @@ export default function Register() {
                 placeholder="Masukkan password kembali"
                 minLength="8"
                 required
+                disabled={isLoading}
               />
               <button
                 type="button"
                 className="password-toggle"
                 onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                disabled={isLoading}
               >
                 {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
@@ -178,20 +213,23 @@ export default function Register() {
                 checked={agreeTerms}
                 onChange={(e) => setAgreeTerms(e.target.checked)}
                 required
+                disabled={isLoading}
               />
               <span className="checkbox-text">
-                Saya menyetujui <a href="/terms">Syarat dan Ketentuan</a> serta{" "}
-                <a href="/privacy">Kebijakan Privasi</a>
+                Saya menyetujui <a href="/terms">Syarat dan Ketentuan</a> serta <a href="/privacy">Kebijakan Privasi</a>
               </span>
             </label>
           </div>
 
-          <button
-            type="submit"
-            className="register-button"
-            disabled={!agreeTerms}
-          >
-            Daftar Sekarang
+          <button type="submit" className="auth-button" disabled={!agreeTerms || isLoading}>
+            {isLoading ? (
+              "Memproses..."
+            ) : (
+              <>
+                <UserPlus size={18} style={{ marginRight: "8px" }} />
+                Daftar Sekarang
+              </>
+            )}
           </button>
         </form>
 
@@ -199,29 +237,18 @@ export default function Register() {
           <span>atau</span>
         </div>
 
-        <button
-          type="button"
-          className="google-register-button"
-          onClick={handleGoogleRegister}
-        >
-          <img src={googleLogo} alt="Google Logo" />
+        <button type="button" className="google-auth-button" onClick={handleGoogleRegister} disabled={isLoading}>
+          <img src={googleLogo || "/placeholder.svg"} alt="Google Logo" />
           <span>Daftar dengan Google</span>
         </button>
 
-        <p className="login-prompt">
+        <p className="auth-prompt">
           Sudah punya akun?{" "}
-          <span
-            onClick={() => navigate("/")}
-            style={{
-              color: "#007bff",
-              cursor: "pointer",
-              textDecoration: "underline",
-            }}
-          >
+          <span onClick={() => navigate("/")} className="auth-prompt-link">
             Masuk
           </span>
         </p>
       </div>
     </div>
-  );
+  )
 }
