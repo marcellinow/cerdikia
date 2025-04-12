@@ -1,133 +1,246 @@
-/* Container utama */
+/* Base styles */
+:root {
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.1);
+  --primary-dark: #2563eb;
+  --background: #f8f9fc;
+  --card-bg: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #eaeaea;
+  --success: #4ade80;
+  --error: #f43f5e;
+  --warning: #fbbf24;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Container styles */
 .pasar-buku-container {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background-color: var(--background);
 }
 
 /* Main content */
 .pasar-buku-main {
   flex: 1;
   padding: 24px;
-  background-color: #fdf8f3;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Header */
+/* Page header */
 .pasar-buku-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.pasar-buku-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .pasar-buku-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: #3a3a3a;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
 }
 
+.pasar-buku-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+/* Action buttons */
 .pasar-buku-actions {
   display: flex;
-  gap: 8px;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
 }
 
-/* Styling untuk tombol Urutkan dan Filter */
 .pasar-buku-button {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  background-color: #3b82f6; /* Sama seperti tombol Keranjang */
-  color: #ffffff; /* Teks putih */
-  border: none; /* Hapus border */
-  border-radius: 8px; /* Sudut melengkung */
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease;
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  color: var(--text-secondary);
 }
 
 .pasar-buku-button:hover {
-  background-color: #2563eb; /* Warna hover */
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-light);
 }
 
-.pasar-buku-icon {
-  height: 16px;
-  width: 16px;
+.pasar-buku-button-active {
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
+}
+
+.pasar-buku.button-active:hover {
+  background-color: var(--primary-dark);
+  color: white;
 }
 
 .pasar-buku-cart {
-  background-color: #3b82f6;
-  color: #ffffff;
+  background-color: var(--primary);
+  color: white;
+  border-color: var(--primary);
 }
 
 .pasar-buku-cart:hover {
-  background-color: #2563eb;
+  background-color: var(--primary-dark);
+}
+
+.pasar-buku-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Search input */
+.pasar-buku-search {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+
+.pasar-buku-search-input {
+  width: 100%;
+  padding: 10px 16px 10px 40px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+
+.pasar-buku-search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.pasar-buku-search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  width: 16px;
+  height: 16px;
 }
 
 /* Grid layout */
 .pasar-buku-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(1, 1fr);
   gap: 24px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
+  .pasar-buku-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
   .pasar-buku-grid {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
-/* Card styling */
+/* Book card */
 .pasar-buku-card {
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  padding: 16px;
-  transition: box-shadow 0.2s ease-in-out;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .pasar-buku-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.pasar-buku-card-header {
+  padding: 16px 16px 0;
 }
 
 .pasar-buku-tags {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .pasar-buku-tag {
+  padding: 4px 12px;
+  border-radius: 20px;
   font-size: 12px;
-  padding: 4px 8px;
-  border-radius: 4px;
+  font-weight: 500;
 }
 
 .pasar-buku-tag-grade {
-  background-color: #d1fae5;
-  color: #065f46;
+  background-color: var(--primary-light);
+  color: var(--primary);
 }
 
 .pasar-buku-tag-subject {
-  background-color: #bfdbfe;
-  color: #1e40af;
+  background-color: rgba(79, 209, 197, 0.1);
+  color: #4fd1c5;
 }
 
 .pasar-buku-tag-category {
-  background-color: #e9d5ff;
-  color: #6b21a8;
+  background-color: rgba(129, 140, 248, 0.1);
+  color: #818cf8;
 }
 
 .pasar-buku-card-title {
   font-size: 18px;
   font-weight: 600;
-  margin-bottom: 8px;
+  color: var(--text-primary);
+  margin: 0 0 8px;
 }
 
 .pasar-buku-card-description {
   font-size: 14px;
-  color: #6b7280;
-  margin-bottom: 16px;
+  color: var(--text-secondary);
+  margin: 0 0 16px;
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .pasar-buku-card-content {
@@ -135,157 +248,490 @@
   align-items: center;
   gap: 16px;
   margin-bottom: 16px;
-}
-
-.pasar-buku-card-button {
-  flex: 1;
-  padding: 8px;
-  background-color: #3b82f6;
-  color: #ffffff;
-  border-radius: 8px;
-  transition: background-color 0.2s ease-in-out;
-}
-
-.pasar-buku-card-button:hover {
-  background-color: #2563eb;
+  padding: 0 16px;
 }
 
 .pasar-buku-card-image {
-  width: 96px;
-  height: 128px;
-  background-color: #f3f4f6;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  width: 110px;
+  height: 160px;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
 }
 
 .pasar-buku-card-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 8px;
+  transition: transform 0.3s ease;
+}
+
+.pasar-buku-card:hover .pasar-buku-card-image img {
+  transform: scale(1.05);
+}
+
+.pasar-buku-card-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pasar-buku-card-detail {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.pasar-buku-card-detail-icon {
+  width: 14px;
+  height: 14px;
 }
 
 .pasar-buku-card-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  font-size: 12px;
-  color: #6b7280;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border-color);
+  margin-top: auto;
 }
 
-.pasar-buku-card-publisher {
+.pasar-buku-card-price {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--primary);
+}
+
+.pasar-buku-card-button {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  transition: background-color 0.2s ease;
 }
 
-.pasar-buku-card-avatar {
-  width: 24px;
-  height: 24px;
-  background-color: #e5e7eb;
-  border-radius: 50%;
+.pasar-buku-card-button:hover {
+  background-color: var(--primary-dark);
 }
 
-/* Filter Modal */
-.filter-modal {
+/* Book detail modal */
+.modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  animation: fadeIn 0.2s ease;
 }
 
-.filter-modal-content {
-  background-color: #ffffff;
-  padding: 24px;
-  border-radius: 8px;
+.modal-container {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
   width: 90%;
-  max-width: 400px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  position: relative;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  animation: slideUp 0.3s ease;
 }
 
-.filter-modal-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.modal-close {
   background: none;
   border: none;
+  color: var(--text-muted);
   cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
 }
 
-.filter-modal-close-icon {
-  height: 24px;
-  width: 24px;
-  color: #6b7280;
+.modal-close:hover {
+  background-color: var(--primary-light);
+  color: var(--primary);
 }
 
-.filter-modal-title {
-  font-size: 18px;
-  font-weight: bold;
+.book-detail-content {
+  display: flex;
+  gap: 24px;
+  padding: 24px;
+}
+
+@media (max-width: 768px) {
+  .book-detail-content {
+    flex-direction: column;
+  }
+}
+
+.book-detail-left {
+  flex: 1;
+}
+
+.book-detail-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.book-detail-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   margin-bottom: 16px;
+}
+
+.book-detail-description {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  line-height: 1.6;
+}
+
+.book-detail-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.book-detail-info-item {
+  display: flex;
+  gap: 8px;
+}
+
+.book-detail-info-label {
+  font-weight: 500;
+  color: var(--text-primary);
+  min-width: 80px;
+}
+
+.book-detail-info-value {
+  color: var(--text-secondary);
+}
+
+.book-detail-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.book-detail-button {
+  flex: 1;
+  padding: 12px 24px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.book-detail-button-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.book-detail-button-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.book-detail-button-secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.book-detail-button-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.book-detail-right {
+  width: 220px;
+  flex-shrink: 0;
+  align-self: flex-start;
+}
+
+@media (max-width: 768px) {
+  .book-detail-right {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+  }
+
+  .book-detail-right img {
+    max-width: 180px;
+  }
+}
+
+.book-detail-image {
+  width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
+  object-fit: cover;
+}
+
+/* Filter modal */
+.filter-modal-content {
+  padding: 24px;
 }
 
 .filter-group {
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .filter-group label {
   display: block;
   font-size: 14px;
+  font-weight: 500;
+  color: var(--text-primary);
   margin-bottom: 8px;
 }
 
 .filter-group select {
   width: 100%;
-  padding: 8px;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--card-bg);
   font-size: 14px;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
 }
 
-.filter-modal-apply {
-  width: 100%;
-  padding: 12px;
-  background-color: #3b82f6;
-  color: #ffffff;
-  border: none;
-  border-radius: 8px;
+.filter-group select:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.filter-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 16px 24px;
+  border-top: 1px solid var(--border-color);
+}
+
+.filter-modal-button {
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
+  transition: all 0.2s ease;
 }
 
-.filter-modal-apply:hover {
-  background-color: #2563eb;
+.filter-reset {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.filter-reset:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+.filter-apply {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.filter-apply:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Empty state */
+.pasar-buku-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.pasar-buku-empty-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.pasar-buku-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.pasar-buku-empty-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  max-width: 400px;
+}
+
+.pasar-buku-empty-button {
+  padding: 10px 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.pasar-buku-empty-button:hover {
+  background-color: var(--primary-dark);
 }
 
 /* Notification */
 .notification {
   position: fixed;
-  bottom: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #3b82f6;
-  color: #ffffff;
-  padding: 12px 24px;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  bottom: 24px;
+  right: 24px;
+  background-color: var(--success);
+  color: white;
+  padding: 16px 24px;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-md);
   font-size: 14px;
+  font-weight: 500;
   z-index: 1000;
+  animation: slideInRight 0.3s ease, fadeOut 0.3s ease 2.7s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-/* Error text styling */
-.error-text {
-  color: #ef4444; /* Tailwind: text-red-500 */
-  font-size: 12px; /* Tailwind: text-xs */
-  margin-top: 4px; /* Tailwind: mt-1 */
-  margin-bottom: 8px; /* Tailwind: mb-2 */
+.notification-error {
+  background-color: var(--error);
+}
+
+.notification-icon {
+  width: 20px;
+  height: 20px;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pasar-buku-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .pasar-buku-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .pasar-buku-search {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .pasar-buku-main {
+    padding: 16px;
+  }
+
+  .pasar-buku-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pasar-buku-card-content {
+    flex-direction: column;
+  }
+
+  .pasar-buku-card-image {
+    width: 100%;
+    height: 200px;
+  }
 }

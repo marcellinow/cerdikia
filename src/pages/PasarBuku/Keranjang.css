@@ -1,83 +1,334 @@
-/* Container utama */
+/* Base styles */
+:root {
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.1);
+  --primary-dark: #2563eb;
+  --background: #f8f9fc;
+  --card-bg: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #eaeaea;
+  --success: #4ade80;
+  --error: #f43f5e;
+  --warning: #fbbf24;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Container styles */
 .keranjang-container {
-  padding: 24px; /* Tailwind: p-6 */
-  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
 }
 
-/* Judul halaman */
-.keranjang-title {
-  font-size: 24px; /* Tailwind: text-3xl */
-  font-weight: bold; /* Tailwind: font-bold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
-  margin-bottom: 16px; /* Tailwind: mb-4 */
+.keranjang-main {
+  flex: 1;
+  padding: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Deskripsi halaman */
-.keranjang-description {
-  font-size: 16px; /* Tailwind: text-base */
-  color: #6b7280; /* Tailwind: text-gray-500 */
-  margin-bottom: 24px; /* Tailwind: mb-6 */
+/* Page header */
+.keranjang-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 24px;
 }
 
-/* Kontainer untuk konten */
-.keranjang-content {
-  display: grid;
-  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
-  gap: 24px; /* Tailwind: gap-6 */
-}
-
-@media (min-width: 768px) {
-  .keranjang-content {
-    grid-template-columns: repeat(3, 1fr); /* Tailwind: md:grid-cols-3 */
-  }
-}
-
-/* Kartu keranjang */
-.keranjang-card {
-  background-color: #ffffff; /* Tailwind: bg-white */
-  border-radius: 8px; /* Tailwind: rounded-lg */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
-  padding: 16px; /* Tailwind: p-4 */
-  text-align: center;
-  transition: box-shadow 0.2s ease-in-out;
-}
-
-.keranjang-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
-}
-
-.keranjang-card h2 {
-  font-size: 18px; /* Tailwind: text-lg */
-  font-weight: 600; /* Tailwind: font-semibold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
-  margin-bottom: 8px; /* Tailwind: mb-2 */
-}
-
-.keranjang-card p {
-  font-size: 14px; /* Tailwind: text-sm */
-  color: #6b7280; /* Tailwind: text-gray-500 */
-}
-
-/* Back Button */
 .keranjang-back-button {
   display: flex;
   align-items: center;
-  gap: 8px; /* Tailwind: gap-2 */
-  background-color: transparent; /* Tailwind: bg-transparent */
-  border: none; /* Tailwind: border-0 */
-  color: #3b82f6; /* Tailwind: text-blue-500 */
-  font-size: 14px; /* Tailwind: text-sm */
-  font-weight: 500; /* Tailwind: font-medium */
-  cursor: pointer; /* Tailwind: cursor-pointer */
-  margin-bottom: 16px; /* Tailwind: mb-4 */
-  transition: color 0.2s ease-in-out;
+  gap: 8px;
+  background: none;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 0;
+  cursor: pointer;
+  width: fit-content;
+  transition: color 0.2s ease;
 }
 
 .keranjang-back-button:hover {
-  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+  color: var(--primary-dark);
 }
 
 .keranjang-back-icon {
-  height: 16px; /* Tailwind: h-4 */
-  width: 16px; /* Tailwind: w-4 */
+  width: 18px;
+  height: 18px;
+}
+
+.keranjang-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.keranjang-description {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 600px;
+}
+
+/* Content grid */
+.keranjang-content {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
+}
+
+@media (min-width: 640px) {
+  .keranjang-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .keranjang-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card styling */
+.keranjang-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.keranjang-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.keranjang-card-decoration {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background-color: var(--primary-light);
+  border-radius: 50%;
+  transform: translate(30%, -30%);
+  z-index: 0;
+}
+
+.keranjang-card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.keranjang-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  margin-bottom: 16px;
+  font-size: 24px;
+}
+
+.keranjang-card h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 12px;
+}
+
+.keranjang-card p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 20px;
+  line-height: 1.5;
+  flex-grow: 1;
+}
+
+.keranjang-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.keranjang-card-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.keranjang-card-button-primary {
+  background-color: var(--primary);
+  color: white;
+  border: none;
+}
+
+.keranjang-card-button-primary:hover {
+  background-color: var(--primary-dark);
+}
+
+.keranjang-card-button-secondary {
+  background-color: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-color);
+}
+
+.keranjang-card-button-secondary:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background-color: var(--primary-light);
+}
+
+/* Empty state */
+.keranjang-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.keranjang-empty-icon {
+  width: 64px;
+  height: 64px;
+  color: var(--text-muted);
+  margin-bottom: 16px;
+}
+
+.keranjang-empty-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.keranjang-empty-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0 0 24px;
+  max-width: 400px;
+}
+
+.keranjang-empty-button {
+  padding: 10px 16px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.keranjang-empty-button:hover {
+  background-color: var(--primary-dark);
+}
+
+/* Summary section */
+.keranjang-summary {
+  margin-top: 32px;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+}
+
+.keranjang-summary-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 16px;
+}
+
+.keranjang-summary-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.keranjang-summary-item:last-child {
+  border-bottom: none;
+}
+
+.keranjang-summary-label {
+  color: var(--text-secondary);
+}
+
+.keranjang-summary-value {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.keranjang-summary-total {
+  display: flex;
+  justify-content: space-between;
+  padding: 16px 0;
+  margin-top: 8px;
+  border-top: 2px solid var(--border-color);
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.keranjang-checkout {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}
+
+.keranjang-checkout-button {
+  padding: 12px 24px;
+  background-color: var(--primary);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.keranjang-checkout-button:hover {
+  background-color: var(--primary-dark);
 }
