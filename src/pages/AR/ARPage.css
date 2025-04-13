@@ -1,618 +1,344 @@
-/* Cerdikia VR Player Styles */
+/* Base styles */
 :root {
-  --cerdikia-primary: #4285f4;
-  --cerdikia-primary-dark: #3367d6;
-  --cerdikia-primary-light: #8ab4f8;
-  --cerdikia-secondary: #34a853;
-  --cerdikia-accent: #ea4335;
-  --cerdikia-background: #ffffff;
-  --cerdikia-card-bg: #f8f9fa;
-  --cerdikia-text: #202124;
-  --cerdikia-text-secondary: #5f6368;
-  --cerdikia-border: #dadce0;
-  --cerdikia-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
-  --cerdikia-radius: 8px;
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.1);
+  --primary-dark: #2563eb;
+  --background: #f8f9fc;
+  --card-bg: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #eaeaea;
+  --success: #4ade80;
+  --error: #f43f5e;
+  --warning: #fbbf24;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Roboto", "Segoe UI", Arial, sans-serif;
-  background-color: var(--cerdikia-background);
-  color: var(--cerdikia-text);
-}
-
-/* Main container */
-.cerdikia-container {
+/* Container styles */
+.ar-container {
   display: flex;
   flex-direction: column;
-  width: 100%;
   min-height: 100vh;
-  background-color: var(--cerdikia-background);
-  padding: 24px;
+  background-color: var(--background);
 }
 
-/* Content */
-.cerdikia-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  max-width: 1600px;
+.ar-main {
+  flex: 1;
+  padding: 24px;
+  max-width: 1280px;
   margin: 0 auto;
   width: 100%;
 }
 
-@media (min-width: 1024px) {
-  .cerdikia-content {
-    flex-direction: row;
-  }
+/* Header */
+.ar-header {
+  margin-bottom: 24px;
 }
 
-/* Player container */
-.cerdikia-player-container {
-  flex: 1;
-  min-width: 0;
+.ar-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px;
 }
 
-.cerdikia-player-container.theater-mode {
-  width: 100%;
+.ar-subtitle {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
 }
 
-.cerdikia-player {
+/* Content layout */
+.ar-content {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 24px;
+}
+
+.ar-player-section {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* AR Player */
+.ar-player {
   position: relative;
   width: 100%;
-  background-color: #000;
-  border-radius: var(--cerdikia-radius);
+  background: black;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   aspect-ratio: 16 / 9;
-  box-shadow: var(--cerdikia-shadow);
+  box-shadow: var(--shadow-md);
 }
 
-/* VR Scene */
-.vr-scene-container {
-  position: relative;
+.ar-player.sideBySide {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+
+.ar-player.theater {
+  max-height: 90vh;
+  width: 100vw;
+  margin: 0;
+  border-radius: 0;
+}
+
+.main-video {
   width: 100%;
   height: 100%;
+  object-fit: cover;
 }
 
-a-scene {
-  width: 100%;
-  height: 100%;
-}
-
-/* Loading */
-.vr-loading {
+.ar-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  background-color: #000;
-  color: #fff;
-  z-index: 10;
+  z-index: 2;
 }
 
-.loading-spinner {
-  width: 40px;
-  height: 40px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-radius: 50%;
-  border-top-color: var(--cerdikia-primary);
-  animation: spin 1s linear infinite;
-  margin-bottom: 16px;
+.webcam-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  mix-blend-mode: screen;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* YouTube-style Controls */
-.cerdikia-controls {
+/* Video Controls */
+.video-controls {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 100%);
-  padding: 8px 12px;
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+  padding: 16px;
+  opacity: 0;
   transition: opacity 0.3s ease;
-  z-index: 20;
+  z-index: 10;
 }
 
-.cerdikia-controls.visible {
+.video-controls.show {
   opacity: 1;
 }
 
-.cerdikia-controls.hidden {
-  opacity: 0;
-  pointer-events: none;
-}
-
-/* Progress bar */
-.progress-container {
-  width: 100%;
-  padding: 5px 0;
-  cursor: pointer;
-}
-
 .progress-bar {
-  height: 3px;
-  background-color: rgba(255, 255, 255, 0.3);
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
+  cursor: pointer;
+  margin-bottom: 12px;
   position: relative;
-  transition: height 0.1s;
 }
 
-.progress-container:hover .progress-bar {
-  height: 5px;
+.progress-bar:hover {
+  height: 6px;
 }
 
 .progress-filled {
   height: 100%;
-  background-color: var(--cerdikia-primary);
+  background: var(--primary);
   border-radius: 2px;
-  position: relative;
+  transition: width 0.1s linear;
 }
 
-.progress-handle {
-  position: absolute;
-  right: -6px;
-  top: 50%;
-  transform: translateY(-50%) scale(0);
-  width: 12px;
-  height: 12px;
-  background-color: var(--cerdikia-primary);
-  border-radius: 50%;
-  transition: transform 0.1s;
-}
-
-.progress-container:hover .progress-handle {
-  transform: translateY(-50%) scale(1);
-}
-
-/* Controls row */
-.controls-row {
+.controls-main {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-top: 8px;
+  justify-content: space-between;
+  gap: 16px;
 }
 
 .controls-left,
-.controls-right {
+.controls-right,
+.ar-controls {
   display: flex;
   align-items: center;
+  gap: 12px;
 }
 
 /* Control buttons */
 .control-button {
-  background: transparent;
+  background: none;
   border: none;
   color: white;
-  width: 40px;
-  height: 40px;
+  cursor: pointer;
+  padding: 8px;
   border-radius: 50%;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  transition: background-color 0.2s;
 }
 
 .control-button:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.1);
 }
 
-.control-icon {
-  width: 24px;
-  height: 24px;
-  fill: white;
+.control-button.active {
+  background: var(--primary);
+  color: white;
 }
 
 /* Time display */
 .time-display {
   color: white;
-  font-size: 13px;
-  margin: 0 8px;
+  font-size: 14px;
+  min-width: 100px;
 }
 
 /* Volume control */
-.volume-container {
-  position: relative;
+.volume-control {
   display: flex;
   align-items: center;
-}
-
-.volume-slider-container {
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%) rotate(-90deg);
-  transform-origin: bottom center;
-  background-color: rgba(28, 28, 28, 0.9);
-  border-radius: 2px;
-  padding: 8px;
-  margin-bottom: 12px;
-  z-index: 30;
+  gap: 8px;
 }
 
 .volume-slider {
   width: 80px;
   height: 4px;
   -webkit-appearance: none;
+  appearance: none;
   background: rgba(255, 255, 255, 0.3);
   border-radius: 2px;
-  outline: none;
+  transition: width 0.2s ease-in-out;
 }
 
 .volume-slider::-webkit-slider-thumb {
   -webkit-appearance: none;
   width: 12px;
   height: 12px;
-  background-color: white;
+  background: white;
   border-radius: 50%;
   cursor: pointer;
 }
 
-/* Settings */
-.settings-container {
-  position: relative;
-}
-
-.settings-dropdown {
-  position: absolute;
-  bottom: 100%;
-  right: 0;
-  margin-bottom: 8px;
-  background-color: rgba(28, 28, 28, 0.9);
-  border-radius: 4px;
-  overflow: hidden;
-  width: 250px;
-  z-index: 30;
-  box-shadow: var(--cerdikia-shadow);
-}
-
-.settings-menu,
-.playback-speed-menu {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: rgba(28, 28, 28, 0.9);
-  transition: transform 0.2s;
-}
-
-.settings-menu {
-  transform: translateX(0);
-}
-
-.playback-speed-menu {
-  transform: translateX(100%);
-}
-
-.settings-dropdown.show-speed .settings-menu {
-  transform: translateX(-100%);
-}
-
-.settings-dropdown.show-speed .playback-speed-menu {
-  transform: translateX(0);
-}
-
-.settings-header {
-  display: flex;
-  align-items: center;
-  padding: 12px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+.volume-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: white;
+  border-radius: 50%;
   cursor: pointer;
+  border: none;
 }
 
-.settings-back {
-  margin-right: 8px;
-  font-size: 18px;
-}
-
-.settings-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  cursor: pointer;
-  transition: background-color 0.2s;
-}
-
-.settings-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.settings-item.active {
-  background-color: rgba(255, 255, 255, 0.1);
-}
-
-.settings-label {
-  color: white;
-  font-size: 14px;
-}
-
-.settings-value {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
-  margin-left: 8px;
-}
-
-.settings-arrow {
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 18px;
-  margin-left: 8px;
-}
-
-.settings-check {
-  color: var(--cerdikia-primary);
-  font-size: 16px;
-}
-
-/* Video info section */
-.video-info-section {
-  padding: 20px 0;
-}
-
-.video-title {
-  font-size: 18px;
-  font-weight: 500;
-  margin-bottom: 12px;
-  line-height: 1.4;
-  color: var(--cerdikia-text);
-}
-
-.video-description {
-  color: var(--cerdikia-text-secondary);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* Sidebar */
-.cerdikia-sidebar {
-  width: 100%;
-  max-width: 402px;
-  margin-left: auto;
-}
-
-@media (max-width: 1023px) {
-  .cerdikia-sidebar {
-    max-width: none;
-  }
-}
-
-/* Suggested videos */
-.suggested-videos {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  background-color: var(--cerdikia-card-bg);
-  border-radius: var(--cerdikia-radius);
+/* Settings panel */
+.settings-panel {
+  position: absolute;
+  bottom: 60px;
+  right: 8px;
+  background: rgba(28, 28, 28, 0.9);
+  border-radius: var(--radius-md);
   padding: 16px;
-  box-shadow: var(--cerdikia-shadow);
+  min-width: 200px;
+  z-index: 11;
 }
 
-.suggested-video {
-  display: flex;
-  gap: 12px;
-  cursor: pointer;
-  border-radius: var(--cerdikia-radius);
-  transition: background-color 0.2s;
-  padding: 8px;
+.settings-section {
+  margin-bottom: 16px;
 }
 
-.suggested-video:hover {
-  background-color: rgba(0, 0, 0, 0.05);
+.settings-section:last-child {
+  margin-bottom: 0;
 }
 
-.video-thumbnail {
-  position: relative;
-  width: 168px;
-  height: 94px;
-  border-radius: 4px;
-  overflow: hidden;
-  flex-shrink: 0;
-}
-
-.thumbnail-duration {
-  position: absolute;
-  bottom: 4px;
-  right: 4px;
-  padding: 1px 4px;
-  background-color: rgba(0, 0, 0, 0.8);
+.settings-section h3 {
   color: white;
-  font-size: 12px;
-  border-radius: 2px;
-  z-index: 2;
+  font-size: 14px;
+  margin-bottom: 8px;
 }
 
-.thumbnail-overlay {
+.settings-select {
+  width: 100%;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: var(--radius-sm);
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+/* Room Info Overlay */
+.room-info-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0);
+  background: rgba(0, 0, 0, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s;
-  z-index: 1;
+  z-index: 12;
 }
 
-.suggested-video:hover .thumbnail-overlay {
-  background-color: rgba(0, 0, 0, 0.4);
+.room-info-container {
+  background: rgba(28, 28, 28, 0.95);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  width: 90%;
+  max-width: 500px;
 }
 
-.play-icon {
-  opacity: 0;
+.room-info-container h2 {
   color: white;
   font-size: 24px;
-  transition: opacity 0.2s;
-}
-
-.suggested-video:hover .play-icon {
-  opacity: 1;
-}
-
-.thumbnail-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.video-details {
-  flex: 1;
-  min-width: 0;
-}
-
-.video-details .video-title {
-  font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 4px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.video-details .video-description {
-  color: var(--cerdikia-text-secondary);
-  font-size: 12px;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Theater mode */
-.theater-mode .cerdikia-player {
-  width: 100%;
-  max-height: 70vh;
-}
-
-@media (max-width: 1023px) {
-  .theater-mode .cerdikia-sidebar {
-    display: none;
-  }
-}
-
-/* Custom styling for A-Frame VR button */
-.a-enter-vr {
-  bottom: 70px !important;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .cerdikia-container {
-    padding: 16px;
-  }
-
-  .video-thumbnail {
-    width: 120px;
-    height: 68px;
-  }
-}
-
-@media (max-width: 480px) {
-  .cerdikia-container {
-    padding: 8px;
-  }
-
-  .video-thumbnail {
-    width: 100px;
-    height: 56px;
-  }
-
-  .time-display {
-    display: none;
-  }
-}
-/* Add these styles to your ARPage.css file */
-
-.video-background-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-.background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 1;
-  /* Add this to potentially increase background video brightness */
-  filter: brightness(1.2);
-}
-
-.webcam-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 2;
-}
-
-.webcam-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* Change these properties to adjust visibility */
-  mix-blend-mode: overlay; /* Changed from lighten to overlay for better blending */
-  opacity: 0.7; /* Reduced opacity to make background more visible */
-  z-index: 2;
-}
-
-.webcam-error {
-  background-color: rgba(0, 0, 0, 0.7);
-  color: white;
-  padding: 20px;
-  border-radius: 8px;
+  margin-bottom: 20px;
   text-align: center;
 }
 
-.retry-webcam-button {
-  background-color: #065fd4;
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.info-label {
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 14px;
+}
+
+.info-value {
+  color: white;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.close-info {
+  width: 100%;
+  padding: 12px;
+  background: var(--primary);
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  margin-top: 10px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-.retry-webcam-button:hover {
-  background-color: #0356c9;
+.close-info:hover {
+  background: var(--primary-dark);
 }
 
-/* Update the controls to ensure they display above both videos */
-.cerdikia-controls {
-  z-index: 10;
-}
-
-/* Add these styles to your ARPage.css file */
-
+/* Camera Setup */
 .camera-setup-overlay {
   position: absolute;
   top: 0;
@@ -623,60 +349,265 @@ a-scene {
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 100;
+  z-index: 13;
 }
 
 .camera-setup-container {
-  background-color: #1f1f1f;
-  border-radius: 8px;
+  background: rgba(28, 28, 28, 0.95);
+  border-radius: var(--radius-lg);
   padding: 24px;
   max-width: 400px;
   width: 90%;
   text-align: center;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 }
 
 .camera-setup-container h2 {
-  color: #ffffff;
-  margin-top: 0;
-  margin-bottom: 16px;
+  color: white;
   font-size: 24px;
+  margin-bottom: 16px;
 }
 
 .camera-setup-container p {
-  color: #e0e0e0;
+  color: rgba(255, 255, 255, 0.8);
   margin-bottom: 24px;
   line-height: 1.5;
-}
-
-.webcam-error-message {
-  padding: 12px;
-  background-color: rgba(255, 0, 0, 0.1);
-  border-left: 4px solid #f44336;
-  margin-bottom: 24px;
-  text-align: left;
-}
-
-.webcam-error-message p {
-  color: #f44336;
-  margin: 0;
+  font-size: 14px;
 }
 
 .setup-camera-button {
-  background-color: #2196f3;
+  background: var(--primary);
   color: white;
   border: none;
   padding: 12px 24px;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
-  transition: background-color 0.2s ease;
+  transition: background 0.2s ease;
 }
 
 .setup-camera-button:hover {
-  background-color: #0d8bf2;
+  background: var(--primary-dark);
 }
 
-.setup-camera-button:active {
-  background-color: #0b7ad1;
+/* AR Info Card */
+.ar-info-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.ar-info-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.ar-info-description {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+.ar-features {
+  display: flex;
+  gap: 24px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border-color);
+}
+
+.ar-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ar-feature-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-light);
+  color: var(--primary);
+}
+
+/* Sidebar */
+.ar-sidebar {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  box-shadow: var(--shadow-sm);
+  height: fit-content;
+}
+
+.ar-sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.ar-sidebar-title {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.ar-view-all {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.ar-view-all:hover {
+  text-decoration: underline;
+}
+
+.ar-suggested-rooms {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ar-room-card {
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 8px;
+  border-radius: var(--radius-md);
+}
+
+.ar-room-card:hover {
+  transform: translateY(-2px);
+  background-color: var(--background);
+}
+
+.ar-room-thumbnail {
+  position: relative;
+  width: 160px;
+  height: 90px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.ar-room-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ar-room-duration {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.ar-room-details {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.ar-room-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.ar-room-description {
+  font-size: 12px;
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .ar-content {
+    grid-template-columns: 1fr;
+  }
+
+  .ar-sidebar {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .ar-main {
+    padding: 16px;
+  }
+
+  .ar-title {
+    font-size: 24px;
+  }
+
+  .ar-features {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .controls-main {
+    flex-wrap: wrap;
+  }
+
+  .volume-control {
+    display: none;
+  }
+
+  .time-display {
+    font-size: 12px;
+    min-width: 80px;
+  }
+
+  .ar-controls {
+    order: -1;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .ar-main {
+    padding: 12px;
+  }
+
+  .time-display {
+    display: none;
+  }
+
+  .control-button {
+    padding: 6px;
+  }
+
+  .settings-panel {
+    width: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
 }
