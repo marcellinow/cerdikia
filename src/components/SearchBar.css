@@ -1,33 +1,43 @@
 .search-bar-container {
   position: relative;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 .search-bar-wrapper {
   position: relative;
   width: 100%;
+  transition: all 0.3s ease;
+}
+
+.search-bar-wrapper:focus-within {
+  transform: translateY(-1px);
 }
 
 .search-bar-icon {
   position: absolute;
-  left: 14px;
+  left: 16px;
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-muted);
   width: 18px;
   height: 18px;
   pointer-events: none;
+  transition: color 0.2s ease;
+}
+
+.search-bar-wrapper:focus-within .search-bar-icon {
+  color: var(--primary);
 }
 
 .search-bar-input {
   width: 100%;
-  height: 42px;
-  padding: 0 40px 0 42px;
-  border-radius: 50px;
-  border: 1px solid var(--border-color);
+  height: 46px;
+  padding: 0 80px 0 48px;
+  border-radius: 14px;
+  border: 2px solid var(--border-color);
   background-color: var(--card-bg);
-  font-size: 14px;
+  font-size: 15px;
   color: var(--text-primary);
   transition: all 0.2s ease;
 }
@@ -35,7 +45,7 @@
 .search-bar-input:focus {
   outline: none;
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-light);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
 }
 
 .search-bar-input::placeholder {
@@ -44,35 +54,45 @@
 
 .search-bar-shortcuts {
   position: absolute;
-  right: 14px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  gap: 4px;
+  gap: 6px;
   pointer-events: none;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+}
+
+.search-bar-wrapper:focus-within .search-bar-shortcuts {
+  opacity: 1;
 }
 
 .search-bar-shortcut {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-width: 20px;
-  height: 20px;
+  min-width: 24px;
+  height: 24px;
   background-color: var(--primary-light);
   color: var(--primary);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 500;
-  padding: 0 4px;
-  border-radius: 4px;
+  padding: 0 6px;
+  border-radius: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
-/* Mobile styles */
 @media (max-width: 640px) {
   .search-bar-container {
-    max-width: 200px;
+    max-width: 240px;
   }
 
   .search-bar-shortcuts {
     display: none;
+  }
+
+  .search-bar-input {
+    padding-right: 16px;
   }
 }

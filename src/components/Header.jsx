@@ -32,7 +32,7 @@ export default function Header() {
         >
           <Menu className="h-5 w-5" />
         </button>
-        <h1 className="header-title">Cerdikia</h1>
+        <h1 className="header-title"></h1>
       </div>
       <SearchBar />
       <div className="header-right">

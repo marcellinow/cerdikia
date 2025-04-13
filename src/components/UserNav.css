@@ -1,16 +1,16 @@
 .user-nav-container {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
 }
 
 .user-nav-button {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   background-color: transparent;
   color: var(--text-secondary);
   border: none;
@@ -21,6 +21,7 @@
 .user-nav-button:hover {
   background-color: var(--primary-light);
   color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .user-nav-button-active {
@@ -29,17 +30,19 @@
 }
 
 .user-nav-avatar {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   border: 2px solid transparent;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
+  background-color: var(--primary-light);
 }
 
 .user-nav-avatar:hover {
   border-color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .user-nav-avatar-img {
@@ -56,13 +59,26 @@
 .notification-badge::after {
   content: "";
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 8px;
+  right: 8px;
   width: 8px;
   height: 8px;
   background-color: var(--primary);
   border-radius: 50%;
   border: 2px solid var(--card-bg);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
 }
 
 /* Notification dropdown */
@@ -70,32 +86,23 @@
   position: absolute;
   top: 60px;
   right: 16px;
-  width: 320px;
+  width: 380px;
   background-color: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
   z-index: 100;
   overflow: hidden;
   animation: slideDown 0.2s ease;
-}
-
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
 }
 
 .notification-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 16px 20px;
   border-bottom: 1px solid var(--border-color);
+  background-color: rgba(255, 255, 255, 0.5);
+  backdrop-filter: blur(10px);
 }
 
 .notification-title {
@@ -105,44 +112,46 @@
 }
 
 .notification-clear {
-  font-size: 12px;
+  font-size: 13px;
   color: var(--primary);
   background: none;
   border: none;
   cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
 .notification-clear:hover {
-  text-decoration: underline;
+  background-color: var(--primary-light);
 }
 
 .notification-list {
-  max-height: 320px;
+  max-height: 360px;
   overflow-y: auto;
+  padding: 8px;
 }
 
 .notification-item {
   display: flex;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
-  transition: background-color 0.2s ease;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
+  padding: 12px;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+  margin: 4px 0;
 }
 
 .notification-item:hover {
   background-color: var(--primary-light);
+  transform: translateY(-1px);
 }
 
 .notification-icon {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   background-color: var(--primary-light);
   color: var(--primary);
   margin-right: 12px;
@@ -157,6 +166,7 @@
   font-size: 14px;
   color: var(--text-primary);
   margin-bottom: 4px;
+  line-height: 1.4;
 }
 
 .notification-time {
@@ -164,58 +174,35 @@
   color: var(--text-muted);
 }
 
-.notification-empty {
-  padding: 24px 16px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 14px;
-}
-
-.notification-footer {
-  padding: 12px 16px;
-  text-align: center;
-  border-top: 1px solid var(--border-color);
-}
-
-.notification-view-all {
-  font-size: 14px;
-  color: var(--primary);
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.notification-view-all:hover {
-  text-decoration: underline;
-}
-
 /* User dropdown */
 .user-dropdown {
   position: absolute;
   top: 60px;
   right: 16px;
-  width: 240px;
+  width: 280px;
   background-color: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: var(--shadow-lg);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
   z-index: 100;
   overflow: hidden;
   animation: slideDown 0.2s ease;
 }
 
 .user-dropdown-header {
-  padding: 16px;
+  padding: 20px;
   border-bottom: 1px solid var(--border-color);
   text-align: center;
+  background: linear-gradient(135deg, var(--primary-light) 0%, rgba(59, 130, 246, 0.05) 100%);
 }
 
 .user-dropdown-avatar {
-  width: 64px;
-  height: 64px;
-  border-radius: 50%;
+  width: 72px;
+  height: 72px;
+  border-radius: 14px;
   margin: 0 auto 12px;
   overflow: hidden;
-  border: 2px solid var(--primary);
+  border: 3px solid var(--card-bg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .user-dropdown-avatar img {
@@ -232,39 +219,43 @@
 }
 
 .user-dropdown-email {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
 }
 
 .user-dropdown-menu {
-  padding: 8px 0;
+  padding: 8px;
 }
 
 .user-dropdown-item {
   display: flex;
   align-items: center;
-  padding: 10px 16px;
+  padding: 10px 12px;
   font-size: 14px;
   color: var(--text-secondary);
-  transition: background-color 0.2s ease;
+  border-radius: 10px;
+  transition: all 0.2s ease;
   cursor: pointer;
+  margin: 2px 0;
 }
 
 .user-dropdown-item:hover {
   background-color: var(--primary-light);
   color: var(--primary);
+  transform: translateY(-1px);
 }
 
 .user-dropdown-item-icon {
-  margin-right: 12px;
   width: 18px;
   height: 18px;
+  margin-right: 12px;
 }
 
 .user-dropdown-divider {
   height: 1px;
   background-color: var(--border-color);
   margin: 8px 0;
+  opacity: 0.6;
 }
 
 .user-dropdown-logout {
@@ -273,5 +264,16 @@
 
 .user-dropdown-logout:hover {
   background-color: rgba(244, 63, 94, 0.1);
-  color: #f43f5e;
+  color: #e11d48;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
