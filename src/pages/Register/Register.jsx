@@ -11,6 +11,20 @@ import cerdikia from "../../assets/Img/logo-cerdikia.svg"
 import googleLogo from "../../assets/Img/google-logo.svg"
 import "./Register.css"
 
+// Profile pictures array
+const profilePictures = [
+  "/profile/profile1.png",
+  "/profile/profile2.png",
+  "/profile/profile3.png",
+  "/profile/profile4.png",
+]
+
+// Function to get random profile picture
+const getRandomProfilePicture = () => {
+  const randomIndex = Math.floor(Math.random() * profilePictures.length)
+  return profilePictures[randomIndex]
+}
+
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
@@ -42,7 +56,7 @@ export default function Register() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password)
 
       const user = userCredential.user
-      await updateProfile(user, { displayName: fullName })
+      await updateProfile(user, { displayName: fullName, photoURL: getRandomProfilePicture() })
 
       // Simpan data user ke Firestore
       await setDoc(doc(db, "users", user.uid), {
@@ -50,6 +64,7 @@ export default function Register() {
         name: fullName,
         email: user.email,
         role: "guru",
+        photoURL: user.photoURL,
         createdAt: new Date(),
       })
 
@@ -84,6 +99,7 @@ export default function Register() {
         name: user.displayName,
         email: user.email,
         role: "guru",
+        photoURL: user.photoURL || getRandomProfilePicture(),
         createdAt: new Date(),
       })
 

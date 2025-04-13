@@ -150,7 +150,7 @@ export default function UserNav() {
           setIsNotificationOpen(false)
         }}
       >
-        <img src="/placeholder.svg?height=40&width=40" alt="Profile" className="user-nav-avatar-img" />
+        <img src={userData?.photoURL || "/placeholder.svg?height=40&width=40"} alt="Profile" className="user-nav-avatar-img" />
       </div>
 
       {/* User Menu Dropdown */}
@@ -158,7 +158,7 @@ export default function UserNav() {
         <div className="user-dropdown" ref={userMenuRef}>
           <div className="user-dropdown-header">
             <div className="user-dropdown-avatar">
-              <img src="/placeholder.svg?height=64&width=64" alt="Profile" />
+              <img src={userData?.photoURL || "/placeholder.svg?height=64&width=64"} alt="Profile" />
             </div>
             <div className="user-dropdown-name">{userData?.name || "Pengguna"}</div>
             <div className="user-dropdown-email">{userData?.email || "user@example.com"}</div>

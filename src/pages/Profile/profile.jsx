@@ -72,7 +72,7 @@ export default function Profile() {
             <div className="profile-card">
               <div className="profile-card-header">
                 <div className="profile-picture">
-                  <img src="/placeholder.svg?height=128&width=128" alt="Profile" className="profile-picture-img" />
+                  <img src={userData?.photoURL || "/placeholder.svg?height=128&width=128"} alt="Profile" className="profile-picture-img" />
                 </div>
                 <h2 className="profile-name">{userData ? userData.name : "Nama Pengguna"}</h2>
                 <div className="profile-badge">{userData ? userData.role : "Guru"}</div>

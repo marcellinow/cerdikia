@@ -1,5 +1,3 @@
-"use client"
-
 import { useState, useEffect } from "react"
 import {
   MessageSquare,
@@ -20,7 +18,20 @@ import Layout from "../../components/Layout"
 import Header from "../../components/Header"
 import "./Komunitas.css"
 
-// Example data for posts
+// Profile pictures array for example content only
+const profilePictures = [
+  "/profile/profile1.png",
+  "/profile/profile2.png",
+  "/profile/profile3.png",
+  "/profile/profile4.png",
+];
+
+const getRandomProfilePic = () => {
+  const randomIndex = Math.floor(Math.random() * profilePictures.length);
+  return profilePictures[randomIndex];
+};
+
+// Example data for posts with randomized profile pictures
 const examplePosts = [
   {
     id: 1,
@@ -33,7 +44,7 @@ const examplePosts = [
     user: {
       name: "Pak Budi",
       role: "Guru Matematika",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "/profile/profile1.png",
     },
   },
   {
@@ -47,7 +58,7 @@ const examplePosts = [
     user: {
       name: "Ibu Sarah",
       role: "Guru Bahasa Indonesia",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "/profile/profile2.png",
     },
   },
   {
@@ -61,10 +72,16 @@ const examplePosts = [
     user: {
       name: "Pak Ahmad",
       role: "Guru IPA",
-      avatar: "/placeholder.svg?height=40&width=40",
+      avatar: "/profile/profile3.png",
     },
   },
-]
+].map(post => ({
+  ...post,
+  user: {
+    ...post.user,
+    avatar: getRandomProfilePic() // Randomize avatar for example posts
+  }
+}));
 
 export default function Komunitas() {
   const [posts, setPosts] = useState([])
@@ -108,7 +125,7 @@ export default function Komunitas() {
       return
     }
 
-    // Create new post with current user data
+    // Create new post with current user data - using actual user's profile picture
     const newPostData = {
       id: posts.length + 1,
       content: newPost,
@@ -119,7 +136,7 @@ export default function Komunitas() {
       user: {
         name: userData?.name || "Pengguna",
         role: userData?.role || "Guru",
-        avatar: "/placeholder.svg?height=40&width=40",
+        avatar: userData?.photoURL, // Use actual user's profile picture
       },
     }
 
@@ -136,6 +153,12 @@ export default function Komunitas() {
       minute: "2-digit",
     })
   }
+
+  const suggestedUsers = [
+    { name: "Ibu Dewi", school: "SD Negeri 1 Bandung", avatar: getRandomProfilePic() },
+    { name: "Pak Rudi", school: "SD Negeri 3 Surabaya", avatar: getRandomProfilePic() },
+    { name: "Ibu Siti", school: "SD Negeri 2 Yogyakarta", avatar: getRandomProfilePic() },
+  ];
 
   return (
     <Layout>
@@ -154,7 +177,7 @@ export default function Komunitas() {
           <div className="komunitas-sidebar">
             <div className="komunitas-profile-card">
               <div className="profile-header">
-                <img src="/placeholder.svg?height=80&width=80" alt="Profile" className="profile-picture" />
+                <img src={userData?.photoURL || "/placeholder.svg?height=80&width=80"} alt="Profile" className="profile-picture" />
                 <div className="profile-info">
                   <h3>{userData?.name || "Pengguna"}</h3>
                   <p>{userData?.role || "Guru"}</p>
@@ -209,7 +232,7 @@ export default function Komunitas() {
               <form onSubmit={handleCreatePost}>
                 <div className="post-input-wrapper">
                   <img
-                    src="/placeholder.svg?height=40&width=40"
+                    src={userData?.photoURL || "/placeholder.svg?height=40&width=40"}
                     alt={userData?.name || "User"}
                     className="user-avatar"
                   />
@@ -298,13 +321,9 @@ export default function Komunitas() {
                 </a>
               </div>
               <div className="suggested-users">
-                {[
-                  { name: "Ibu Dewi", school: "SD Negeri 1 Bandung" },
-                  { name: "Pak Rudi", school: "SD Negeri 3 Surabaya" },
-                  { name: "Ibu Siti", school: "SD Negeri 2 Yogyakarta" },
-                ].map((user, i) => (
+                {suggestedUsers.map((user, i) => (
                   <div key={i} className="suggested-user">
-                    <img src="/placeholder.svg?height=40&width=40" alt={user.name} className="user-avatar" />
+                    <img src={user.avatar} alt={user.name} className="user-avatar" />
                     <div className="user-info">
                       <h4>{user.name}</h4>
                       <p>{user.school}</p>
