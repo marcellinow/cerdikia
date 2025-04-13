@@ -22,6 +22,7 @@ import INDOModules from "./src/pages/Subjects/Indo/Indo1";
 import ARPage from "./src/pages/AR/ARPage";
 import Komunitas from "./src/pages/Komunitas/Komunitas";
 import Bantuan from "./src/pages/Bantuan/Bantuan";
+import Favorit from "./src/pages/Favorit/Favorit";  
 
 function App() {
   return (
@@ -49,6 +50,7 @@ function App() {
         <Route path="/ar" element={<ARPage />} />
         <Route path="/komunitas" element={<Komunitas />} />
         <Route path="/bantuan" element={<Bantuan />} />
+        <Route path="/favorit" element={<Favorit />} />
       </Routes>
     </Router>
   );
