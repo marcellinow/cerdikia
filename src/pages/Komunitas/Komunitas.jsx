@@ -11,38 +11,25 @@ import {
   Loader2,
   ChevronRight,
 } from "lucide-react"
-import { getAuth } from "firebase/auth"
+import { getAuth, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "../../firebase/firebase"
 import Layout from "../../components/Layout"
 import Header from "../../components/Header"
 import "./Komunitas.css"
 
-// Profile pictures array for example content only
-const profilePictures = [
-  "/profile/profile1.png",
-  "/profile/profile2.png",
-  "/profile/profile3.png",
-  "/profile/profile4.png",
-];
-
-const getRandomProfilePic = () => {
-  const randomIndex = Math.floor(Math.random() * profilePictures.length);
-  return profilePictures[randomIndex];
-};
-
-// Example data for posts with randomized profile pictures
+// Example data for posts
 const examplePosts = [
   {
     id: 1,
     content:
-      "Hari ini saya baru saja selesai mengajar tentang konsep perkalian dengan metode baru. Siswa sangat antusias! 📚✨ #PembelajaranKreatif",
-    createdAt: new Date("2025-04-13T09:30:00"),
+      "Hai semua! Baru saja selesai mengajar materi baru tentang pecahan. Ada yang punya tips menarik untuk membuat pembelajaran lebih interaktif? 📚✨",
+    createdAt: new Date("2025-04-13T10:30:00"),
     likes: 24,
-    comments: 5,
-    shares: 2,
+    comments: 8,
+    shares: 3,
     user: {
-      name: "Pak Budi",
+      name: "Bu Siti",
       role: "Guru Matematika",
       avatar: "/profile/profile1.png",
     },
@@ -50,13 +37,13 @@ const examplePosts = [
   {
     id: 2,
     content:
-      "Ada yang punya saran buku referensi untuk mengajar Bahasa Indonesia kelas 4 SD? Saya ingin membuat materi yang lebih menarik untuk anak-anak. 🤔📖",
-    createdAt: new Date("2025-04-13T08:15:00"),
-    likes: 15,
-    comments: 8,
-    shares: 1,
+      "Berbagi pengalaman menggunakan media pembelajaran digital di kelas. Siswa jadi lebih antusias! 🎯💻",
+    createdAt: new Date("2025-04-13T09:15:00"),
+    likes: 18,
+    comments: 5,
+    shares: 2,
     user: {
-      name: "Ibu Sarah",
+      name: "Bu Rini",
       role: "Guru Bahasa Indonesia",
       avatar: "/profile/profile2.png",
     },
@@ -75,13 +62,7 @@ const examplePosts = [
       avatar: "/profile/profile3.png",
     },
   },
-].map(post => ({
-  ...post,
-  user: {
-    ...post.user,
-    avatar: getRandomProfilePic() // Randomize avatar for example posts
-  }
-}));
+]
 
 export default function Komunitas() {
   const [posts, setPosts] = useState([])
@@ -91,29 +72,33 @@ export default function Komunitas() {
   const auth = getAuth()
 
   useEffect(() => {
-    // Simulate loading posts
-    setTimeout(() => {
-      setPosts(examplePosts)
-      setLoading(false)
-    }, 1000)
-
-    fetchUserData()
-  }, [])
-
-  const fetchUserData = async () => {
-    try {
-      const user = auth.currentUser
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        const userRef = doc(db, "users", user.uid)
-        const userSnap = await getDoc(userRef)
-        if (userSnap.exists()) {
-          setUserData(userSnap.data())
+        try {
+          const userRef = doc(db, "users", user.uid)
+          const userSnap = await getDoc(userRef)
+
+          if (userSnap.exists()) {
+            setUserData(userSnap.data())
+          } else {
+            setUserData({
+              name: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              role: "Guru"
+            })
+          }
+        } catch (error) {
+          console.error("Error fetching user data:", error)
         }
       }
-    } catch (error) {
-      console.error("Error fetching user data:", error)
-    }
-  }
+      // Load example posts after user data is fetched
+      setPosts(examplePosts)
+      setLoading(false)
+    })
+
+    return () => unsubscribe()
+  }, [auth])
 
   const handleCreatePost = (e) => {
     e.preventDefault()
@@ -125,7 +110,7 @@ export default function Komunitas() {
       return
     }
 
-    // Create new post with current user data - using actual user's profile picture
+    // Create new post with current user data
     const newPostData = {
       id: posts.length + 1,
       content: newPost,
@@ -136,7 +121,7 @@ export default function Komunitas() {
       user: {
         name: userData?.name || "Pengguna",
         role: userData?.role || "Guru",
-        avatar: userData?.photoURL, // Use actual user's profile picture
+        avatar: userData?.photoURL || "/placeholder.svg", 
       },
     }
 
@@ -155,9 +140,9 @@ export default function Komunitas() {
   }
 
   const suggestedUsers = [
-    { name: "Ibu Dewi", school: "SD Negeri 1 Bandung", avatar: getRandomProfilePic() },
-    { name: "Pak Rudi", school: "SD Negeri 3 Surabaya", avatar: getRandomProfilePic() },
-    { name: "Ibu Siti", school: "SD Negeri 2 Yogyakarta", avatar: getRandomProfilePic() },
+    { name: "Ibu Dewi", school: "SD Negeri 1 Bandung", avatar: "/profile/profile1.png" },
+    { name: "Pak Rudi", school: "SD Negeri 3 Surabaya", avatar: "/profile/profile2.png" },
+    { name: "Ibu Siti", school: "SD Negeri 2 Yogyakarta", avatar: "/profile/profile3.png" },
   ];
 
   return (

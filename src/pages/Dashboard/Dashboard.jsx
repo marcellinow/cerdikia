@@ -21,17 +21,24 @@ import Layout from "../../components/Layout"
 import "./Dashboard.css" // Import the CSS file
 
 export default function Dashboard() {
-  const [displayName, setDisplayName] = useState("Pengguna")
+  const [userData, setUserData] = useState(null)
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         try {
-          const docRef = doc(db, "users", user.uid)
-          const docSnap = await getDoc(docRef)
-          if (docSnap.exists()) {
-            const data = docSnap.data()
-            setDisplayName(data.name || data.displayName || "Pengguna")
+          const userRef = doc(db, "users", user.uid)
+          const userSnap = await getDoc(userRef)
+          if (userSnap.exists()) {
+            setUserData(userSnap.data())
+          } else {
+            // If no Firestore data, use auth data as fallback
+            setUserData({
+              name: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              role: "Guru"
+            })
           }
         } catch (err) {
           console.error("Gagal mengambil data pengguna:", err)
@@ -84,7 +91,7 @@ export default function Dashboard() {
           <div className="dashboard-hero">
             <div className="hero-content">
               <h1 className="hero-title">
-                Selamat Datang, <span className="highlight">{displayName}</span>!
+                Selamat Datang, <span className="highlight">{userData?.name || "Pengguna"}</span>!
               </h1>
               <p className="hero-subtitle">Setiap orang bisa belajar dengan cara yang menyenangkan</p>
 

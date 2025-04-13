@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Bell, Settings, ShoppingCart, User, LogOut, Heart, HelpCircle, BookOpen, CheckCircle } from "lucide-react"
-import { getAuth, signOut } from "firebase/auth"
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "../firebase/firebase"
 import "./UserNav.css"
@@ -15,41 +15,32 @@ export default function UserNav() {
   const userMenuRef = useRef(null)
   const auth = getAuth()
 
-  // Fetch user data
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = auth.currentUser
-        if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
           const userRef = doc(db, "users", user.uid)
           const userSnap = await getDoc(userRef)
+
           if (userSnap.exists()) {
             setUserData(userSnap.data())
+          } else {
+            // If no Firestore data, use auth data as fallback
+            setUserData({
+              name: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              role: "Guru"
+            })
           }
+        } catch (error) {
+          console.error("Error fetching user data:", error)
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error)
       }
-    }
+    })
 
-    fetchUserData()
-  }, [])
-
-  // Sample notifications
-  const notifications = [
-    {
-      id: 1,
-      text: "Tugas Matematika telah dinilai",
-      time: "5 menit yang lalu",
-      icon: <CheckCircle className="h-5 w-5" />,
-    },
-    {
-      id: 2,
-      text: "Buku baru tersedia di Pasar Buku",
-      time: "1 jam yang lalu",
-      icon: <BookOpen className="h-5 w-5" />,
-    },
-  ]
+    return () => unsubscribe()
+  }, [auth])
 
   // Close dropdowns when clicking outside
   useEffect(() => {
@@ -75,7 +66,6 @@ export default function UserNav() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  // Handle logout
   const handleLogout = async () => {
     try {
       await signOut(auth)
@@ -85,6 +75,22 @@ export default function UserNav() {
       alert("Gagal keluar. Silakan coba lagi.")
     }
   }
+
+  // Sample notifications
+  const notifications = [
+    {
+      id: 1,
+      text: "Tugas Matematika telah dinilai",
+      time: "5 menit yang lalu",
+      icon: <CheckCircle className="h-5 w-5" />,
+    },
+    {
+      id: 2,
+      text: "Buku baru tersedia di Pasar Buku",
+      time: "1 jam yang lalu",
+      icon: <BookOpen className="h-5 w-5" />,
+    },
+  ]
 
   return (
     <div className="user-nav-container">

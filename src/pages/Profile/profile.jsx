@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ChevronLeft, User, Mail, MapPin, Building, LogOut, Loader2 } from "lucide-react"
-import { getAuth, signOut } from "firebase/auth"
+import { getAuth, signOut, onAuthStateChanged } from "firebase/auth"
 import { doc, getDoc } from "firebase/firestore"
 import { db } from "../../firebase/firebase"
 import Layout from "../../components/Layout"
@@ -16,35 +16,41 @@ export default function Profile() {
   const auth = getAuth()
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const user = auth.currentUser
-
-        if (user) {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
           const userRef = doc(db, "users", user.uid)
           const userSnap = await getDoc(userRef)
 
           if (userSnap.exists()) {
             setUserData(userSnap.data())
           } else {
-            console.log("No user data found in Firestore.")
+            // If no Firestore data, use auth data as fallback
+            setUserData({
+              name: user.displayName,
+              email: user.email,
+              photoURL: user.photoURL,
+              role: "Guru"
+            })
           }
+        } catch (error) {
+          console.error("Error fetching user data:", error)
         }
-      } catch (error) {
-        console.error("Error fetching user data:", error)
-      } finally {
-        setLoading(false)
+      } else {
+        // No user is signed in, redirect to login
+        navigate("/")
       }
-    }
+      setLoading(false)
+    })
 
-    fetchUserData()
-  }, [])
+    // Cleanup subscription
+    return () => unsubscribe()
+  }, [auth, navigate])
 
   const handleSignOut = async () => {
     try {
       await signOut(auth)
-      alert("Berhasil keluar.")
-      navigate("/") // arahkan ke halaman login
+      navigate("/")
     } catch (error) {
       console.error("Gagal logout:", error.message)
       alert("Gagal logout: " + error.message)
