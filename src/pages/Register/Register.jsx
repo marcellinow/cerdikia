@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Eye, EyeOff, UserPlus, AlertCircle, CheckCircle } from "lucide-react"
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup } from "firebase/auth"
 import { doc, setDoc } from "firebase/firestore"
@@ -9,6 +9,8 @@ import { useNavigate } from "react-router-dom"
 
 import cerdikia from "../../assets/Img/logo-cerdikia.svg"
 import googleLogo from "../../assets/Img/google-logo.svg"
+import ruda1 from "/ruda/ruda1.png"
+import ruda2 from "/ruda/ruda2.png"
 import "./Register.css"
 
 // Profile pictures array
@@ -35,8 +37,17 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("")
   const [agreeTerms, setAgreeTerms] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [currentImage, setCurrentImage] = useState(1)
 
   const navigate = useNavigate()
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev === 1 ? 2 : 1))
+    }, 3000) // Switch every 3 seconds
+
+    return () => clearInterval(interval)
+  }, [])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -123,6 +134,19 @@ export default function Register() {
 
   return (
     <div className="auth-container">
+      <div className="auth-animation">
+        <img
+          src={ruda1}
+          alt="Ruda Character 1"
+          className={`auth-animation-image floating ${currentImage === 1 ? "active" : ""}`}
+        />
+        <img
+          src={ruda2}
+          alt="Ruda Character 2"
+          className={`auth-animation-image floating ${currentImage === 2 ? "active" : ""}`}
+        />
+      </div>
+
       {/* Background decorations */}
       <div className="auth-decoration decoration-circle-1"></div>
       <div className="auth-decoration decoration-circle-2"></div>
