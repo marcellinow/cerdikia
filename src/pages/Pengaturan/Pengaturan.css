@@ -1,59 +1,146 @@
-/* Container utama */
+/* Base styles */
+:root {
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.1);
+  --primary-dark: #2563eb;
+  --background: #f8f9fc;
+  --card-bg: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #eaeaea;
+  --success: #4ade80;
+  --error: #f43f5e;
+  --warning: #fbbf24;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* Container styles */
 .pengaturan-container {
-  padding: 24px; /* Tailwind: p-6 */
-  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+  padding: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
+  width: 100%;
 }
 
-/* Judul halaman */
+/* Header */
+.pengaturan-header {
+  margin-bottom: 32px;
+}
+
+.pengaturan-title-section {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .pengaturan-title {
-  font-size: 24px; /* Tailwind: text-3xl */
-  font-weight: bold; /* Tailwind: font-bold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
-  margin-bottom: 16px; /* Tailwind: mb-4 */
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
 }
 
-/* Deskripsi halaman */
 .pengaturan-description {
-  font-size: 16px; /* Tailwind: text-base */
-  color: #6b7280; /* Tailwind: text-gray-500 */
-  margin-bottom: 24px; /* Tailwind: mb-6 */
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 800px;
+  line-height: 1.5;
 }
 
-/* Kontainer untuk konten */
+/* Content grid */
 .pengaturan-content {
   display: grid;
-  grid-template-columns: 1fr; /* Tailwind: grid-cols-1 */
-  gap: 24px; /* Tailwind: gap-6 */
+  grid-template-columns: repeat(1, 1fr);
+  gap: 24px;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 640px) {
   .pengaturan-content {
-    grid-template-columns: repeat(3, 1fr); /* Tailwind: md:grid-cols-3 */
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Kartu pengaturan */
+@media (min-width: 1024px) {
+  .pengaturan-content {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Card styling */
 .pengaturan-card {
-  background-color: #ffffff; /* Tailwind: bg-white */
-  border-radius: 8px; /* Tailwind: rounded-lg */
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-sm */
-  padding: 16px; /* Tailwind: p-4 */
-  text-align: center;
-  transition: box-shadow 0.2s ease-in-out;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 24px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
 }
 
 .pengaturan-card:hover {
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: hover:shadow-md */
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
 }
 
-.pengaturan-card h2 {
-  font-size: 18px; /* Tailwind: text-lg */
-  font-weight: 600; /* Tailwind: font-semibold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
-  margin-bottom: 8px; /* Tailwind: mb-2 */
+.pengaturan-card-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background-color: var(--primary-light);
+  color: var(--primary);
+  flex-shrink: 0;
 }
 
-.pengaturan-card p {
-  font-size: 14px; /* Tailwind: text-sm */
-  color: #6b7280; /* Tailwind: text-gray-500 */
+.pengaturan-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.pengaturan-card-content {
+  flex: 1;
+}
+
+.pengaturan-card-content h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.pengaturan-card-content p {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .pengaturan-container {
+    padding: 16px;
+  }
+
+  .pengaturan-title {
+    font-size: 24px;
+  }
+
+  .pengaturan-card {
+    padding: 16px;
+  }
 }

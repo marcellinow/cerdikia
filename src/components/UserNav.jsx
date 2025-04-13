@@ -1,14 +1,39 @@
 import { useState, useRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { Bell, Settings, ShoppingCart, User, LogOut, Heart, HelpCircle, BookOpen, CheckCircle } from "lucide-react"
+import { getAuth, signOut } from "firebase/auth"
+import { doc, getDoc } from "firebase/firestore"
+import { db } from "../firebase/firebase"
 import "./UserNav.css"
 
 export default function UserNav() {
   const navigate = useNavigate()
   const [isNotificationOpen, setIsNotificationOpen] = useState(false)
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+  const [userData, setUserData] = useState(null)
   const notificationRef = useRef(null)
   const userMenuRef = useRef(null)
+  const auth = getAuth()
+
+  // Fetch user data
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser
+        if (user) {
+          const userRef = doc(db, "users", user.uid)
+          const userSnap = await getDoc(userRef)
+          if (userSnap.exists()) {
+            setUserData(userSnap.data())
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error)
+      }
+    }
+
+    fetchUserData()
+  }, [])
 
   // Sample notifications
   const notifications = [
@@ -49,6 +74,17 @@ export default function UserNav() {
     document.addEventListener("mousedown", handleClickOutside)
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
+
+  // Handle logout
+  const handleLogout = async () => {
+    try {
+      await signOut(auth)
+      navigate("/")
+    } catch (error) {
+      console.error("Error signing out:", error)
+      alert("Gagal keluar. Silakan coba lagi.")
+    }
+  }
 
   return (
     <div className="user-nav-container">
@@ -124,8 +160,8 @@ export default function UserNav() {
             <div className="user-dropdown-avatar">
               <img src="/placeholder.svg?height=64&width=64" alt="Profile" />
             </div>
-            <div className="user-dropdown-name">Nama Pengguna</div>
-            <div className="user-dropdown-email">user@example.com</div>
+            <div className="user-dropdown-name">{userData?.name || "Pengguna"}</div>
+            <div className="user-dropdown-email">{userData?.email || "user@example.com"}</div>
           </div>
 
           <div className="user-dropdown-menu">
@@ -146,7 +182,7 @@ export default function UserNav() {
 
             <div className="user-dropdown-divider"></div>
 
-            <div className="user-dropdown-item user-dropdown-logout" onClick={() => navigate("/logout")}>
+            <div className="user-dropdown-item user-dropdown-logout" onClick={handleLogout}>
               <LogOut className="user-dropdown-item-icon" />
               <span>Keluar</span>
             </div>

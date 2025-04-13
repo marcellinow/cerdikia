@@ -1,98 +1,258 @@
-/* Container utama */
-.profile-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh; /* Tailwind: min-h-screen */
-  background-color: #f9fafb; /* Tailwind: bg-gray-50 */
-  padding: 24px; /* Tailwind: p-6 */
+/* Base styles */
+:root {
+  --primary: #3b82f6;
+  --primary-light: rgba(59, 130, 246, 0.1);
+  --primary-dark: #2563eb;
+  --background: #f8f9fc;
+  --card-bg: #ffffff;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-muted: #888888;
+  --border-color: #eaeaea;
+  --success: #4ade80;
+  --error: #f43f5e;
+  --warning: #fbbf24;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
 }
 
-/* Card untuk profile */
-.profile-card {
-  background-color: #ffffff; /* Tailwind: bg-white */
-  border-radius: 12px; /* Tailwind: rounded-lg */
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Tailwind: shadow-md */
-  padding: 24px; /* Tailwind: p-6 */
-  text-align: center;
-  max-width: 400px; /* Tailwind: max-w-sm */
+/* Container styles */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background-color: var(--background);
+  padding: 24px;
+  max-width: 1280px;
+  margin: 0 auto;
   width: 100%;
 }
 
-/* Profile Picture */
-.profile-picture {
-  margin-bottom: 16px; /* Tailwind: mb-4 */
+/* Header */
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
 }
 
-.profile-picture-img {
-  width: 128px; /* Tailwind: w-32 */
-  height: 128px; /* Tailwind: h-32 */
-  border-radius: 50%; /* Tailwind: rounded-full */
-  object-fit: cover; /* Tailwind: object-cover */
-  background-color: #e5e7eb; /* Tailwind: bg-gray-200 */
-}
-
-/* Profile Information */
-.profile-info {
-  margin-bottom: 24px; /* Tailwind: mb-6 */
-}
-
-.profile-name {
-  font-size: 24px; /* Tailwind: text-2xl */
-  font-weight: bold; /* Tailwind: font-bold */
-  color: #1f2937; /* Tailwind: text-gray-800 */
-  margin-bottom: 8px; /* Tailwind: mb-2 */
-}
-
-.profile-role,
-.profile-instansi,
-.profile-lokasi {
-  font-size: 14px; /* Tailwind: text-sm */
-  color: #6b7280; /* Tailwind: text-gray-500 */
-  margin-bottom: 4px; /* Tailwind: mb-1 */
-}
-
-/* Sign Out Button */
-.profile-signout-button {
-  display: inline-block;
-  padding: 12px 24px; /* Tailwind: px-6 py-3 */
-  background-color: #ef4444; /* Tailwind: bg-red-500 */
-  color: #ffffff; /* Tailwind: text-white */
-  border: none; /* Tailwind: border-0 */
-  border-radius: 8px; /* Tailwind: rounded-lg */
-  font-size: 14px; /* Tailwind: text-sm */
-  font-weight: 500; /* Tailwind: font-medium */
-  cursor: pointer; /* Tailwind: cursor-pointer */
-  transition: background-color 0.2s ease-in-out;
-}
-
-.profile-signout-button:hover {
-  background-color: #dc2626; /* Tailwind: hover:bg-red-600 */
-}
-
-/* Back Button */
 .profile-back-button {
-  position: fixed; /* Tetap di viewport */
-  top: 16px; /* Jarak dari atas */
-  left: 230px; /* Sesuaikan dengan lebar sidebar (215px + margin 15px) */
   display: flex;
   align-items: center;
-  gap: 8px; /* Tailwind: gap-2 */
-  background-color: transparent; /* Tailwind: bg-transparent */
-  border: none; /* Tailwind: border-0 */
-  color: #3b82f6; /* Tailwind: text-blue-500 */
-  font-size: 14px; /* Tailwind: text-sm */
-  font-weight: 500; /* Tailwind: font-medium */
-  cursor: pointer; /* Tailwind: cursor-pointer */
-  transition: color 0.2s ease-in-out;
-  z-index: 100; /* Pastikan tombol berada di atas elemen lain */
+  gap: 8px;
+  background-color: transparent;
+  border: none;
+  color: var(--primary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  padding: 8px 0;
+  width: fit-content;
 }
 
 .profile-back-button:hover {
-  color: #2563eb; /* Tailwind: hover:text-blue-600 */
+  color: var(--primary-dark);
 }
 
 .profile-back-icon {
-  height: 16px; /* Tailwind: h-4 */
-  width: 16px; /* Tailwind: w-4 */
+  height: 16px;
+  width: 16px;
+}
+
+.profile-header-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+/* Content */
+.profile-content {
+  display: flex;
+  justify-content: center;
+  padding: 16px 0;
+}
+
+/* Card styling */
+.profile-card {
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile-card-header {
+  background: linear-gradient(135deg, var(--primary-light) 0%, rgba(59, 130, 246, 0.05) 100%);
+  padding: 32px;
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-picture {
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: center;
+}
+
+.profile-picture-img {
+  width: 128px;
+  height: 128px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 4px solid var(--card-bg);
+  box-shadow: var(--shadow-sm);
+}
+
+.profile-name {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px;
+}
+
+.profile-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  background-color: var(--primary);
+  color: white;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.profile-card-content {
+  padding: 24px;
+}
+
+.profile-info-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.profile-info-item:last-child {
+  border-bottom: none;
+}
+
+.profile-info-icon {
+  width: 20px;
+  height: 20px;
+  color: var(--primary);
+}
+
+.profile-info-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.profile-info-label {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.profile-info-value {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.profile-card-footer {
+  padding: 24px;
+  border-top: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+}
+
+.profile-signout-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background-color: var(--error);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profile-signout-button:hover {
+  background-color: #e11d48;
+}
+
+.profile-signout-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Loading state */
+.profile-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  background-color: var(--card-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  gap: 16px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile-loading-icon {
+  width: 32px;
+  height: 32px;
+  color: var(--primary);
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .profile-container {
+    padding: 16px;
+  }
+
+  .profile-card-header {
+    padding: 24px 16px;
+  }
+
+  .profile-card-content,
+  .profile-card-footer {
+    padding: 16px;
+  }
+
+  .profile-picture-img {
+    width: 96px;
+    height: 96px;
+  }
+
+  .profile-name {
+    font-size: 20px;
+  }
 }

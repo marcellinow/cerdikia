@@ -1,0 +1,401 @@
+/* Base styles */
+:root {
+    --primary: #3b82f6;
+    --primary-light: rgba(59, 130, 246, 0.1);
+    --primary-dark: #2563eb;
+    --background: #f8f9fc;
+    --card-bg: #ffffff;
+    --text-primary: #333333;
+    --text-secondary: #666666;
+    --text-muted: #888888;
+    --border-color: #eaeaea;
+    --success: #4ade80;
+    --error: #f43f5e;
+    --warning: #fbbf24;
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  }
+  
+  /* Container styles */
+  .bantuan-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--background);
+  }
+  
+  .bantuan-main {
+    flex: 1;
+    padding: 24px;
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  /* Hero section */
+  .bantuan-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #f0f7ff 0%, #e6f2ff 100%);
+    border-radius: var(--radius-lg);
+    padding: 40px;
+    margin-bottom: 32px;
+    overflow: hidden;
+  }
+  
+  .bantuan-hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+  }
+  
+  .bantuan-title {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+    line-height: 1.2;
+  }
+  
+  .bantuan-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    margin-bottom: 24px;
+  }
+  
+  .bantuan-search {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  
+  .bantuan-search-icon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    width: 20px;
+    height: 20px;
+  }
+  
+  .bantuan-search-input {
+    width: 100%;
+    padding: 14px 16px 14px 48px;
+    border-radius: 50px;
+    border: 1px solid var(--border-color);
+    background-color: var(--card-bg);
+    font-size: 15px;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .bantuan-search-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-light);
+  }
+  
+  .bantuan-search-button {
+    position: absolute;
+    right: 4px;
+    top: 4px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    padding: 10px 20px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .bantuan-search-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  .bantuan-hero-decoration {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 40%;
+    z-index: 1;
+    overflow: hidden;
+  }
+  
+  .decoration-element {
+    position: absolute;
+    border-radius: 50%;
+  }
+  
+  .element-1 {
+    width: 120px;
+    height: 120px;
+    background-color: rgba(59, 130, 246, 0.1);
+    top: 20%;
+    right: 20%;
+  }
+  
+  .element-2 {
+    width: 80px;
+    height: 80px;
+    background-color: rgba(59, 130, 246, 0.15);
+    top: 50%;
+    right: 10%;
+  }
+  
+  .element-3 {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(59, 130, 246, 0.2);
+    bottom: 20%;
+    right: 30%;
+  }
+  
+  /* Content */
+  .bantuan-content {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  
+  /* Section styling */
+  .bantuan-section {
+    background-color: var(--card-bg);
+    border-radius: var(--radius-lg);
+    padding: 32px;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .section-header {
+    margin-bottom: 24px;
+    text-align: center;
+  }
+  
+  .section-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  /* Features Grid */
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  
+  .feature-card {
+    background-color: var(--background);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    transition: all 0.3s ease;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .feature-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: var(--radius-md);
+    background-color: var(--primary-light);
+    color: var(--primary);
+    margin-bottom: 16px;
+  }
+  
+  .feature-icon svg {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .feature-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+  }
+  
+  .feature-description {
+    font-size: 14px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  
+  /* FAQ List */
+  .faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  
+  .faq-item {
+    background-color: var(--background);
+    border-radius: var(--radius-md);
+    padding: 20px;
+    transition: all 0.3s ease;
+  }
+  
+  .faq-item:hover {
+    background-color: var(--card-bg);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .faq-question {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  
+  .question-icon {
+    color: var(--primary);
+    flex-shrink: 0;
+    margin-top: 4px;
+    width: 20px;
+    height: 20px;
+  }
+  
+  .faq-question h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+  }
+  
+  .faq-answer {
+    color: var(--text-secondary);
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0;
+    padding-left: 32px;
+  }
+  
+  /* Contact Section */
+  .contact-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 24px;
+  }
+  
+  .contact-card {
+    background-color: var(--background);
+    border-radius: var(--radius-md);
+    padding: 24px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  
+  .contact-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .contact-icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background-color: var(--primary-light);
+    color: var(--primary);
+    margin: 0 auto 16px;
+  }
+  
+  .contact-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .contact-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+  }
+  
+  .contact-info {
+    color: var(--text-secondary);
+    font-size: 14px;
+    margin: 4px 0;
+  }
+  
+  .chat-button {
+    margin-top: 16px;
+    padding: 10px 24px;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .chat-button:hover {
+    background-color: var(--primary-dark);
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .bantuan-main {
+      padding: 16px;
+    }
+  
+    .bantuan-hero {
+      padding: 24px;
+    }
+  
+    .bantuan-title {
+      font-size: 24px;
+    }
+  
+    .bantuan-section {
+      padding: 24px;
+    }
+  
+    .features-grid,
+    .contact-cards {
+      grid-template-columns: 1fr;
+    }
+  
+    .faq-answer {
+      padding-left: 28px;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .bantuan-title {
+      font-size: 22px;
+    }
+  
+    .section-title {
+      font-size: 20px;
+    }
+  
+    .feature-card,
+    .contact-card {
+      padding: 16px;
+    }
+  }
+  
