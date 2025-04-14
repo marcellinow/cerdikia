@@ -1,0 +1,123 @@
+/* Container */
+.modul-layout-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.modul-layout-main {
+  flex: 1;
+  padding: 24px;
+  background-color: #ffffff;
+}
+
+.modul-layout-header {
+  margin-bottom: 24px;
+}
+
+.modul-layout-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #3a3a3a;
+}
+
+.modul-layout-subtitle {
+  color: #6b7280;
+}
+
+/* Slide Section */
+.modul-layout-slide-section {
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.modul-layout-slide-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.modul-layout-slide-title {
+  font-weight: 500;
+}
+
+.modul-layout-slide-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.modul-layout-slide-icon {
+  height: 20px;
+  width: 20px;
+  color: #6b7280;
+}
+
+/* Slide Navigation */
+.modul-layout-slide-navigation {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modul-layout-slide-nav-button {
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.modul-layout-slide-nav-button.disabled {
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.modul-layout-slide-nav-info {
+  text-align: center;
+  border-left: 1px solid #e5e7eb;
+  border-right: 1px solid #e5e7eb;
+}
+
+/* Slide Display */
+.modul-layout-slide-display {
+  padding: 16px;
+  background-color: #f3f4f6;
+}
+
+.modul-layout-slide-first {
+  text-align: center;
+  padding: 16px;
+}
+
+.modul-layout-slide-number {
+  background-color: #facc15;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin: 0 auto 16px;
+}
+
+.modul-layout-slide-author {
+  color: #16a34a;
+  border: 1px solid #16a34a;
+  border-radius: 4px;
+  padding: 4px 8px;
+  display: inline-block;
+  margin-top: 16px;
+}
+
+.modul-layout-slide-middle {
+  color: white;
+  padding: 20px;
+  text-align: left;
+}
+
+.modul-layout-slide-last {
+  text-align: center;
+  padding: 16px;
+}

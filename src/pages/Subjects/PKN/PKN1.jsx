@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ModulLayout from "../SubjectLayout";
+import SubjectLayput from "../SubjectLayout";
 import { db } from "../../../firebase/firebase"; // Import Firestore instance
 import { collection, getDocs } from "firebase/firestore";
 
@@ -29,7 +29,7 @@ export default function PKNModules() {
   }, []);
 
   return (
-    <ModulLayout
+    <SubjectLayput
       title="Pendidikan Pancasila dan Kewarganegaraan"
       subtitle="Katalog Modul PKN Kelas 1"
       grade={1}

@@ -15,6 +15,7 @@
   ],
   "author": "",
   "license": "MIT",
+  "homepage": "https://marcellinow.github.io/cerdikia/",
   "dependencies": {
     "electron": "^35.1.2",
     "firebase": "^11.6.0",
