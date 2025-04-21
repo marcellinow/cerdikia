@@ -1,68 +1,72 @@
-import { useState, useEffect } from "react"
-import { Eye, EyeOff, LogIn, AlertCircle, CheckCircle } from "lucide-react"
-import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth"
-import { auth, provider, db } from "../../firebase/firebase"
-import { doc, getDoc, setDoc } from "firebase/firestore"
-import { useNavigate } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Eye, EyeOff, LogIn, AlertCircle, CheckCircle } from "lucide-react";
+import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { auth, provider, db } from "../../firebase/firebase";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
-import cerdikia from "../../assets/Img/logo-cerdikia.svg"
-import googleLogo from "../../assets/Img/google-logo.svg"
-import ruda1 from "/ruda/ruda1.png"
-import ruda2 from "/ruda/ruda2.png"
-import "./Login.css"
+import cerdikia from "../../assets/Img/logo-cerdikia.svg";
+import googleLogo from "../../assets/Img/google-logo.svg";
+import ruda1 from "/ruda/ruda1.png";
+import ruda2 from "/ruda/ruda2.png";
+import "./Login.css";
 
 export default function Login() {
-  const [showPassword, setShowPassword] = useState(false)
-  const [notification, setNotification] = useState({ message: "", type: "" })
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [currentImage, setCurrentImage] = useState(1)
-  const navigate = useNavigate()
+  const [showPassword, setShowPassword] = useState(false);
+  const [notification, setNotification] = useState({ message: "", type: "" });
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [currentImage, setCurrentImage] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentImage((prev) => (prev === 1 ? 2 : 1))
-    }, 3000) // Switch every 3 seconds
+      setCurrentImage((prev) => (prev === 1 ? 2 : 1));
+    }, 3000); // Switch every 3 seconds
 
-    return () => clearInterval(interval)
-  }, [])
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password)
-      console.log("Login success:", userCredential.user)
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
       setNotification({
         message: "Login berhasil! Selamat datang!",
         type: "success",
-      })
-      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
-      navigate("/dashboard")
+      });
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Login error:", error.message)
+      console.error("Login error:", error.message);
       setNotification({
         message: "Login gagal: " + error.message,
         type: "error",
-      })
-      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+      });
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleGoogleLogin = async () => {
-    setIsLoading(true)
+    setIsLoading(true);
 
     try {
-      const result = await signInWithPopup(auth, provider)
-      const user = result.user
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
 
       // Simpan ke Firestore jika belum ada
-      const userRef = doc(db, "users", user.uid)
-      const userSnap = await getDoc(userRef)
+      const userRef = doc(db, "users", user.uid);
+      const userSnap = await getDoc(userRef);
 
       if (!userSnap.exists()) {
         await setDoc(userRef, {
@@ -71,27 +75,26 @@ export default function Login() {
           uid: user.uid,
           role: "guru",
           createdAt: new Date(),
-        })
+        });
       }
 
-      console.log("Google login success:", user)
       setNotification({
         message: "Login Google berhasil! Selamat datang!",
         type: "success",
-      })
-      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
-      navigate("/dashboard")
+      });
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000);
+      navigate("/dashboard");
     } catch (error) {
-      console.error("Google login error:", error.message)
+      console.error("Google login error:", error.message);
       setNotification({
         message: "Login Google gagal: " + error.message,
         type: "error",
-      })
-      setTimeout(() => setNotification({ message: "", type: "" }), 4000)
+      });
+      setTimeout(() => setNotification({ message: "", type: "" }), 4000);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   return (
     <div className="auth-container">
@@ -99,12 +102,16 @@ export default function Login() {
         <img
           src={ruda1}
           alt="Ruda Character 1"
-          className={`auth-animation-image floating ${currentImage === 1 ? "active" : ""}`}
+          className={`auth-animation-image floating ${
+            currentImage === 1 ? "active" : ""
+          }`}
         />
         <img
           src={ruda2}
           alt="Ruda Character 2"
-          className={`auth-animation-image floating ${currentImage === 2 ? "active" : ""}`}
+          className={`auth-animation-image floating ${
+            currentImage === 2 ? "active" : ""
+          }`}
         />
       </div>
 
@@ -115,10 +122,18 @@ export default function Login() {
       {/* Notification */}
       {notification.message && (
         <div
-          className={`notification ${notification.type === "success" ? "notification-success" : "notification-error"}`}
+          className={`notification ${
+            notification.type === "success"
+              ? "notification-success"
+              : "notification-error"
+          }`}
         >
           <span className="notification-icon">
-            {notification.type === "success" ? <CheckCircle size={18} /> : <AlertCircle size={18} />}
+            {notification.type === "success" ? (
+              <CheckCircle size={18} />
+            ) : (
+              <AlertCircle size={18} />
+            )}
           </span>
           <span>{notification.message}</span>
         </div>
@@ -130,7 +145,9 @@ export default function Login() {
         </div>
 
         <h1 className="auth-title">Masuk ke Akun Anda</h1>
-        <p className="auth-subtitle">Masukkan email dan password untuk melanjutkan</p>
+        <p className="auth-subtitle">
+          Masukkan email dan password untuk melanjutkan
+        </p>
 
         <form onSubmit={handleSubmit} className="auth-form">
           <div className="form-group">
@@ -188,18 +205,26 @@ export default function Login() {
           <span>atau</span>
         </div>
 
-        <button type="button" className="google-auth-button" onClick={handleGoogleLogin} disabled={isLoading}>
+        <button
+          type="button"
+          className="google-auth-button"
+          onClick={handleGoogleLogin}
+          disabled={isLoading}
+        >
           <img src={googleLogo || "/placeholder.svg"} alt="Google Logo" />
           <span>Masuk dengan Google</span>
         </button>
 
         <p className="auth-prompt">
           Belum punya akun?{" "}
-          <span onClick={() => navigate("/register")} className="auth-prompt-link">
+          <span
+            onClick={() => navigate("/register")}
+            className="auth-prompt-link"
+          >
             Daftar sekarang
           </span>
         </p>
       </div>
     </div>
-  )
+  );
 }
